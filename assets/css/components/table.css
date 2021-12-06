@@ -1,0 +1,76 @@
+.list-table{
+  background: #FFFFFF;
+  border: 1px solid #F8F8F8;
+  border-radius: 10px;
+  padding: 2rem;
+}
+.table-outer{
+  overflow-x: scroll!important;
+  overflow-y: hidden;
+  min-width: 300px;
+}
+.table-outer-scroll{
+  min-width: 1140px;
+}
+.table-name{
+  padding-left: 1rem;
+  font-size: 17px;
+  line-height: 20px;
+  color: #000000;
+  font-weight: bold;
+  margin-bottom: 2rem;
+}
+table{
+  border-collapse: collapse;
+}
+th, td{
+  padding: 1rem;
+  margin: 0;
+  font-size: 14px;
+  line-height: 16px;
+  text-align: center;
+}
+td{
+  border-top: 0.5px solid #DEDEDE;
+  border-bottom: 0.5px solid #DEDEDE;
+  padding: 2rem 0;
+}
+th{
+  color: #029AAD;
+}
+.th{
+  display: flex;
+  align-items: center;
+  font-size: 13px;
+  line-height: 15px;
+}
+.triangle {
+  width: 24px;
+  height: 24px;
+  border-radius: 15%;
+  position: relative;
+  margin: 0 0 0 8px;
+  cursor: pointer;
+  z-index: 1;
+}
+.triangle .asc, .triangle .desc {
+  content: "";
+  position: absolute;
+  display: block;
+  left: 50%;
+  top: 50%;
+  border-top: 6px solid transparent;
+  border-bottom: 6px solid transparent;
+  border-left: 6px solid #606266;
+  margin-left: -3px;
+  transform: rotate(90deg);
+}
+.triangle .desc{
+  transform: rotate(-90deg);
+  left: 50%;
+  top: 0;
+}
+.triangle .asc.active, .triangle .desc.active,
+.triangle .asc:hover, .triangle .desc:hover{
+  border-left: 6px solid #029AAD;
+}

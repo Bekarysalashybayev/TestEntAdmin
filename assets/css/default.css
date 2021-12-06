@@ -1,0 +1,218 @@
+/* Указываем box sizing */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+/* Убираем внутренние отступы */
+ul[class],
+ol[class] {
+  padding: 0;
+}
+
+/* Убираем внешние отступы */
+body,
+h1,
+h2,
+h3,
+h4,
+p,
+ul[class],
+ol[class],
+li,
+figure,
+figcaption,
+blockquote,
+dl,
+dd {
+  margin: 0;
+}
+
+/* Выставляем основные настройки по-умолчанию для body */
+body {
+  min-height: 100vh;
+  scroll-behavior: smooth;
+  text-rendering: optimizeSpeed;
+  line-height: 1.5;
+}
+
+/* Удаляем стандартную стилизацию для всех ul и il, у которых есть атрибут class*/
+ul[class],
+ol[class] {
+  list-style: none;
+}
+
+/* Элементы a, у которых нет класса, сбрасываем до дефолтных стилей */
+a:not([class]) {
+  text-decoration-skip-ink: auto;
+}
+a{
+  color: #000000;;
+  text-decoration: none;
+}
+a:hover{
+  text-decoration: underline;
+}
+.nuxt-link:hover{
+  text-decoration: none;
+}
+button:hover{
+  opacity: 0.9;
+}
+
+a, button{
+  cursor: pointer;
+}
+/* Упрощаем работу с изображениями */
+img {
+  max-width: 100%;
+  display: block;
+}
+
+/* Указываем понятную периодичность в потоке данных у article*/
+article > * + * {
+  margin-top: 1em;
+}
+
+/* Наследуем шрифты для инпутов и кнопок */
+input,
+button,
+textarea,
+select {
+  font: inherit;
+}
+button{
+  user-select: none;
+}
+.scroll::-webkit-scrollbar {
+  width: 3px;
+}
+.scroll::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+.scroll::-webkit-scrollbar-thumb {
+  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+}
+/* Удаляем все анимации и переходы для людей, которые предпочитай их не использовать */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+@font-face {
+  font-family: 'Gilroy';
+  src: local('Gilroy Light'), local('Gilroy-Light'),
+  url('../fonts/Gilroy-Light.woff2') format('woff2'),
+  url('../fonts/Gilroy-Light.woff') format('woff'),
+  url('../fonts/Gilroy-Light.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+}
+html {
+  font-family:
+    Gilroy,
+    -apple-system,
+    BlinkMacSystemFont,
+    'Segoe UI',
+    Roboto,
+    'Helvetica Neue',
+    Arial,
+    sans-serif;
+  font-size: 10px;
+  line-height: 1.2;
+  word-spacing: 1px;
+  -ms-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  box-sizing: border-box;
+  color: #000000;
+}
+body{
+  background: #F8F8F8;
+}
+.page-body{
+  padding: 3rem 5rem;
+  max-width: 1240px;
+}
+.page .info{
+  width: 240px;
+  margin: 4rem auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.page .info .header{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.page .info .header span{
+  color: #029AAD;
+  font-size: 2rem;
+  line-height: 2.4rem;
+  margin-top: 2rem;
+  font-weight: bold;
+}
+.page .info .info-body{
+  margin: 6rem;
+  font-size: 15px;
+  line-height: 17px;
+  color: #000000;
+  width: 100%;
+}
+.page .info .info-body .description{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 2rem;
+}
+.page .info .info-body .description:last-child{
+  margin-bottom: 0;
+}
+.page .info .bottom{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  font-size: 13px;
+  line-height: 15px;
+}
+.page .info .bottom button{
+  background-color: transparent;
+  border-radius: 50px;
+  padding: 8px 12px;
+  border: 0;
+}
+.page .info .bottom .start{
+  background: #029AAD;
+  color: #FFFFFF;
+  font-weight: bold;
+}
+.page .info .bottom .back{
+  border: 1px solid #029AAD;
+  box-sizing: border-box;
+  color: #029AAD;
+}
+@media (max-width: 767px) {
+  html{
+    font-size: 5px;
+  }
+}
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+
+  select:focus,
+  textarea:focus,
+  input:focus {
+    font-size: 16px;
+  }
+}
+@media (max-width: 500px) {
+  .page-body{
+    padding: 3rem 15px;
+  }
+}
