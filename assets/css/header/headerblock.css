@@ -1,0 +1,43 @@
+.HeaderBlock{
+  position: fixed;
+  width: 100%;
+  font-size: 1.7rem;
+  line-height: 2rem;
+  padding: 1rem 5rem 1rem 1rem;
+  background: #DFECE9;
+  z-index: 1000;
+  height: 66px;
+}
+.header{
+  display: flex;
+  align-items: center;
+}
+.logo img{
+}
+.burger{
+  margin-right: 3rem;
+}
+.burger img{
+  transform: rotate(90deg);
+}
+.burger button{
+  background-color: transparent;
+  border: 0;
+}
+.burger button img{
+  height: 20px;
+}
+
+.whatsapp{
+  display: flex;
+  align-items: center;
+  margin-left: auto;
+}
+.whatsapp a{
+  margin-left: 12px;
+}
+@media (max-width: 1024px) {
+  .whatsapp{
+    font-size: 15px;
+  }
+}
