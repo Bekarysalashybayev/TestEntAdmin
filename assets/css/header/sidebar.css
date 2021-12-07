@@ -1,0 +1,159 @@
+.page-side-bar{
+  font-size: 17px;
+  line-height: 20px;
+  background: #DFECE9;
+  height: calc(100vh - 66px);
+  width: 300px;
+  position: fixed;
+  top: 66px;
+  left: 0;
+  border-top: 1px solid #8080808a;
+  z-index: 1000;
+}
+.SideBar{
+  height: 100%;
+}
+.side-bar-inner{
+  height: calc(100% - 100px);
+  overflow-x: hidden;
+  overflow-y: scroll;
+}
+.links{
+}
+.log-out{
+  padding: 1rem 2rem;
+  display: flex;
+  align-items: center;
+  height: 100px;
+}
+.log-out-inner{
+  position: relative;
+  flex: 0 0 100%;
+  display: flex;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 10px;
+  padding: 12px 32px 12px 12px;
+}
+.ava{
+  flex: 0 0 36px;
+  height: 42px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #029AAD;
+  border-radius: 5px;
+  color: #FFFFFF;
+  margin-right: 12px;
+
+}
+.ava img{
+  border-radius: 5px;
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+}
+.log-out-inner button{
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: 100%;
+  border: 0;
+  flex: 0 0 32px;
+  background: #F8CDCD;
+  border-radius: 0px 10px 10px 0px;
+}
+.log-out-inner button:hover{
+  background: #e08686;
+}
+.link{
+  position: relative;
+  display: flex;
+  align-items: center;
+  padding: 20px 0 20px 40px ;
+  cursor: pointer;
+}
+.link.active, .nuxt-link-exact-active, .nuxt-link-active{
+  color: #FFFFFF;
+  background: #029AAD!important;
+  font-weight: bold;
+}
+.link:hover{
+  color: #FFFFFF;
+  background: #029aada8;
+  text-decoration: none;
+}
+.link span{
+  margin-left: 20px;
+}
+.tooltip-text {
+  visibility: hidden;
+  width: max-content;
+  padding: 5px 12px;
+  background-color: #555;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  position: absolute;
+  z-index: 1;
+  top: 100%;
+  transform: translate(-10%, 0);
+  left: 50%;
+  margin-left: -60px;
+  opacity: 0;
+  transition: opacity 0.3s;
+  font-size: 13px;
+  font-weight: bold;
+}
+.tooltip-text::after {
+  content: "";
+  position: absolute;
+  top: -10px;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: transparent transparent #555 transparent;
+}
+.link svg path{
+  fill: #000000;
+}
+.link.active svg path,
+.link:hover svg path,
+.nuxt-link-exact-active svg path,
+.nuxt-link-active svg path
+{
+  fill: #FFFFFF;
+}
+.name{
+  flex-grow: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 174px;
+}
+.page-side-bar.close{
+  width: 100px;
+}
+.page-side-bar.close .link span{
+  display: none;
+}
+.page-side-bar.close .ava, .page-side-bar.close .name{
+  display: none;
+}
+.page-side-bar.close .log-out-inner button{
+  margin-left: 0;
+}
+@media (max-width: 1024px) {
+  .page-side-bar{
+    background: rgba(0, 0, 0, 0.5);
+    width: 100%;
+  }
+  .page-side-bar.close{
+    left: -100%;
+  }
+  .SideBar{
+    background: #DFECE9;
+    width: 300px;
+  }
+}
