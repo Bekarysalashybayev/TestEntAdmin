@@ -122,7 +122,6 @@ html {
     'Helvetica Neue',
     Arial,
     sans-serif;
-  font-size: 10px!important;
   line-height: 1.2!important;
   word-spacing: 1px!important;
   -ms-text-size-adjust: 100%;
@@ -131,12 +130,13 @@ html {
   -webkit-font-smoothing: antialiased;
   box-sizing: border-box;
   color: #000000;
+  font-size: 16px;
 }
 body{
   background: #F8F8F8!important;
 }
 .page-body{
-  padding: 3rem 5rem;
+  padding: 3rem 5rem!important;
   max-width: 1240px;
 }
 .page .info{
@@ -198,9 +198,54 @@ body{
   box-sizing: border-box;
   color: #029AAD;
 }
+.add-button{
+  font-size: 13px;
+  line-height: 1;
+  color: #029AAD;
+  border: 1px solid #029AAD;
+  box-sizing: border-box;
+  border-radius: 5px;
+  padding: 9px 12px 9px 30px;
+  position: relative;
+  margin: 20px 0 20px auto;
+  display: block;
+}
+.question-add{
+  width: 200px;
+}
+.add-button:before{
+  content: "";
+  position: absolute;
+  left: 9px;
+  top: 50%;
+  transform: translate(0, -50%);
+  width: 12px;
+  height: 12px;
+  background-image: url("../../assets/img/plus.svg");
+}
+.add-button:hover{
+  background-color: #029AAD;
+  color: #FFFFFF;
+  font-weight: bold;
+  transition: all .3s ease-in 0s;
+}
+.add-button:hover:before{
+  transition: all .3s ease-in 0s;
+  background-image: url("../../assets/img/plus-white.svg");
+}
+.add-form-button{
+  font-size: 15px;
+  line-height: 18px;
+  color: #FFFFFF;
+  padding: 12px 24px;
+  background: #029AAD;
+  border-radius: 50px;
+  display: block;
+  font-weight: bold;
+  margin: 40px auto 0;
+}
 @media (max-width: 767px) {
   html{
-    font-size: 5px!important;
   }
 }
 @media screen and (-webkit-min-device-pixel-ratio:0) {

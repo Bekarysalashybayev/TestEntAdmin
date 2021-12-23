@@ -1,6 +1,6 @@
 <template>
 <div class="modal__window">
-  <div class="modal__content defaultScroll">
+  <div class="modal__content scroll">
     <slot name="content"></slot>
   </div>
 </div>
@@ -10,10 +10,10 @@
 export default {
   name: "ModalWindow",
   mounted() {
-    document.body.style.overflow = "hidden"
+    document.body.style.overflow = "hidden!important"
   },
   beforeDestroy() {
-    document.body.style.overflow = "auto"
+    document.body.style.overflow = "auto!important"
   },
 }
 </script>
@@ -40,7 +40,7 @@ export default {
   max-height: calc(100vh - 50px);
   overflow-x: hidden;
   overflow-y: scroll;
-  padding: 5rem;
+  padding: 2rem;
   position: relative;
 }
 </style>

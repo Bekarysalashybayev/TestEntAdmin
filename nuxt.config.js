@@ -1,11 +1,12 @@
 export default {
-  // server: {
-  //   host: '0'
-  // },
+  server: {
+    host: '0'
+  },
   head: {
     title: 'admin',
     htmlAttrs: {
-      lang: 'en'
+      lang: 'en',
+
     },
     meta: [
       { charset: 'utf-8' },
@@ -14,7 +15,19 @@ export default {
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
-    ]
+    ],
+    script: [
+      // {
+      //   hid: 'stripe',
+      //   src:"https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML",
+      //   defer: true,
+      //   callback: () => { this.isStripeLoaded = true }
+      // },
+      {
+        src:"/js/index.js",
+        body: true,
+      },
+    ],
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css
@@ -25,7 +38,6 @@ export default {
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
     "@/plugins/axios.js",
-    '~plugins/bl-components'
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -34,7 +46,10 @@ export default {
   // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
   buildModules: [
     '@nuxtjs/vuetify',
-    ['@nuxtjs/vuetify', { /* module options */ }]
+    ['@nuxtjs/vuetify', { /* module options */ }],
+    '@nuxtjs/moment',
+    // With options
+    ['@nuxtjs/moment', { /* module options */ }]
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
@@ -42,19 +57,22 @@ export default {
     '@nuxtjs/toast',
     '@nuxtjs/dotenv',
     '@nuxtjs/axios',
-    '@nuxtjs/auth-next'
+    '@nuxtjs/auth-next',
   ],
-
   auth: {
     strategies: {
       local: {
         token: {
           property: 'access',
         },
+        user: {
+          property: '',
+          autoFetch: true
+        },
         endpoints: {
-          login: { url: '/user/login/', method: 'post'},
+          login: { url: '/user/staff-login/', method: 'post'},
+          user: { url: '/user/me/', method: 'get' },
           logout: false,
-          user: false
         }
       },
     },
@@ -64,7 +82,7 @@ export default {
     },
   },
   router: {
-    // middleware: ['auth']
+    middleware: ['auth'],
   },
   axios: {
     baseURL: process.env.BASE_URL

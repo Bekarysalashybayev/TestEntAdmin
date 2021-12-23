@@ -8,6 +8,7 @@
       <table>
         <tbody>
         <tr>
+          <th v-if="edit"></th>
           <th>№</th>
           <th v-for="row in rows" :key="row.type">
             <div class="th">
@@ -18,10 +19,75 @@
               </div>
             </div>
           </th>
+          <th v-if="edit"></th>
         </tr>
         <tr v-for="i in 10" :key="i">
+          <td v-if="edit" class="actions">
+            <v-menu
+              right
+              :close-on-click="closeOnClick"
+              :offset-x="offset"
+            >
+              <template v-slot:activator="{ on, attrs }">
+                <v-btn
+                  color="primary"
+                  v-bind="attrs"
+                  v-on="on"
+                  class="button"
+                >
+                  <img src="../../assets/img/dots.svg" alt="">
+                </v-btn>
+              </template>
+
+              <v-list class="v-list">
+                <v-list-item
+                  v-for="(item, index) in actions"
+                  :key="index"
+                  class="item"
+                >
+                  <v-list-item-title>
+                    <button @click="open(i, index)">
+                      {{ item.title }}
+                    </button>
+                  </v-list-item-title>
+                </v-list-item>
+              </v-list>
+            </v-menu>
+          </td>
           <td>{{i}}</td>
           <td v-for="i in 7">Химия, 33</td>
+          <td v-if="edit" class="actions">
+            <v-menu
+              left
+              :close-on-click="closeOnClick"
+              :offset-x="offset"
+            >
+              <template v-slot:activator="{ on, attrs }">
+                <v-btn
+                  color="primary"
+                  v-bind="attrs"
+                  v-on="on"
+                  class="button"
+                >
+                  <img src="../../assets/img/dots.svg" alt="">
+                </v-btn>
+              </template>
+
+              <v-list class="v-list">
+                <v-list-item
+                  v-for="(item, index) in actions"
+                  :key="index"
+                  class="item"
+                >
+                  <v-list-item-title>
+                    <button @click="open(i, index)">
+                      {{ item.title }}
+                    </button>
+                  </v-list-item-title>
+                </v-list-item>
+              </v-list>
+            </v-menu>
+          </td>
         </tr>
         </tbody>
       </table>
@@ -33,8 +99,11 @@
 <script>
 export default {
   name: "ListTable",
+  props: ['edit', 'actions'],
   data(){
     return{
+      closeOnClick: true,
+      offset: true,
       rows: [
         {
           type: 'name',
@@ -75,6 +144,9 @@ export default {
     }
   },
   methods:{
+    open(tableRow, actionsIndex){
+      this.$emit("open", tableRow, actionsIndex)
+    },
     ascending(type){
       for (let i=0; i<this.rows.length; i++){
         if (this.rows[i].type == type){
@@ -107,4 +179,33 @@ export default {
 
 <style scoped>
 @import "assets/css/components/table.css";
+.button{
+  border: 0!important;
+  background-color: transparent!important;
+  box-shadow: unset!important;
+  min-width: 5px!important;
+}
+.v-list{
+  background: #FFFFFF;
+  box-shadow: 0px 1px 10px rgba(0, 0, 0, 0.25);
+  border-radius: 5px;
+  margin-right: 10px;
+}
+.v-list .item{
+  min-height: auto;
+}
+.v-list-item__title{
+  color: black;
+}
+.actions{
+  min-width: auto;
+}
+.button{
+  width: 35px;
+}
+.button:focus, .button:hover{
+  border-radius: 50%;
+  background-color: #FFFFFF!important;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.25) !important;
+}
 </style>

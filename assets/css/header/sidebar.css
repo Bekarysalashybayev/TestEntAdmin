@@ -62,6 +62,7 @@
   flex: 0 0 32px;
   background: #F8CDCD;
   border-radius: 0px 10px 10px 0px;
+  padding: 0 6px;
 }
 .log-out-inner button:hover{
   background: #e08686;
@@ -125,7 +126,15 @@
 {
   fill: #FFFFFF;
 }
-.name{
+.name span{
+  display: block;
+}
+.name span:last-child{
+  font-weight: bold;
+  font-size: 13px;
+  line-height: 1;
+}
+.name span:first-child{
   flex-grow: 1;
   white-space: nowrap;
   overflow: hidden;

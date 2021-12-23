@@ -16,6 +16,9 @@ export default {
       isOpen: true
     }
   },
+  created() {
+    // console.log(this.$auth.user)
+  },
   methods:{
     toggleSideBar(){
       this.isOpen = !this.isOpen

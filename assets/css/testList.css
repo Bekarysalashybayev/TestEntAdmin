@@ -1,0 +1,228 @@
+.test-list{
+  margin-top: 40px;
+}
+.test{
+  background: #FFFFFF;
+  border: 1px solid #DEDEDE;
+  box-sizing: border-box;
+  border-radius: 10px;
+  padding: 25px 20px;
+  position: relative;
+  margin-bottom: 40px;
+}
+.test:last-child{
+  margin-bottom: 0;
+}
+.test:after{
+  content: "";
+  position: absolute;
+  left: 0;
+  top: calc(100% + 20px);
+  width: 100%;
+  height: 1px;
+  background-color: rgba(0, 0, 0, 0.1);
+}
+.test:last-child:after{
+  display: none;
+}
+.test-header{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24px;
+}
+.test .title{
+  font-size: 14px;
+  line-height: 1;
+  color: #000000;
+  font-weight: bold;
+  letter-spacing: 2px;
+}
+.publish{
+  font-size: 13px;
+  line-height: 15px;
+  color: #029AAD;
+  border: 1px solid #029AAD;
+  box-sizing: border-box;
+  border-radius: 5px;
+  padding: 5px 12px;
+}
+.publish:hover{
+  background-color: #029AAD;
+  color: white;
+  font-weight: bold;
+}
+.test-body{
+  font-size: 14px;
+  line-height: 16px;
+  color: #000000;
+  display: flex;
+  flex-wrap: wrap;
+}
+.test-body .body{
+  width: 33%;
+  min-width: 250px;
+}
+.body-item{
+  display: flex;
+  align-items: center;
+  margin-bottom: 18px;
+}
+.body-item:last-child{
+  margin-bottom: 0;
+}
+.body-item img{
+  margin-right: 12px;
+}
+.test-points{
+  display: flex;
+  align-items: center;
+}
+.time{
+  color: #167DD6;
+  font-weight: bold;
+}
+.body-item div{
+  min-width: 120px;
+}
+.test-variant{
+  margin-top: 30px;
+}
+.test-variant-title{
+  display: flex;
+  align-items: center;
+  font-size: 17px;
+  line-height: 20px;
+  color: #000000;
+  font-weight: bold;
+}
+.test-variant-title span{
+  margin-right: 15px;
+}
+.test-variant-title button{
+  border: 1px solid #029AAD;
+  border-radius: 5px;
+  padding: 10px;
+  line-height: 1;
+  font-size: 10px;
+  transition: ease-in-out  background-color 0.3s;
+}
+.test-variant-title button:hover{
+  background-color: #029AAD;
+}
+.test-variant-title button svg{
+  transition: ease-in-out .3s;
+}
+.test-variant-title button:hover svg path{
+  fill: #FFFFFF;
+}
+.test-variant.active .test-variant-title button svg{
+  transform: rotate(180deg);
+}
+.test-variant.active .test-variant-title button{
+  background-color: #029AAD;
+}
+.test-variant.active .test-variant-title button svg path{
+  fill: #FFFFFF;
+}
+
+.test-variant-body{
+  margin-top: 15px;
+  height: 0;
+  opacity: 0;
+}
+.test-variant.active .test-variant-body{
+  height: auto;
+  opacity: 1;
+}
+.test-variant-single{
+  margin-bottom: 10px;
+
+}
+.test-variant-single-title{
+  cursor: pointer;
+  user-select: none;
+}
+.test-variant-single-title button svg{
+  transition: transform 0.2s ease-in 0s;
+}
+.test-variant-single-title button{
+  margin-left: 12px;
+}
+.test-variant-single-title svg path{
+  fill: #000000;
+}
+.test-variant-single.active button svg{
+  transition: transform 0.2s ease-in 0s;
+  transform: rotate(180deg);
+}
+.test-variant-single-body{
+  display: none;
+}
+.test-variant-single.active .test-variant-single-body{
+  display: block;
+}
+.variantLessons{
+  padding: 15px 30px;
+  font-size: 14px;
+  line-height: 16px;
+}
+.lesson{
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+}
+.lesson:last-child{
+  margin-bottom: 0;
+}
+.lesson-name{
+  width: 250px;
+  font-weight: bold;
+}
+.lesson-add-question{
+  display: flex;
+  align-items: center;
+}
+.lesson-points{
+  display: flex;
+  align-items: center;
+  margin-left: 5rem;
+}
+.lesson-add-question{
+  margin-left: 5rem;
+  color: #029AAD;
+  cursor: pointer;
+}
+.lesson-add-question:hover{
+  text-decoration: underline;
+}
+.lesson-add-question svg path{
+    fill: #029AAD;
+}
+.lesson-add-question svg{
+  margin-right: 8px;
+}
+.all{
+  color: #029AAD;
+}
+.have{
+  margin-left: 5px;
+  color: #72CEBF;
+  font-weight: bold;
+}
+.result-test{
+  margin: 25px 0 0;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+.result-test span{
+  color: #029AAD;
+  cursor: pointer;
+  width: 34%;
+  min-width: 250px;
+  display: block;
+}
+.result-test span:hover{
+  text-decoration: underline;
+}
