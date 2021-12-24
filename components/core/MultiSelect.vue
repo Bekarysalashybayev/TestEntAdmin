@@ -4,8 +4,9 @@
     <template #header>
       <div class="multi-select-header">
         <div class="header-name">
-          <img :src="`${imgUrl(title.icon)}`" alt="MDN">
-          <span class="title">{{title.name}}</span>
+          <div class="selected" v-for="id in selected">
+            {{getFullName(id)}} <span>,</span>
+          </div>
         </div>
         <div class="arrow">
           <img src="../../assets/img/filter-arrow.svg" alt="">
@@ -16,13 +17,10 @@
       <div class="multi-select-body">
         <div class="body-inner scroll">
           <div class="item" v-for="item in data" :key="item.id">
-            <input type="checkbox" :id="item.name + item.id">
-            <label class="item-name" :for="item.name + item.id">{{item.name}}</label>
+            <input type="checkbox" :id="item.first_name + item.id" @change="select(item.id)" :checked="idExist(item.id)">
+            <label class="item-name" :for="item.first_name + item.id">{{item.first_name}}, {{item.last_name}}</label>
           </div>
         </div>
-        <button @click="filter" class="filter">
-          Выбрать
-        </button>
       </div>
     </template>
   </dropdown>
@@ -33,14 +31,44 @@
 import dropdown from "./dropdown";
 export default {
   name: "MultiSelect1",
-  props: ['title', 'data'],
+  props: ['data', 'selected'],
   components: {dropdown},
+  data(){
+    return{
+    }
+  },
   methods:{
     imgUrl(img){
       return `${require(`@/assets/img/${img}`)}`
     },
+    getFullName(id){
+      for (let i=0; i< this.data.length; i++){
+        if (this.data[i].id == id){
+          return this.data[i].first_name + ' ' + this.data[i].last_name
+        }
+      }
+    },
     filter(){
       this.$refs.drop.close()
+    },
+    deleteItem(id){
+      let index = this.selected.indexOf(id);
+      if (index !== -1) {
+        this.$emit('deleteItem', index)
+      }
+    },
+    idExist(id){
+      return this.selected.includes(id)
+    },
+    select(id){
+      if (!this.selected.includes(id)) {
+        this.$emit('addItem', id)
+      }else{
+        let index = this.selected.indexOf(id);
+        if (index !== -1) {
+          this.$emit('deleteItem', index)
+        }
+      }
     },
   },
 }
@@ -65,6 +93,9 @@ export default {
 .header-name{
   display: flex;
   align-items: center;
+}
+.selected{
+  margin-right: 10px;
 }
 .multi-select-header .title{
   margin-left: 10px;

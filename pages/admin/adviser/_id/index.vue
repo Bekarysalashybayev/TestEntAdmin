@@ -51,18 +51,7 @@
           </div>
           <div class="row-group">
             <label for="">Учителей <span>*</span></label>
-<!--            <v-autocomplete-->
-<!--              v-model="adviserTeachers"-->
-<!--              :items="teachers"-->
-<!--              :item-text="getName"-->
-<!--              item-value="id"-->
-<!--              deletable-chips-->
-<!--              multiple-->
-<!--              small-chips-->
-<!--              solo-->
-<!--              placeholder="Учителей"-->
-<!--            >-->
-<!--            </v-autocomplete>-->
+            <MultiSelect :data="teachers" :selected="adviserTeachers" @deleteItem="deleteItem" @addItem="addItem"></MultiSelect>
           </div>
         </form>
       </div>
@@ -77,10 +66,11 @@
 // import pathMain from "../../../../components/pathMain";
 import { validationMixin } from 'vuelidate'
 import { required, email, minLength, maxLength} from 'vuelidate/lib/validators'
+import MultiSelect from "../../../../components/core/MultiSelect";
 
 export default {
   name: "index",
-  // components: {pathMain},
+  components: {MultiSelect},
   middleware: ['admin'],
   mixins: [validationMixin],
   data(){
@@ -114,6 +104,12 @@ export default {
     this.getAdviser()
   },
   methods:{
+    deleteItem(index){
+      this.adviserTeachers.splice(index, 1);
+    },
+    addItem(id){
+      this.adviserTeachers.push(id)
+    },
     getName(item){
       return item.first_name + ' ' + item.last_name
     },

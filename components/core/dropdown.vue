@@ -4,8 +4,8 @@
         <slot name="header">
         </slot>
     </div>
-    <button class="dropdown__menu-header" ref="menu" @click="openClose($event)">
-    </button>
+    <div class="dropdown__menu-header" ref="menu" @click="openClose($event)">
+    </div>
     <section class="dropdown__menu-body" ref="body" v-if="isOpen" :class="styleList">
         <slot name="body"></slot>
     </section>
