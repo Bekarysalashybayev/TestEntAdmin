@@ -1,7 +1,7 @@
 <template>
   <div class="page">
     <div class="page-body">
-      <path-main />
+<!--      <path-main />-->
       <button class="add-button" @click="addAdviser">
         Добавить куратора
       </button>

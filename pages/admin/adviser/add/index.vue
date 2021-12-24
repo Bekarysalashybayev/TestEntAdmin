@@ -51,19 +51,19 @@
           </div>
           <div class="row-group">
             <label for="">Учителей <span>*</span></label>
-            <v-autocomplete
-              v-model="adviserTeachers"
-              :items="teachers"
-              :item-text="getName"
-              item-value="id"
-              clearable
-              deletable-chips
-              multiple
-              small-chips
-              solo
-              placeholder="Учителей"
-            >
-            </v-autocomplete>
+<!--            <v-autocomplete-->
+<!--              v-model="adviserTeachers"-->
+<!--              :items="teachers"-->
+<!--              :item-text="getName"-->
+<!--              item-value="id"-->
+<!--              clearable-->
+<!--              deletable-chips-->
+<!--              multiple-->
+<!--              small-chips-->
+<!--              solo-->
+<!--              placeholder="Учителей"-->
+<!--            >-->
+<!--            </v-autocomplete>-->
           </div>
         </form>
       </div>

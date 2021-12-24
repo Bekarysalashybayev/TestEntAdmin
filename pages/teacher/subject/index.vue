@@ -1,7 +1,7 @@
 <template>
 <div class="page">
   <div class="page-body">
-    <path-main />
+<!--    <path-main />-->
     <div class="lessons">
       <div class="lesson" v-for="lesson in lessons" :key="lesson.id">
         {{ lesson.name }}

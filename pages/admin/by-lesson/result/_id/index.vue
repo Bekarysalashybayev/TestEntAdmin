@@ -3,7 +3,6 @@
     <div class="page-body">
 <!--      <path-main />-->
       <div class="list">
-        <loading v-if="loading"/>
         <ListTable :edit="true" @open="open" :actions="actions"/>
         <div class="list-bottom">
           <pagination page-number="40" class="table-pagination"/>
@@ -37,10 +36,9 @@
 import ListTable from "../../../../../components/core/ListTable";
 import Pagination from "../../../../../components/core/Pagination";
 import ModalWindow from "../../../../../components/core/ModalWindow";
-import loading from "../../../../../components/core/loading";
 export default {
   name: "index",
-  components: {ListTable, Pagination, ModalWindow, loading},
+  components: {ListTable, Pagination, ModalWindow},
   data(){
     return{
       loading: false,

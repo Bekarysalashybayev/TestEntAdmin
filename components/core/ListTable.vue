@@ -23,70 +23,10 @@
         </tr>
         <tr v-for="i in 10" :key="i">
           <td v-if="edit" class="actions">
-            <v-menu
-              right
-              :close-on-click="closeOnClick"
-              :offset-x="offset"
-            >
-              <template v-slot:activator="{ on, attrs }">
-                <v-btn
-                  color="primary"
-                  v-bind="attrs"
-                  v-on="on"
-                  class="button"
-                >
-                  <img src="../../assets/img/dots.svg" alt="">
-                </v-btn>
-              </template>
-
-              <v-list class="v-list">
-                <v-list-item
-                  v-for="(item, index) in actions"
-                  :key="index"
-                  class="item"
-                >
-                  <v-list-item-title>
-                    <button @click="open(i, index)">
-                      {{ item.title }}
-                    </button>
-                  </v-list-item-title>
-                </v-list-item>
-              </v-list>
-            </v-menu>
           </td>
           <td>{{i}}</td>
           <td v-for="i in 7">Химия, 33</td>
           <td v-if="edit" class="actions">
-            <v-menu
-              left
-              :close-on-click="closeOnClick"
-              :offset-x="offset"
-            >
-              <template v-slot:activator="{ on, attrs }">
-                <v-btn
-                  color="primary"
-                  v-bind="attrs"
-                  v-on="on"
-                  class="button"
-                >
-                  <img src="../../assets/img/dots.svg" alt="">
-                </v-btn>
-              </template>
-
-              <v-list class="v-list">
-                <v-list-item
-                  v-for="(item, index) in actions"
-                  :key="index"
-                  class="item"
-                >
-                  <v-list-item-title>
-                    <button @click="open(i, index)">
-                      {{ item.title }}
-                    </button>
-                  </v-list-item-title>
-                </v-list-item>
-              </v-list>
-            </v-menu>
           </td>
         </tr>
         </tbody>

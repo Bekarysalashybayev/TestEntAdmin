@@ -1,12 +1,11 @@
 export default {
   server: {
-    host: '0'
+    host: '0',
   },
   head: {
     title: 'admin',
     htmlAttrs: {
       lang: 'en',
-
     },
     meta: [
       { charset: 'utf-8' },
@@ -45,8 +44,6 @@ export default {
 
   // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
   buildModules: [
-    '@nuxtjs/vuetify',
-    ['@nuxtjs/vuetify', { /* module options */ }],
     '@nuxtjs/moment',
     // With options
     ['@nuxtjs/moment', { /* module options */ }]
