@@ -253,6 +253,7 @@ export default {
             },
           ]
           await this.getStatus()
+          await this.$router.push({name: 'admin-ent-questions-variant', params: {variant: this.variantID}})
         } catch (er) {
           console.log(er.response)
         }
