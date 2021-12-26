@@ -191,7 +191,7 @@ export default {
       let hasCorrect = false
       let hasCorrectAnswer = false
       if(this.answers>0){
-        this.$toast.error('Not answer ')
+        this.$toast.error('Добавите ответы ')
         return false
       }else{
         for (let i=0; i<this.answers.length; i++){
@@ -205,18 +205,18 @@ export default {
         }
       }
      if (!hasCorrect){
-       this.$toast.error('Not correct answer ')
+       this.$toast.error('Выберите правильный ответ ')
        return false
      }
      if(!hasCorrectAnswer){
-       this.$toast.error('Correct answer required ')
+       this.$toast.error('Правильный ответ не могут быть пустым')
        return false
      }
      return true
     },
     async saveQuestion(){
       if (this.question.text == ''){
-        this.$toast.error('Question not ')
+        this.$toast.error('Напишите вопрос')
       }else if(this.checkAnswer()){
         try {
           const data = (await this.$axios.put(`/super-admin/question/${this.questionID}/`,
@@ -227,7 +227,7 @@ export default {
               answers: this.answers
             }
           )).data
-          this.$toast.success('Question edited successfully')
+          this.$toast.success('Вопрос изменен успешно!')
           this.commonQuestion = null
           this.question.text = ''
           this.answers = [
@@ -260,7 +260,7 @@ export default {
     },
     async editCommon() {
       if (this.commonQuestion == null) {
-        this.$toast.error('Common question not selected')
+        this.$toast.error('Текст не выбран')
       } else {
         try {
           const data = (await this.$axios.get(`/super-admin/common-question/${this.commonQuestion}/`)).data
@@ -280,16 +280,16 @@ export default {
     },
     async commonSavePost() {
       if (this.newCommonQuestion.name == '') {
-        this.$toast.error('Common question name is required')
+        this.$toast.error('Напишите название')
       } else if (this.newCommonQuestion.text == '') {
-        this.$toast.error('Common question text is required')
+        this.$toast.error('Нпишите текст')
       } else {
         this.newCommonQuestion.variant_lesson = this.variantID
         try {
           const data = (await this.$axios.post(`/super-admin/add-common-question/`,
             this.newCommonQuestion
           )).data
-          this.$toast.success('Common question is edited successfully')
+          this.$toast.success('Текст изменен успешно!')
           await this.getCommonQuestions()
           this.commonQuestion = data.id
           this.commonModalAdd = false
@@ -304,13 +304,13 @@ export default {
     },
     async commonSave() {
       if (this.newCommonQuestion.name == '') {
-        this.$toast.error('Common question name is required')
+        this.$toast.error('Напишите название')
       } else if (this.newCommonQuestion.text == '') {
-        this.$toast.error('Common question text is required')
+        this.$toast.error('Напишите текст')
       } else {
         try {
           const data = (await this.$axios.put(`/super-admin/common-question/${this.commonQuestion}/`, this.newCommonQuestion)).data
-          this.$toast.success('Common question is edited successfully')
+          this.$toast.success('Текст успешно создан!')
           await this.getCommonQuestions()
           this.commonQuestion = data.id
           this.commonModal = false
@@ -321,7 +321,7 @@ export default {
     },
     deleteSelectCommon(){
       this.commonQuestion = null
-      this.$toast.success('Common question deleted')
+      this.$toast.success('Текст отменен')
     },
     reRender() {
       if(window.MathJax) {
@@ -344,7 +344,7 @@ export default {
     delAnswer(index){
       if (index > -1) {
         this.answers.splice(index, 1);
-        this.$toast.success('Answer deleted')
+        this.$toast.success('Ответ удален')
       }
     },
     removeAnswer(){

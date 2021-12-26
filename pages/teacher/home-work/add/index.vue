@@ -193,7 +193,7 @@ export default {
           this.$router.push({name: 'teacher-by-lesson'})
         })
         .catch( async (error) => {
-          await this.$toast.success('Ошибка!')
+          await this.$toast.error('Ошибка!')
         });
     },
     // check(){

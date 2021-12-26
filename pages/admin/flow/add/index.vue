@@ -42,7 +42,7 @@
         </form>
       </div>
       <button class="add-form-button" @click="checkForm">
-        Добавить преподавателя
+        Добавить поток
       </button>
     </div>
   </div>

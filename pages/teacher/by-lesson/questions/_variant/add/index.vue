@@ -191,7 +191,7 @@ export default {
       let hasCorrect = false
       let hasCorrectAnswer = false
       if(this.answers>0){
-        this.$toast.error('Not answer ')
+        this.$toast.error('Напишите ответ')
         return false
       }else{
         for (let i=0; i<this.answers.length; i++){
@@ -205,18 +205,18 @@ export default {
         }
       }
      if (!hasCorrect){
-       this.$toast.error('Not correct answer ')
+       this.$toast.error('Выберите правильный ответ')
        return false
      }
      if(!hasCorrectAnswer){
-       this.$toast.error('Correct answer required ')
+       this.$toast.error('Правильный ответ не могут быть пустым')
        return false
      }
      return true
     },
     async saveQuestion(){
       if (this.question.text == ''){
-        this.$toast.error('Question not ')
+        this.$toast.error('Напишите вопрос')
       }else if(this.checkAnswer()){
         try {
           const data = (await this.$axios.post(`/teacher/add-question/`,
@@ -227,7 +227,7 @@ export default {
               answers: this.answers
             }
           )).data
-          this.$toast.success('Question added successfully')
+          this.$toast.success('Вопрос добавлен успешно!')
           this.commonQuestion = null
           this.question.text = ''
           this.answers = [
@@ -253,6 +253,7 @@ export default {
             },
           ]
           await this.getStatus()
+          this.$router.push({name: 'teacher-by-lesson-variant', params:{variant: this.variantID}})
         } catch (er) {
           console.log(er.response)
         }

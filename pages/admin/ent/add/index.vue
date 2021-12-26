@@ -71,7 +71,7 @@
         </form>
       </div>
       <button class="add-form-button" @click="checkForm">
-        Добавить преподавателя
+        Добавить тест
       </button>
     </div>
   </div>
@@ -166,7 +166,7 @@ export default {
           this.$router.push({name: 'admin-ent'})
         })
         .catch( async (error) => {
-          await this.$toast.success('Ошибка!')
+          await this.$toast.error('Ошибка!')
         });
     },
     // check(){

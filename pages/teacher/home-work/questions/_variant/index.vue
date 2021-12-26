@@ -24,8 +24,8 @@
             </div>
           </div>
           <div class="question-item-actions">
-            <nuxt-link :to="{path: '/teacher/home-work/questions/'+variantID+'/edit/' + question.id}" class="edit">Edit</nuxt-link>
-            <button class="delete" @click="deleteQuestionModal(question.id)">Delete</button>
+            <nuxt-link :to="{path: '/teacher/home-work/questions/'+variantID+'/edit/' + question.id}" class="edit">Изменить</nuxt-link>
+            <button class="delete" @click="deleteQuestionModal(question.id)">Удалить</button>
           </div>
         </div>
       </div>
@@ -106,9 +106,9 @@ export default {
     async deleteQuestion() {
       try {
         const data = (await this.$axios.delete(`/teacher/question/${this.questionDeleteId}/`)).data
-        this.$toast.success('Question deleted')
+        this.$toast.success('Вопрос удален')
       } catch (er) {
-        this.$toast.error('ERROR')
+        this.$toast.error('Ошибка')
         console.log(er.response)
       }
       this.questionDeleteId = null

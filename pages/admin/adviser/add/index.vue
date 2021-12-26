@@ -148,7 +148,7 @@ export default {
           }
         })
         .catch( async (error) => {
-          await this.$toast.success('Ошибка!')
+          await this.$toast.error('Ошибка!')
         });
       this.$router.push({name: 'admin-adviser'})
     },
