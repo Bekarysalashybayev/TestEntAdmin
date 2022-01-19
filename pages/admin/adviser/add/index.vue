@@ -146,6 +146,7 @@ export default {
             phone: '',
             lesson: ''
           }
+          await this.$router.push({name: 'admin-adviser'})
         })
         .catch( async (error) => {
           await this.$toast.error('Ошибка!')

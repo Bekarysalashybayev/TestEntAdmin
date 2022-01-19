@@ -6,7 +6,7 @@
           <div v-for="flow in flows" :key="flow.id" class="flow-single"
                @click="openFlow(flow.id)">
             <div class="img">
-              <img src="../../../assets/img/flow-img.svg" alt="">
+              <img src="../../../assets/img/flow-img-0.svg" alt="">
             </div>
             <div class="description">
               <div class="name">

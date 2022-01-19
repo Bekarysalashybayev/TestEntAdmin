@@ -107,9 +107,11 @@ export default {
 .header-name{
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
 }
 .selected{
   margin-right: 10px;
+  margin-bottom: 10px;
 }
 .multi-select-header .title{
   margin-left: 10px;
