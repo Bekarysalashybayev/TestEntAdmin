@@ -7,6 +7,13 @@
           Создание теста на 120 вопросов
         </div>
         <form>
+          <div class="row-group">
+            <label for="name">Название <span>*</span></label>
+            <input type="text" class="row-group-control" id="name"
+                   v-model="form.name"
+                   :class="{error: this.$v.form.name.$dirty && !this.$v.form.name.required}"
+            >
+          </div>
           <div class="row-group-multi">
             <div class="form-group">
               <label for="">Начало <span>*</span></label>
@@ -32,19 +39,6 @@
                      :class="{error: this.$v.form.duration.$dirty && !this.$v.form.duration.required}"
               >
             </div>
-          </div>
-          <div class="row-group">
-            <label for="">Поток <span>*</span></label>
-            <select name="" id="" class="row-group-control"
-                    v-model="form.flow"
-                    :class="{error: this.$v.form.flow.$dirty && !this.$v.form.flow.required}"
-            >
-              <option :value="flow.id"
-                      v-for="flow in flows"
-                      :key="flow.id">
-                {{flow.name}}
-              </option>
-            </select>
           </div>
           <div class="row-group">
             <div class="variant-list">
@@ -93,24 +87,23 @@ export default {
       variants: [],
       variantName: "",
       form: {
+        name: '',
         start_date: '',
         end_date: '',
         duration: '',
-        flow: ''
       },
       errorForm: false,
     }
   },
   validations: {
     form: {
+      name: { required },
       start_date: { required },
       end_date: {required},
       duration: {required},
-      flow: {required}
     },
   },
   created() {
-    this.getFlowList()
   },
   methods:{
     addVariant(){
@@ -143,11 +136,12 @@ export default {
     },
     async add(){
       await this.$axios.post('/super-admin/create-test/', {
-        flow: this.form.flow,
+        flow: null,
         test_type: 'ent',
         start_time: this.form.start_date,
         end_time: this.form.end_date,
         duration: this.form.duration,
+        name: this.form.name,
         variants: this.variants,
         number_of_questions: null,
         lesson: null
@@ -168,20 +162,6 @@ export default {
         .catch( async (error) => {
           await this.$toast.error('Ошибка!')
         });
-    },
-    // check(){
-    //   for (let prop in this.form) {
-    //     console.log(prop + " = " + this.form[prop]);
-    //   }
-    //   this.errorForm = false
-    // },
-    async getFlowList() {
-      try {
-        const data =  (await this.$axios.get('/quizzes/flow-list/')).data
-        this.flows = data
-      }catch (er) {
-        console.log(er.response)
-      }
     },
   },
 }

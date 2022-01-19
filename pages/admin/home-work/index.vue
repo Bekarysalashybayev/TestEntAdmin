@@ -1,7 +1,6 @@
 <template>
 <div class="page">
   <div class="page-body">
-    <path-main />
     <div class="filter">
       <div class="select">
         <select name="" id="1" v-model="filter.is_active" @change="filterTestList">
@@ -29,7 +28,7 @@
           <div class="body">
             <div class="body-item">
               <img src="../../../assets/img/test-number.svg" alt="">
-              <span class="time">Тест №{{test.number}}.</span>
+              <span class="time">{{test.name}}</span>
             </div>
             <div class="body-item">
               <img src="../../../assets/img/test-time.svg" alt="">
@@ -110,7 +109,7 @@
           </div>
         </div>
         <div class="result-test" v-if="test.is_active">
-          <span @click="resultTest(i)">Результаты теста</span>
+          <span @click="resultTest(test.id)">Результаты теста</span>
         </div>
       </div>
     </div>
@@ -119,11 +118,10 @@
 </template>
 
 <script>
-import PathMain from "../../../components/pathMain";
 import MultiSelect from "../../../components/core/MultiSelect";
 export default {
   name: "index",
-  components: {PathMain, MultiSelect},
+  components: {MultiSelect},
   middleware: ['admin'],
   data(){
     return{

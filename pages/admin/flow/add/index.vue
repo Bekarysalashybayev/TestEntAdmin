@@ -31,12 +31,19 @@
                      :class="{error: this.$v.form.name.$dirty && !this.$v.form.name.required}"
               >
             </div>
-            <div class="form-group">
-              <label for="">Количество студентов <span>*</span></label>
-              <input type="number" class="row-group-control"
-                     v-model="form.quantity_of_students"
-                     :class="{error: this.$v.form.quantity_of_students.$dirty && !this.$v.form.quantity_of_students.required}"
+
+            <div class="row-group">
+              <label for="">Предметы <span>*</span></label>
+              <select name="" id="" class="row-group-control"
+                      v-model="form.lesson"
+                      :class="{error: this.$v.form.lesson.$dirty && !this.$v.form.lesson.required}"
               >
+                <option :value="lesson.id"
+                        v-for="lesson in lessons"
+                        :key="lesson.id">
+                  {{lesson.name}}
+                </option>
+              </select>
             </div>
           </div>
         </form>
@@ -60,11 +67,12 @@ export default {
   mixins: [validationMixin],
   data(){
     return{
+      lessons: [],
       form: {
         start_time: '',
         end_time: '',
         name: '',
-        quantity_of_students: ''
+        lesson: ''
       },
       errorForm: false,
     }
@@ -74,10 +82,11 @@ export default {
       start_time: {required},
       end_time: {required},
       name: {required},
-      quantity_of_students: {required}
+      lesson: {required}
     },
   },
   created() {
+    this.getLessons()
   },
   methods:{
     checkForm(){
@@ -93,7 +102,7 @@ export default {
         start_time: this.$moment(this.form.start_time).format('YYYY-MM-DD hh:mm:ss'),
         end_time: this.$moment(this.form.end_time).format('YYYY-MM-DD hh:mm:ss'),
         name: this.form.name,
-        quantity_of_students: this.form.quantity_of_students
+        lesson: this.form.lesson
       })
         .then(async (response) => {
           await this.$toast.success('Успешно!')
@@ -109,6 +118,14 @@ export default {
         .catch( async (error) => {
           await this.$toast.success('Ошибка!')
         });
+    },
+    async getLessons() {
+      try {
+        const data =  (await this.$axios.get('/quizzes/lesson-list/')).data
+        this.lessons = data
+      }catch (er) {
+        console.log(er.response)
+      }
     },
   },
 }

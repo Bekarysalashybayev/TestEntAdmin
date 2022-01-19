@@ -1,23 +1,26 @@
 <template>
   <div class="page">
-    <div class="page-body">
-      <path-main />
+    <div class="page-body" v-if="results && results.data && results.data.length>0">
+<!--      <path-main />-->
       <div class="list">
-        <ListTable :edit="true" @open="open" :actions="actions"/>
+        <ListTable :edit="true" @open="open" :actions="actions" :data="results.data"/>
         <div class="list-bottom">
-          <pagination page-number="40" class="table-pagination"/>
+          <pagination :page-number="results.total_pages" class="table-pagination" @changePage="changePage"/>
           <div class="all-items-count">
             <span>
-              Всего: 50
+              Всего: {{ results.count }}
             </span>
             <div class="page-items-count">
-              <select name="" id="">
-                <option value="">5 студентов</option>
+              <select name="" id="" @change="changePageSize()" v-model="pageSize">
+                <option :value="size" v-for="size in pageSizes">{{ size }} студентов</option>
               </select>
             </div>
           </div>
         </div>
       </div>
+    </div>
+    <div class="page-body" v-else>
+      Пока что никто не сдавал
     </div>
     <modal-window v-if="openModal">
       <template #content>
@@ -33,7 +36,7 @@
 
 <script>
 import pathMain from "../../../../../components/pathMain";
-import ListTable from "../../../../../components/core/ListTable";
+import ListTable from "../../../../../components/core/ListTableLesson";
 import Pagination from "../../../../../components/core/Pagination";
 import ModalWindow from "../../../../../components/core/ModalWindow";
 export default {
@@ -41,6 +44,11 @@ export default {
   components: {ListTable, pathMain, Pagination, ModalWindow},
   data(){
     return{
+      testId: this.$route.params.id,
+      results: {},
+      currentPage: 1,
+      pageSize: 10,
+      pageSizes: [10, 15, 20],
       loading: false,
       openModal: false,
       actions: [
@@ -48,7 +56,25 @@ export default {
       ],
     }
   },
+  created() {
+    this.getResultList()
+  },
   methods:{
+    changePage(page){
+      this.currentPage = page
+      this.getResultList()
+    },
+    changePageSize(){
+      this.getResultList()
+    },
+    async getResultList() {
+      try {
+        const data = (await this.$axios.get(`/super-admin/results/${this.testId}/?page=${this.currentPage}&page_size=${this.pageSize}`)).data
+        this.results = data
+      } catch (er) {
+        console.log(er.response)
+      }
+    },
     open(tableRow, actionsIndex){
       this.openModal = true
       console.log(tableRow)

@@ -1,10 +1,10 @@
 <template>
   <div class="page">
     <div class="page-body">
-<!--      <path-main />-->
+      <!--      <path-main />-->
       <div class="add-form" @submit.prevent="checkForm">
         <div class="form-header">
-          Добавить куратора
+          Изменение профиля преподавателя
         </div>
         <form>
           <div class="row-group-multi">
@@ -49,28 +49,12 @@
               </span>
             </div>
           </div>
-          <div class="row-group">
-            <label for="">Учителей <span>*</span></label>
+          <MultiSelect :data="flows" :selected="adviserFlows" :flow="true" @deleteItem="deleteItem"  @addItem="addItem"></MultiSelect>
 
-<!--            <v-autocomplete-->
-<!--              v-model="adviserTeachers"-->
-<!--              :items="teachers"-->
-<!--              :item-text="getName"-->
-<!--              item-value="id"-->
-<!--              clearable-->
-<!--              deletable-chips-->
-<!--              multiple-->
-<!--              small-chips-->
-<!--              solo-->
-<!--              placeholder="Учителей"-->
-<!--            >-->
-<!--            </v-autocomplete>-->
-            <MultiSelect :data="teachers" :selected="adviserTeachers" :flow="false" @deleteItem="deleteItem" @addItem="addItem"></MultiSelect>
-          </div>
         </form>
       </div>
       <button class="add-form-button" @click="checkForm">
-        Добавить куратор
+        Изменить преподавателя
       </button>
     </div>
   </div>
@@ -84,19 +68,20 @@ import MultiSelect from "../../../../components/core/MultiSelect";
 
 export default {
   name: "index",
-  // components: {pathMain},
-  middleware: ['admin'],
   components: {MultiSelect},
+  middleware: ['admin'],
   mixins: [validationMixin],
   data(){
     return{
-      teachers: [],
-      adviserTeachers: [],
+      lessons: [],
+      adviserFlows: [],
+      flows: [],
       form: {
         first_name: '',
         last_name: '',
         email: '',
         phone: '',
+        lesson: ''
       },
       errorForm: false,
     }
@@ -110,17 +95,20 @@ export default {
     },
   },
   created() {
-    this.getTeachers()
+    this.getFlows()
+    this.getTeacher()
+  },
+  computed:{
+    id(){
+      return this.$route.params.id
+    },
   },
   methods:{
-    getName(item){
-      return item.first_name + ' ' + item.last_name
+    addItem(id){
+      this.adviserFlows.push(id)
     },
     deleteItem(index){
-      this.adviserTeachers.splice(index, 1);
-    },
-    addItem(id){
-      this.adviserTeachers.push(id)
+      this.adviserFlows.splice(index, 1);
     },
     checkForm(){
       this.$v.form.$touch()
@@ -131,12 +119,11 @@ export default {
       }
     },
     async add(){
-      await this.$axios.post('/super-admin/add-adviser/', {
-        teachers: this.adviserTeachers,
-        adviser: this.form
+      await this.$axios.put(`/super-admin/teacher-update-delete/${this.id}/`, {
+        user: this.form,
+        flows: this.adviserFlows
       })
         .then(async (response) => {
-          console.log(response);
           await this.$toast.success('Успешно!')
           this.$v.form.$reset();
           this.form = {
@@ -144,24 +131,25 @@ export default {
             last_name: '',
             email: '',
             phone: '',
-            lesson: ''
           }
         })
         .catch( async (error) => {
-          await this.$toast.error('Ошибка!')
+          await this.$toast.success('Ошибка!')
         });
-      this.$router.push({name: 'admin-adviser'})
     },
-    // check(){
-    //   for (let prop in this.form) {
-    //     console.log(prop + " = " + this.form[prop]);
-    //   }
-    //   this.errorForm = false
-    // },
-    async getTeachers() {
+    async getFlows() {
       try {
-        const data =  (await this.$axios.get('/super-admin/teacher-list/')).data
-        this.teachers = data
+        const data =  (await this.$axios.get('/quizzes/flow-list/')).data
+        this.flows = data
+      }catch (er) {
+        console.log(er.response)
+      }
+    },
+    async getTeacher() {
+      try {
+        const data =  (await this.$axios.get(`/super-admin/teacher/${this.id}/`)).data
+        this.form = data.user
+        this.adviserFlows = data.flows
       }catch (er) {
         console.log(er.response)
       }

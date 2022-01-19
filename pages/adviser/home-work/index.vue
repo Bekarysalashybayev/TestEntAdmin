@@ -29,7 +29,7 @@
           <div class="body">
             <div class="body-item">
               <img src="../../../assets/img/test-number.svg" alt="">
-              <span class="time">Тест №{{test.number}}.</span>
+              <span class="time">{{test.name}}</span>
             </div>
             <div class="body-item">
               <img src="../../../assets/img/test-time.svg" alt="">
@@ -110,7 +110,7 @@
           </div>
         </div>
         <div class="result-test" v-if="test.is_active">
-          <span @click="resultTest(i)">Результаты теста</span>
+          <span @click="resultTest(test.id)">Результаты теста</span>
         </div>
       </div>
     </div>
@@ -177,7 +177,7 @@ export default {
   },
   methods:{
     resultTest(id){
-      this.$router.push({name: 'admin-home-work-result-id', params:{id: id}})
+      this.$router.push({name: 'adviser-home-work-result-id', params:{id: id}})
     },
     addQuestion(variant){
       this.$router.push({name: 'adviser-home-work-questions-variant', params:{variant: variant}})

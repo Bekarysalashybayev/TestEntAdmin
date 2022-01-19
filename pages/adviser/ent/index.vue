@@ -9,14 +9,6 @@
           <option :value="status.status" v-for="status in statusFilter" :key="status.id">{{status.name}}</option>
         </select>
       </div>
-      <div class="select" v-if="flows.length>0" @change="filterTestList">
-        <select name="" id="2" v-model="filter.flow">
-          <option value="">Поток (все)</option>
-          <option :value="flow.id" v-for="flow in flows" :key="flow.id">
-            {{flow.name}}
-          </option>
-        </select>
-      </div>
     </div>
     <div class="test-list" v-if="testList.length>0">
       <div class="test" v-for="(test, i) in testList" :key="i">
@@ -29,7 +21,7 @@
           <div class="body">
             <div class="body-item">
               <img src="../../../assets/img/test-number.svg" alt="">
-              <span class="time">Тест №{{test.number}}.</span>
+              <span class="time">{{test.name}}</span>
             </div>
             <div class="body-item">
               <img src="../../../assets/img/test-time.svg" alt="">
@@ -110,7 +102,7 @@
           </div>
         </div>
         <div class="result-test" v-if="test.is_active">
-          <span @click="resultTest(i)">Результаты теста</span>
+          <span @click="resultTest(test.id)">Результаты теста</span>
         </div>
       </div>
     </div>
@@ -167,12 +159,10 @@ export default {
       loading: false,
       filter: {
         is_active: '',
-        flow: ''
       },
     }
   },
   created() {
-    this.getFlows()
     this.getTestList('')
   },
   methods:{
@@ -213,14 +203,6 @@ export default {
       try {
         const data =  (await this.$axios.get('/adviser/test-list/ent/', {params: this.filter})).data
         this.testList = data
-      }catch (er) {
-        console.log(er.response)
-      }
-    },
-    async getFlows() {
-      try {
-        const data =  (await this.$axios.get('/quizzes/flow-list/')).data
-        this.flows = data
       }catch (er) {
         console.log(er.response)
       }

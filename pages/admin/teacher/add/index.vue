@@ -49,19 +49,8 @@
               </span>
             </div>
           </div>
-          <div class="row-group">
-            <label for="">Предметы <span>*</span></label>
-            <select name="" id="" class="row-group-control"
-                    v-model="form.lesson"
-                    :class="{error: this.$v.form.lesson.$dirty && !this.$v.form.lesson.required}"
-            >
-              <option :value="lesson.id"
-                      v-for="lesson in lessons"
-                      :key="lesson.id">
-                {{lesson.name}}
-              </option>
-            </select>
-          </div>
+          <MultiSelect :data="flows" :selected="adviserFlows" :flow="true" @deleteItem="deleteItem"  @addItem="addItem"></MultiSelect>
+
         </form>
       </div>
       <button class="add-form-button" @click="checkForm">
@@ -75,15 +64,18 @@
 // import pathMain from "../../../../components/pathMain";
 import { validationMixin } from 'vuelidate'
 import { required, email, minLength, maxLength} from 'vuelidate/lib/validators'
+import MultiSelect from "../../../../components/core/MultiSelect";
 
 export default {
   name: "index",
-  // components: {pathMain},
+  components: {MultiSelect},
   middleware: ['admin'],
   mixins: [validationMixin],
   data(){
     return{
       lessons: [],
+      adviserFlows: [],
+      flows: [],
       form: {
         first_name: '',
         last_name: '',
@@ -100,26 +92,35 @@ export default {
       first_name: {required},
       last_name: {required},
       phone: {required, minLength: minLength(11), maxLength: maxLength(11)},
-      lesson: {required}
     },
   },
   created() {
-    this.getLessons()
+    this.getFlows()
   },
   methods:{
+    addItem(id){
+      this.adviserFlows.push(id)
+    },
+    deleteItem(index){
+      this.adviserFlows.splice(index, 1);
+    },
     checkForm(){
       this.$v.form.$touch()
       if (!this.$v.form.$error) {
-        console.log(123)
         this.add()
       }else {
         this.errorForm = true
       }
     },
     async add(){
-      await this.$axios.post('/super-admin/add-teacher/', this.form)
+      await this.$axios.post('/super-admin/add-teacher/', {
+        first_name: this.form.first_name,
+        last_name: this.form.last_name,
+        email: this.form.email,
+        phone: this.form.phone,
+        flows: this.adviserFlows
+      })
         .then(async (response) => {
-          console.log(response);
           await this.$toast.success('Успешно!')
           this.$v.form.$reset();
           this.form = {
@@ -127,7 +128,6 @@ export default {
             last_name: '',
             email: '',
             phone: '',
-            lesson: ''
           }
         })
         .catch( async (error) => {
@@ -144,6 +144,14 @@ export default {
       try {
         const data =  (await this.$axios.get('/quizzes/lesson-list/')).data
         this.lessons = data
+      }catch (er) {
+        console.log(er.response)
+      }
+    },
+    async getFlows() {
+      try {
+        const data =  (await this.$axios.get('/quizzes/flow-list/')).data
+        this.flows = data
       }catch (er) {
         console.log(er.response)
       }

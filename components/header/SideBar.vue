@@ -1,5 +1,5 @@
 <template>
-<div class="page-side-bar" :class="{close: !isOpen}">
+<div class="page-side-bar" :class="{close: !isOpen, open: isOpen}">
   <div class="SideBar">
     <div class="side-bar-inner scroll">
       <div class="links">

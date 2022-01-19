@@ -27,13 +27,13 @@
           <div class="title">
             {{$moment(test.end_time).format('DD.MM.YYYY')}}
           </div>
-          <button class="publish" v-if="!test.is_active">Опубликовать</button>
+          <button class="publish" v-if="!test.is_active" @click="publishTest(test)">Опубликовать</button>
         </div>
         <div class="test-body">
           <div class="body">
             <div class="body-item">
               <img src="../../../assets/img/test-number.svg" alt="">
-              <span class="time">Тест №{{test.number}}.</span>
+              <span class="time">{{test.name}}</span>
             </div>
             <div class="body-item">
               <img src="../../../assets/img/test-time.svg" alt="">
@@ -114,45 +114,52 @@
           </div>
         </div>
         <div class="result-test" v-if="test.is_active">
-          <span @click="resultTest(i)">Результаты теста</span>
+          <span @click="resultTest(test.id)">Результаты теста</span>
         </div>
       </div>
     </div>
   </div>
+  <modal-window v-if="isPublish">
+    <template #content>
+      <div class="modal-delete-text">
+        <div class="modal-text">
+          Вы точно хотите <br>опубликовать этот тест?
+        </div>
+        <div class="common-buttons">
+          <button @click="publishCurrentTest">Опубликовать</button>
+          <button @click="cancelPublishCurrentTest">Отмена</button>
+        </div>
+      </div>
+    </template>
+  </modal-window>
+  <modal-window v-if="isPublishError">
+    <template #content>
+      <div class="modal-delete-text">
+        <div class="modal-text">
+          {{ isPublishErrorText}}
+        </div>
+        <div class="common-buttons">
+          <button @click="isPublishError=false">Закрыть</button>
+        </div>
+      </div>
+    </template>
+  </modal-window>
 </div>
 </template>
 
 <script>
-// import PathMain from "../../../components/pathMain";
+import ModalWindow from "../../../components/core/ModalWindow";
 import MultiSelect from "../../../components/core/MultiSelect";
 export default {
   name: "index",
-  components: {MultiSelect},
+  components: {MultiSelect, ModalWindow},
   middleware: ['teacher'],
   data(){
     return{
-      lessons:[
-        {
-          id: 41,
-          name: 'Английский язык'
-        },
-        {
-          id: 24,
-          name: 'Биология'
-        },
-        {
-          id: 324,
-          name: 'Всемирная история'
-        },
-        {
-          id: 112,
-          name: 'Англgийский язык'
-        },
-        {
-          id: 31,
-          name: 'Всемирная иgстория'
-        },
-      ],
+      isPublish: false,
+      isPublishError: false,
+      isPublishErrorText: false,
+      currentPublishTest: null,
       statusFilter: [
         {
           status: false,
@@ -180,8 +187,33 @@ export default {
     this.getTestList('')
   },
   methods:{
+    publishTest(test){
+      this.currentPublishTest = test
+      this.isPublish = true
+    },
+    cancelPublishCurrentTest(){
+      this.currentPublishTest = null
+      this.isPublish = false
+    },
+    async publishCurrentTest() {
+      this.isPublish = false
+      try {
+        await this.$axios.post(`/super-admin/publish/${this.currentPublishTest.id}/`)
+        this.$toast.success('Тест опубликован успешно!')
+        this.currentPublishTest = null
+        await this.getTestList()
+      } catch (er) {
+        console.log(er.response.data)
+        this.isPublishError = true
+        if (er.response){
+          this.isPublishErrorText = er.response.data.detail
+        }else{
+          this.isPublishErrorText = 'Ошибка сервера'
+        }
+      }
+    },
     resultTest(id){
-      this.$router.push({name: 'admin-ent-result-id', params:{id: id}})
+      this.$router.push({name: 'teacher-home-work-result-id', params:{id: id}})
     },
     addQuestion(variant){
       this.$router.push({name: 'teacher-home-work-questions-variant', params:{variant: variant}})
@@ -226,7 +258,7 @@ export default {
     },
     async getFlows() {
       try {
-        const data =  (await this.$axios.get('/quizzes/flow-list/')).data
+        const data =  (await this.$axios.get('/teacher/my-flow-list/')).data
         this.flows = data
       }catch (er) {
         console.log(er.response)

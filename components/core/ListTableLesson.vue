@@ -26,12 +26,7 @@
           </td>
           <td>{{i+1}}</td>
           <td>{{user.student.first_name}} {{user.student.last_name}}</td>
-          <td>{{user.mat_quantity}}</td>
-          <td>{{user.gramot_quantity}}</td>
-          <td>{{user.history_quantity}}</td>
-          <td>{{user.lesson_pair.lesson_1.name}}, {{user.prof_1_quantity}}</td>
-          <td>{{user.lesson_pair.lesson_2.name}}, {{user.prof_2_quantity}}</td>
-          <td>{{user.total}}</td>
+          <td>{{user.quantity}}</td>
           <td v-if="edit" class="actions">
           </td>
         </tr>
@@ -58,32 +53,7 @@ export default {
         },
         {
           type: 'lesson1',
-          title: 'Мат. грамотность',
-          sort: '',
-        },
-        {
-          type: 'lesson2',
-          title: 'Грам-сть чтения',
-          sort: '',
-        },
-        {
-          type: 'lesson3',
-          title: 'История К-на',
-          sort: '',
-        },
-        {
-          type: 'lesson4',
-          title: 'Проф. предмет № 1',
-          sort: '',
-        },
-        {
-          type: 'lesson5',
-          title: 'Проф. предмет № 2',
-          sort: '',
-        },
-        {
-          type: 'point',
-          title: 'Общ. балл',
+          title: this.data[0].lesson_name,
           sort: '',
         },
       ]

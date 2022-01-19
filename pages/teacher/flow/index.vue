@@ -1,9 +1,6 @@
 <template>
   <div class="page">
     <div class="page-body">
-      <button class="add-button" @click="addTeacher">
-        Добавить поток
-      </button>
       <div class="flow-list">
         <div class="flow-outer" v-if="flows.length>0">
           <div v-for="flow in flows" :key="flow.id" class="flow-single"
@@ -15,9 +12,9 @@
               <div class="name">
                 {{flow.name}}
               </div>
-<!--              <div class="followed">-->
-<!--                <img src="../../../assets/img/flow-followed.svg" alt="">-->
-<!--              </div>-->
+              <div class="followed" v-if="flow.follow">
+                <img src="../../../assets/img/flow-followed.svg" alt="">
+              </div>
             </div>
           </div>
         </div>
@@ -34,7 +31,7 @@ moment.locale('ru')
 export default {
   name: "index",
   components: {},
-  middleware: ['admin'],
+  middleware: ['teacher'],
   data(){
     return{
       flows: [],
@@ -44,15 +41,12 @@ export default {
     this.getFlowList()
   },
   methods: {
-    addTeacher(){
-      this.$router.push({name: 'admin-flow-add'})
-    },
     openFlow(id){
-      this.$router.push({name: 'admin-flow-id', params: {id: id}})
+      this.$router.push({name: 'teacher-flow-id', params: {id: id}})
     },
     async getFlowList() {
       try {
-        const data = (await this.$axios.get('super-admin/flow-list/')).data
+        const data = (await this.$axios.get('teacher/flow-list/')).data
         this.flows = data.data
       } catch (er) {
         console.log(er.response)
@@ -69,4 +63,8 @@ export default {
 
 <style scoped>
 @import "../../../assets/css/flow.css";
+.description .name{
+  width: 140px;
+  padding-right: 15px;
+}
 </style>

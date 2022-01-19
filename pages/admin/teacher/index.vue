@@ -1,7 +1,6 @@
 <template>
   <div class="page">
     <div class="page-body">
-      <path-main />
       <button class="add-button" @click="addTeacher">
         Добавить преподавателя
       </button>
@@ -28,7 +27,7 @@
                   </th>
                   <th >
                     <div class="th">
-                      <span>Предметы</span>
+                      <span>Потоки</span>
                     </div>
                   </th>
                 </tr>
@@ -36,7 +35,7 @@
                   <td>{{i+1}}</td>
                   <td>{{teacher.first_name}} {{teacher.last_name}}</td>
                   <td>{{teacher.email}}</td>
-                  <td>{{getLessons(teacher.lessons)}}</td>
+                  <td><button @click="edit(teacher.id)" class="edit">Изменить</button></td>
                 </tr>
                 </tbody>
               </table>
@@ -49,10 +48,9 @@
 </template>
 
 <script>
-import pathMain from "../../../components/pathMain";
 export default {
   name: "index",
-  components: {pathMain},
+  components: {},
   middleware: ['admin'],
   data(){
     return{
@@ -74,6 +72,9 @@ export default {
         console.log(er.response)
       }
     },
+    edit(id){
+      this.$router.push({name: 'admin-teacher-id', params:{id: id}})
+    },
     getLessons(lessons){
       return lessons.map(function(elem){
         return elem.name;
@@ -87,5 +88,12 @@ export default {
 @import "assets/css/components/table.css";
 td{
   text-align: left!important;
+}
+button.edit{
+  color: darkgreen;
+  font-size: 15px;
+}
+button.edit:hover{
+  text-decoration: underline;
 }
 </style>

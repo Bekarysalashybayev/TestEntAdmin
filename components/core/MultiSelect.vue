@@ -4,7 +4,10 @@
     <template #header>
       <div class="multi-select-header">
         <div class="header-name">
-          <div class="selected" v-for="id in selected">
+          <div class="selected" v-for="id in selected" v-if="flow">
+            {{getName(id)}} <span>,</span>
+          </div>
+          <div class="selected" v-for="id in selected" v-if="!flow">
             {{getFullName(id)}} <span>,</span>
           </div>
         </div>
@@ -16,7 +19,11 @@
     <template #body>
       <div class="multi-select-body">
         <div class="body-inner scroll">
-          <div class="item" v-for="item in data" :key="item.id">
+          <div class="item" v-for="item in data" :key="item.id" v-if="flow">
+            <input type="checkbox" :id="item.name + item.id" @change="select(item.id)" :checked="idExist(item.id)">
+            <label class="item-name" :for="item.name + item.id">{{item.name}}</label>
+          </div>
+          <div class="item" v-for="item in data" :key="item.id" v-if="!flow">
             <input type="checkbox" :id="item.first_name + item.id" @change="select(item.id)" :checked="idExist(item.id)">
             <label class="item-name" :for="item.first_name + item.id">{{item.first_name}}, {{item.last_name}}</label>
           </div>
@@ -31,7 +38,7 @@
 import dropdown from "./dropdown";
 export default {
   name: "MultiSelect1",
-  props: ['data', 'selected'],
+  props: ['data', 'selected', 'flow'],
   components: {dropdown},
   data(){
     return{
@@ -45,6 +52,13 @@ export default {
       for (let i=0; i< this.data.length; i++){
         if (this.data[i].id == id){
           return this.data[i].first_name + ' ' + this.data[i].last_name
+        }
+      }
+    },
+    getName(id){
+      for (let i=0; i< this.data.length; i++){
+        if (this.data[i].id == id){
+          return this.data[i].name
         }
       }
     },

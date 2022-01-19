@@ -7,6 +7,13 @@
           Создание теста
         </div>
         <form>
+          <div class="row-group">
+            <label for="name">Название <span>*</span></label>
+            <input type="text" class="row-group-control" id="name"
+                   v-model="form.name"
+                   :class="{error: this.$v.form.name.$dirty && !this.$v.form.name.required}"
+            >
+          </div>
           <div class="row-group-multi">
             <div class="form-group">
               <label for="">Начало <span>*</span></label>
@@ -51,19 +58,6 @@
                       v-for="flow in flows"
                       :key="flow.id">
                 {{flow.name}}
-              </option>
-            </select>
-          </div>
-          <div class="row-group">
-            <label for="">Предмет <span>*</span></label>
-            <select name="" id="9" class="row-group-control"
-                    v-model="form.subject"
-                    :class="{error: this.$v.form.subject.$dirty && !this.$v.form.subject.required}"
-            >
-              <option :value="subject.id"
-                      v-for="subject in teacherSubject"
-                      :key="subject.id">
-                {{subject.name}}
               </option>
             </select>
           </div>
@@ -115,11 +109,11 @@ export default {
       variants: [],
       variantName: "",
       form: {
+        name: '',
         start_date: '',
         end_date: '',
         duration: '',
         flow: '',
-        subject: '',
         number_of_questions: null,
       },
       errorForm: false,
@@ -127,17 +121,16 @@ export default {
   },
   validations: {
     form: {
+      name: { required },
       start_date: { required },
       end_date: {required},
       duration: {required},
       flow: {required},
-      subject: {required},
       number_of_questions: {required},
     },
   },
   created() {
     this.getFlowList()
-    this.getSubjectList()
   },
   methods:{
     addVariant(){
@@ -176,8 +169,8 @@ export default {
         end_time: this.form.end_date,
         duration: this.form.duration,
         variants: this.variants,
+        name: this.form.name,
         number_of_questions: this.form.number_of_questions,
-        lesson: this.form.subject
       })
         .then(async (response) => {
           console.log(response);
@@ -196,24 +189,10 @@ export default {
           await this.$toast.error('Ошибка!')
         });
     },
-    // check(){
-    //   for (let prop in this.form) {
-    //     console.log(prop + " = " + this.form[prop]);
-    //   }
-    //   this.errorForm = false
-    // },
     async getFlowList() {
       try {
-        const data =  (await this.$axios.get('/quizzes/flow-list/')).data
+        const data =  (await this.$axios.get('/teacher/my-flow-list/')).data
         this.flows = data
-      }catch (er) {
-        console.log(er.response)
-      }
-    },
-    async getSubjectList() {
-      try {
-        const data =  (await this.$axios.get('/teacher/lesson-list/')).data
-        this.teacherSubject = data
       }catch (er) {
         console.log(er.response)
       }

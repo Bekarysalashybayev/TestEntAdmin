@@ -246,8 +246,44 @@ body{
   font-weight: bold;
   margin: 40px auto 0;
 }
+.common-buttons{
+  margin-top: 25px;
+}
+.common-buttons button{
+  margin-right: 20px;
+  border: 1px solid #029AAD;
+  box-sizing: border-box;
+  border-radius: 50px;
+  color: #029AAD;
+  padding: 5px 15px;
+}
+.common-buttons button:first-child{
+  background-color: #029AAD;
+  color: #FFFFFF;
+  font-weight: bold;
+}
+.question-item-actions button{
+  padding: 5px 10px;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: bold;
+}
+.modal-delete-text{
+  width: 100%;
+  display: flex;
+  min-height: 150px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.modal-text{
+  text-align: center;
+}
 @media (max-width: 767px) {
   html{
+  }
+  .page-body{
+    padding: 20px!important;
   }
 }
 @media screen and (-webkit-min-device-pixel-ratio:0) {
