@@ -3,7 +3,7 @@
     <div class="page-body" v-if="results && results.data && results.data.length>0">
 <!--      <path-main />-->
       <div class="list">
-        <ListTable :edit="true" @open="open" :actions="actions" :data="results.data"/>
+        <ListTable :edit="true" @open="open" :actions="actions" :data="results.data" :file="true"/>
         <div class="list-bottom">
           <pagination :page-number="results.total_pages" class="table-pagination" @changePage="changePage"/>
           <div class="all-items-count">

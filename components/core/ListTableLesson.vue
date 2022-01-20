@@ -19,6 +19,7 @@
               </div>
             </div>
           </th>
+          <th v-if="file">Файл</th>
           <th v-if="edit"></th>
         </tr>
         <tr v-for="(user, i) in data" :key="user.id">
@@ -27,6 +28,7 @@
           <td>{{i+1}}</td>
           <td>{{user.student.first_name}} {{user.student.last_name}}</td>
           <td>{{user.quantity}}</td>
+          <td v-if="user.file"><a :href="user.file" target="_blank" class="download-link">скачать</a></td>
           <td v-if="edit" class="actions">
           </td>
         </tr>
@@ -40,7 +42,7 @@
 <script>
 export default {
   name: "ListTable",
-  props: ['edit', 'actions', 'data'],
+  props: ['edit', 'actions', 'data', 'file'],
   data(){
     return{
       closeOnClick: true,
@@ -123,5 +125,10 @@ export default {
   border-radius: 50%;
   background-color: #FFFFFF!important;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.25) !important;
+}
+.download-link{
+  text-decoration: underline!important;
+  color: #029AAD;
+  font-weight: bold;
 }
 </style>
