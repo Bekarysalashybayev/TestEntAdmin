@@ -52,6 +52,14 @@
   color: white;
   font-weight: bold;
 }
+.delete{
+  color: red;
+  border-color: red;
+}
+.delete:hover{
+  background-color: red;
+  font-weight: bold;
+}
 .test-body{
   font-size: 14px;
   line-height: 16px;

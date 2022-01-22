@@ -141,8 +141,14 @@
                       <div class="first-name">
                         {{teacher.first_name}} {{teacher.last_name}}
                       </div>
-                      <div class="dots">
+                      <div class="dots" :class="{active: modalDeleteTeacherId == teacher.id}"
+                           @click="openModalDeleteUserId(teacher.id, 'teacher')"
+                           v-click-outside="closeModalDeleteTeacherId"
+                      >
                         <img src="@/assets/img/dots.svg" alt="">
+                        <div class="actions">
+                          <div class="action" @click="deleteUser(teacher)">Удалить</div>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -161,8 +167,14 @@
                       <div class="first-name">
                         {{student.first_name}} {{student.last_name}}
                       </div>
-                      <div class="dots">
+                      <div class="dots" :class="{active: modalDeleteUserId == student.id}"
+                           @click="openModalDeleteUserId(student.id, 'student')"
+                           v-click-outside="closeModalDeleteUserId"
+                      >
                         <img src="@/assets/img/dots.svg" alt="">
+                        <div class="actions">
+                            <div class="action" @click="deleteUser(student)">Удалить</div>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -259,6 +271,19 @@
         </div>
       </template>
     </modal-window>
+    <modal-window v-if="isDelete">
+      <template #content>
+        <div class="modal-delete-text">
+          <div class="modal-text">
+            Вы точно хотите <br>удалить этот пользователь?
+          </div>
+          <div class="common-buttons">
+            <button @click="deleteCurrentUser">Удалить</button>
+            <button @click="cancelDeleteCurrentUser">Отмена</button>
+          </div>
+        </div>
+      </template>
+    </modal-window>
     </div>
 </template>
 
@@ -270,6 +295,8 @@ export default {
   components: {ModalWindow},
   data(){
     return{
+      modalDeleteUserId: null,
+      modalDeleteTeacherId: null,
       id: this.$route.params.id,
       currentHeader: 'band',
       currentFlowUser: 'users',
@@ -290,6 +317,8 @@ export default {
           code: 'users'
         }
       ],
+      isDelete: false,
+      currentDeleteUser: null,
     }
   },
   mounted() {
@@ -299,6 +328,48 @@ export default {
     this.getRequests()
   },
   methods:{
+    openModalDeleteUserId(id, type){
+      if (type=='teacher'){
+        if (this.modalDeleteTeacherId === id){
+          this.modalDeleteTeacherId = null
+        }else{
+          this.modalDeleteTeacherId = id
+        }
+      }else{
+        if (this.modalDeleteUserId === id){
+          this.modalDeleteUserId = null
+        }else{
+          this.modalDeleteUserId = id
+        }
+      }
+    },
+    closeModalDeleteTeacherId(){
+      this.modalDeleteTeacherId = null
+    },
+    closeModalDeleteUserId(){
+      this.modalDeleteUserId = null
+    },
+    deleteUser(user){
+      this.currentDeleteUser = user
+      this.isDelete = true
+    },
+    cancelDeleteCurrentUser(){
+      this.currentDeleteUser = null
+      this.isDelete = false
+    },
+    async deleteCurrentUser() {
+      this.isDelete = false
+      try {
+        await this.$axios.delete(`/super-admin/destroy-user-flow/${this.currentDeleteUser.id}/${this.id}/`)
+        this.$toast.success('Пользователь удален успешно!')
+        this.currentDeleteUser = null
+        await this.getTeachers()
+        await this.getStudents()
+      } catch (er) {
+        this.$toast.error('Ошибка!')
+        console.log(er.response.data)
+      }
+    },
     async deleteUserFlow() {
       try {
         const data = (await this.$axios.put('super-admin/access-flow-request/' + this.requestUser + '/', {

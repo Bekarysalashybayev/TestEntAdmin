@@ -44,6 +44,7 @@
                   <td>{{adviser.phone}}</td>
                   <td>
                     <button @click="edit(adviser.id)" class="edit">Изменить</button>
+                    <button @click="deleteUser(adviser)" class="delete">Удалить</button>
                   </td>
                 </tr>
                 </tbody>
@@ -53,17 +54,33 @@
         </div>
       </div>
     </div>
+    <modal-window v-if="isDelete">
+      <template #content>
+        <div class="modal-delete-text">
+          <div class="modal-text">
+            Вы точно хотите <br>удалить этот пользователь?
+          </div>
+          <div class="common-buttons">
+            <button @click="deleteCurrentUser">Удалить</button>
+            <button @click="cancelDeleteCurrentUser">Отмена</button>
+          </div>
+        </div>
+      </template>
+    </modal-window>
   </div>
 </template>
 
 <script>
-import pathMain from "../../../components/pathMain";
+import ModalWindow from "~/components/core/ModalWindow";
+
 export default {
   name: "index",
-  components: {pathMain},
+  components: {ModalWindow},
   middleware: ['admin'],
   data(){
     return{
+      isDelete: false,
+      currentDeleteUser: null,
       advisers: [],
     }
   },
@@ -71,6 +88,26 @@ export default {
     this.getAdvisers()
   },
   methods: {
+    deleteUser(user){
+      this.currentDeleteUser = user
+      this.isDelete = true
+    },
+    cancelDeleteCurrentUser(){
+      this.currentDeleteUser = null
+      this.isDelete = false
+    },
+    async deleteCurrentUser() {
+      this.isDelete = false
+      try {
+        await this.$axios.delete(`/super-admin/adviser-update-delete/${this.currentDeleteUser.id}/`)
+        this.$toast.success('Тест удален успешно!')
+        this.currentDeleteUser = null
+        await this.getAdvisers()
+      } catch (er) {
+        this.$toast.error('Ошибка!')
+        console.log(er.response)
+      }
+    },
     addAdviser(){
       this.$router.push({name: 'admin-adviser-add'})
     },
@@ -103,7 +140,11 @@ button.edit{
   color: darkgreen;
   font-size: 15px;
 }
-button.edit:hover{
+button.delete{
+  color: red;
+  font-size: 15px;
+}
+button.edit:hover, button.delete:hover{
   text-decoration: underline;
 }
 </style>

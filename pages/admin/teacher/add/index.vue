@@ -113,27 +113,28 @@ export default {
       }
     },
     async add(){
-      await this.$axios.post('/super-admin/add-teacher/', {
-        first_name: this.form.first_name,
-        last_name: this.form.last_name,
-        email: this.form.email,
-        phone: this.form.phone,
-        flows: this.adviserFlows
-      })
-        .then(async (response) => {
-          await this.$toast.success('Успешно!')
-          this.$v.form.$reset();
-          this.form = {
-            first_name: '',
-            last_name: '',
-            email: '',
-            phone: '',
-          }
-          await this.$router.push({name: 'admin-teacher'})
+      try{
+        await this.$axios.post('/super-admin/add-teacher/', {
+          first_name: this.form.first_name,
+          last_name: this.form.last_name,
+          email: this.form.email,
+          phone: this.form.phone,
+          flows: this.adviserFlows
         })
-        .catch( async (error) => {
-          await this.$toast.success('Ошибка!')
-        });
+        await this.$toast.success('Успешно!')
+        this.$v.form.$reset();
+        this.form = {
+          first_name: '',
+          last_name: '',
+          email: '',
+          phone: '',
+        }
+        await this.$router.push({name: 'admin-teacher'})
+      }catch (error){
+        if (error.response && error.response.data && error.response.data.detail){
+          this.$toast.error(error.response.data.detail)
+        }
+      }
     },
     // check(){
     //   for (let prop in this.form) {

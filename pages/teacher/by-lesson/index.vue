@@ -27,8 +27,10 @@
           <div class="title">
             {{$moment(test.end_time).format('DD.MM.YYYY')}}
           </div>
-          <button class="publish" v-if="!test.is_active" @click="publishTest(test)">Опубликовать</button>
-        </div>
+          <div>
+            <button class="publish" v-if="!test.is_active" @click="publishTest(test)">Опубликовать</button>
+            <button class="publish delete" v-if="!test.is_active" @click="deleteTest(test)">Удалить</button>
+          </div>        </div>
         <div class="test-body">
           <div class="body">
             <div class="body-item">
@@ -144,6 +146,19 @@
       </div>
     </template>
   </modal-window>
+  <modal-window v-if="isDelete">
+    <template #content>
+      <div class="modal-delete-text">
+        <div class="modal-text">
+          Вы точно хотите <br>удалить этот тест?
+        </div>
+        <div class="common-buttons">
+          <button @click="deleteCurrentTest">Удалить</button>
+          <button @click="cancelDeleteCurrentTest">Отмена</button>
+        </div>
+      </div>
+    </template>
+  </modal-window>
 </div>
 </template>
 
@@ -156,6 +171,8 @@ export default {
   middleware: ['teacher'],
   data(){
     return{
+      isDelete: false,
+      currentDeleteTest: null,
       isPublish: false,
       isPublishError: false,
       isPublishErrorText: false,
@@ -187,6 +204,26 @@ export default {
     this.getTestList('')
   },
   methods:{
+    deleteTest(test){
+      this.currentDeleteTest = test
+      this.isDelete = true
+    },
+    cancelDeleteCurrentTest(){
+      this.currentDeleteTest = null
+      this.isDelete = false
+    },
+    async deleteCurrentTest() {
+      this.isDelete = false
+      try {
+        await this.$axios.delete(`/teacher/destroy-test/${this.currentDeleteTest.id}/`)
+        this.$toast.success('Тест удален успешно!')
+        this.currentDeleteTest = null
+        await this.getTestList()
+      } catch (er) {
+        this.$toast.error('Ошибка!')
+        console.log(er.response.data)
+      }
+    },
     publishTest(test){
       this.currentPublishTest = test
       this.isPublish = true

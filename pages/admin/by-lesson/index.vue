@@ -24,6 +24,9 @@
           <div class="title">
             {{$moment(test.end_time).format('DD.MM.YYYY')}}
           </div>
+          <div>
+            <button class="publish delete" v-if="!test.is_active" @click="deleteTest(test)">Удалить</button>
+          </div>
         </div>
         <div class="test-body">
           <div class="body">
@@ -115,40 +118,34 @@
       </div>
     </div>
   </div>
+  <modal-window v-if="isDelete">
+    <template #content>
+      <div class="modal-delete-text">
+        <div class="modal-text">
+          Вы точно хотите <br>удалить этот тест?
+        </div>
+        <div class="common-buttons">
+          <button @click="deleteCurrentTest">Удалить</button>
+          <button @click="cancelDeleteCurrentTest">Отмена</button>
+        </div>
+      </div>
+    </template>
+  </modal-window>
 </div>
 </template>
 
 <script>
-// import PathMain from "../../../components/pathMain";
 import MultiSelect from "../../../components/core/MultiSelect";
+import ModalWindow from "~/components/core/ModalWindow";
+
 export default {
   name: "index",
-  components: {MultiSelect},
+  components: {MultiSelect, ModalWindow},
   middleware: ['admin'],
   data(){
     return{
-      lessons:[
-        {
-          id: 41,
-          name: 'Английский язык'
-        },
-        {
-          id: 24,
-          name: 'Биология'
-        },
-        {
-          id: 324,
-          name: 'Всемирная история'
-        },
-        {
-          id: 112,
-          name: 'Англgийский язык'
-        },
-        {
-          id: 31,
-          name: 'Всемирная иgстория'
-        },
-      ],
+      isDelete: false,
+      currentDeleteTest: null,
       statusFilter: [
         {
           status: false,
@@ -176,6 +173,26 @@ export default {
     this.getTestList('')
   },
   methods:{
+    deleteTest(test){
+      this.currentDeleteTest = test
+      this.isDelete = true
+    },
+    cancelDeleteCurrentTest(){
+      this.currentDeleteTest = null
+      this.isDelete = false
+    },
+    async deleteCurrentTest() {
+      this.isDelete = false
+      try {
+        await this.$axios.delete(`/super-admin/destroy-test/${this.currentDeleteTest.id}/`)
+        this.$toast.success('Тест удален успешно!')
+        this.currentDeleteTest = null
+        await this.getTestList()
+      } catch (er) {
+        this.$toast.error('Ошибка!')
+        console.log(er.response.data)
+      }
+    },
     resultTest(id){
       this.$router.push({name: 'admin-by-lesson-result-id', params:{id: id}})
     },

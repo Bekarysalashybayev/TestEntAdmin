@@ -205,7 +205,30 @@
   line-height: 15px;
 }
 .user-name .dots{
-  width: 10px;
+  padding: 5px 12px;
+  display: flex;
+  justify-content: center;
+  position: relative;
+  cursor: pointer;
+  user-select: none;
+}
+.user-name .dots:hover, .user-name .dots.active{
+  background: #FFFFFF;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.25);
+  border-radius: 50%;
+}
+.user-name .dots .actions{
+  display: none;
+}
+.user-name .dots.active .actions{
+  display: block;
+  position: absolute;
+  right: 30px;
+  top: 0px;
+  background: #FFFFFF;
+  box-shadow: 0px 1px 10px rgba(0, 0, 0, 0.25);
+  border-radius: 5px;
+  padding: 10px;
 }
 .flow-request-operations button{
   border: 1px solid #029AAD;

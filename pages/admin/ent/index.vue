@@ -19,7 +19,10 @@
           <div class="title">
             {{$moment(test.end_time).format('DD.MM.YYYY')}}
           </div>
-          <button class="publish" v-if="!test.is_active" @click="publishTest(test)">Опубликовать</button>
+          <div>
+            <button class="publish" v-if="!test.is_active" @click="publishTest(test)">Опубликовать</button>
+            <button class="publish delete" v-if="!test.is_active" @click="deleteTest(test)">Удалить</button>
+          </div>
         </div>
         <div class="test-body">
           <div class="body">
@@ -52,13 +55,13 @@
               <div>Прошли::</div>
               <span>0</span>
             </div>
-            <div class="body-item" v-if="test.is_active">
-              <div>Средний балл::</div>
-              <div class="test-points">
-                <span class="all">120</span>
-                <span class="have">/ 140</span>
-              </div>
-            </div>
+<!--            <div class="body-item" v-if="test.is_active">-->
+<!--              <div>Средний балл::</div>-->
+<!--              <div class="test-points">-->
+<!--                <span class="all">120</span>-->
+<!--                <span class="have">/ 140</span>-->
+<!--              </div>-->
+<!--            </div>-->
           </div>
         </div>
         <div class="test-variant" :class="{active: variantBody == i}" v-if="!test.is_active">
@@ -120,6 +123,19 @@
       </div>
     </template>
   </modal-window>
+  <modal-window v-if="isDelete">
+    <template #content>
+      <div class="modal-delete-text">
+        <div class="modal-text">
+          Вы точно хотите <br>удалить этот тест?
+        </div>
+        <div class="common-buttons">
+          <button @click="deleteCurrentTest">Удалить</button>
+          <button @click="cancelDeleteCurrentTest">Отмена</button>
+        </div>
+      </div>
+    </template>
+  </modal-window>
   <modal-window v-if="isPublishError">
     <template #content>
       <div class="modal-delete-text">
@@ -138,7 +154,7 @@
 
 <script>
 import MultiSelect from "../../../components/core/MultiSelect";
-import ModalWindow from "../../../components/core/ModalWindow";
+import ModalWindow from "~/components/core/ModalWindow";
 export default {
   name: "index",
   components: { MultiSelect, ModalWindow},
@@ -146,9 +162,11 @@ export default {
   data(){
     return{
       isPublish: false,
+      isDelete: false,
       isPublishError: false,
       isPublishErrorText: false,
       currentPublishTest: null,
+      currentDeleteTest: null,
       statusFilter: [
         {
           status: false,
@@ -179,9 +197,29 @@ export default {
       this.currentPublishTest = test
       this.isPublish = true
     },
+    deleteTest(test){
+      this.currentDeleteTest = test
+      this.isDelete = true
+    },
+    cancelDeleteCurrentTest(){
+      this.currentDeleteTest = null
+      this.isDelete = false
+    },
     cancelPublishCurrentTest(){
       this.currentPublishTest = null
       this.isPublish = false
+    },
+    async deleteCurrentTest() {
+      this.isDelete = false
+      try {
+        await this.$axios.delete(`/super-admin/destroy-test/${this.currentDeleteTest.id}/`)
+        this.$toast.success('Тест удален успешно!')
+        this.currentDeleteTest = null
+        await this.getTestList()
+      } catch (er) {
+        this.$toast.error('Ошибка!')
+        console.log(er.response.data)
+      }
     },
     async publishCurrentTest() {
       this.isPublish = false

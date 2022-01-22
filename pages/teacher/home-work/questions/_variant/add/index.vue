@@ -253,7 +253,7 @@ export default {
             },
           ]
           await this.getStatus()
-          this.$router.push({name: 'teacher-home-work-variant', params:{variant: this.variantID}})
+          this.$router.push({name: 'teacher-home-work-questions-variant', params:{variant: this.variantID}})
         } catch (er) {
           console.log(er.response)
         }

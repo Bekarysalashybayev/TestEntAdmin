@@ -27,7 +27,10 @@
           <div class="title">
             {{$moment(test.end_time).format('DD.MM.YYYY')}}
           </div>
-          <button class="publish" v-if="!test.is_active" @click="publishTest(test)">Опубликовать</button>
+          <div>
+            <button class="publish" v-if="!test.is_active" @click="publishTest(test)">Опубликовать</button>
+            <button class="publish delete" v-if="!test.is_active" @click="deleteTest(test)">Удалить</button>
+          </div>
         </div>
         <div class="test-body">
           <div class="body">
@@ -76,7 +79,8 @@
         <div class="test-variant" :class="{active: variantBody == i}" v-if="!test.is_active">
           <div class="test-variant-title">
             <span>Варианты</span>
-            <button @click="variantBodyOpen(i)">
+            <button @click="variantBodyOpen(i)"
+>
               <svg width="11" height="6" viewBox="0 0 11 6" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M5.89259 5.84073L10.8376 0.940257C11.0541 0.725227 11.0541 0.376844 10.8376 0.161272C10.6211 -0.0537577 10.2694 -0.0537577 10.0529 0.161272L5.50027 4.67305L0.947613 0.161816C0.731104 -0.0532141 0.379438 -0.0532141 0.162381 0.161816C-0.0541271 0.376845 -0.0541271 0.72577 0.162381 0.9408L5.10736 5.84127C5.32163 6.053 5.67882 6.053 5.89259 5.84073Z" fill="#029AAD"/>
               </svg>
@@ -144,6 +148,19 @@
       </div>
     </template>
   </modal-window>
+  <modal-window v-if="isDelete">
+    <template #content>
+      <div class="modal-delete-text">
+        <div class="modal-text">
+          Вы точно хотите <br>удалить этот тест?
+        </div>
+        <div class="common-buttons">
+          <button @click="deleteCurrentTest">Удалить</button>
+          <button @click="cancelDeleteCurrentTest">Отмена</button>
+        </div>
+      </div>
+    </template>
+  </modal-window>
 </div>
 </template>
 
@@ -156,6 +173,8 @@ export default {
   middleware: ['teacher'],
   data(){
     return{
+      isDelete: false,
+      currentDeleteTest: null,
       isPublish: false,
       isPublishError: false,
       isPublishErrorText: false,
@@ -187,6 +206,26 @@ export default {
     this.getTestList('')
   },
   methods:{
+    deleteTest(test){
+      this.currentDeleteTest = test
+      this.isDelete = true
+    },
+    cancelDeleteCurrentTest(){
+      this.currentDeleteTest = null
+      this.isDelete = false
+    },
+    async deleteCurrentTest() {
+      this.isDelete = false
+      try {
+        await this.$axios.delete(`/teacher/destroy-test/${this.currentDeleteTest.id}/`)
+        this.$toast.success('Тест удален успешно!')
+        this.currentDeleteTest = null
+        await this.getTestList()
+      } catch (er) {
+        this.$toast.error('Ошибка!')
+        console.log(er.response.data)
+      }
+    },
     publishTest(test){
       this.currentPublishTest = test
       this.isPublish = true

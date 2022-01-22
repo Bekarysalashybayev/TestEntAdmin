@@ -148,10 +148,11 @@ export default {
           }
           await this.$router.push({name: 'admin-adviser'})
         })
-        .catch( async (error) => {
-          await this.$toast.error('Ошибка!')
+        .catch(  (error) => {
+          if (error.response && error.response.data && error.response.data.detail){
+            this.$toast.error(error.response.data.detail)
+          }
         });
-      this.$router.push({name: 'admin-adviser'})
     },
     // check(){
     //   for (let prop in this.form) {

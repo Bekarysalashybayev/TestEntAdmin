@@ -1,9 +1,9 @@
 <template>
   <div class="page">
     <div class="page-body" v-if="results && results.data && results.data.length>0">
-<!--      <path-main />-->
+      <!--      <path-main />-->
       <div class="list">
-        <ListTable :edit="true" @open="open" :actions="actions" :data="results.data" :file="true"/>
+        <ListTable :edit="true" @open="open" :actions="actions" :data="results.data" @sort="sortResults"/>
         <div class="list-bottom">
           <pagination :page-number="results.total_pages" class="table-pagination" @changePage="changePage"/>
           <div class="all-items-count">
@@ -31,7 +31,7 @@
         </div>
       </template>
     </modal-window>
-</div>
+  </div>
 </template>
 
 <script>
@@ -54,6 +54,10 @@ export default {
       actions: [
         { title: 'Открыть доступ  ' },
       ],
+      currentOrder: {
+        orderName: null,
+        orderType: null,
+      },
     }
   },
   created() {
@@ -69,11 +73,17 @@ export default {
     },
     async getResultList() {
       try {
-        const data = (await this.$axios.get(`/super-admin/results/${this.testId}/?page=${this.currentPage}&page_size=${this.pageSize}`)).data
+        const data = (await this.$axios.get(`/super-admin/results/${this.testId}/?page=${this.currentPage}&page_size=${this.pageSize}
+        &order_name=${this.currentOrder.orderName}&order_type=${this.currentOrder.orderType}`)).data
         this.results = data
       } catch (er) {
         console.log(er.response)
       }
+    },
+    sortResults(name, type){
+      this.currentOrder.orderName = name
+      this.currentOrder.orderType = type
+      this.getResultList()
     },
     open(tableRow, actionsIndex){
       this.openModal = true

@@ -119,28 +119,7 @@ export default {
   middleware: ['teacher'],
   data(){
     return{
-      lessons:[
-        {
-          id: 41,
-          name: 'Английский язык'
-        },
-        {
-          id: 24,
-          name: 'Биология'
-        },
-        {
-          id: 324,
-          name: 'Всемирная история'
-        },
-        {
-          id: 112,
-          name: 'Англgийский язык'
-        },
-        {
-          id: 31,
-          name: 'Всемирная иgстория'
-        },
-      ],
+
       statusFilter: [
         {
           status: false,

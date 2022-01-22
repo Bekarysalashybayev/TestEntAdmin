@@ -105,6 +105,18 @@ export default {
           this.rows[i].sort = ''
         }
       }
+      let index = null
+      for (let i=0; i<this.rows.length; i++){
+        if (this.rows[i].sort == 'asc'){
+          index = i
+          break
+        }
+      }
+      if (index != null){
+        this.$emit('sort', this.rows[index].type, this.rows[index].sort )
+      }else{
+        this.$emit('sort', null, null)
+      }
     },
     descending(type){
       for (let i=0; i<this.rows.length; i++){
@@ -117,6 +129,18 @@ export default {
         }else{
           this.rows[i].sort = ''
         }
+      }
+      let index = null
+      for (let i=0; i<this.rows.length; i++){
+        if (this.rows[i].sort == 'desc'){
+          index = i
+          break
+        }
+      }
+      if (index != null){
+        this.$emit('sort', this.rows[index].type, this.rows[index].sort )
+      }else{
+        this.$emit('sort', null, null)
       }
     },
   },

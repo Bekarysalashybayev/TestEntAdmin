@@ -1,9 +1,9 @@
 <template>
   <div class="page">
     <div class="page-body" v-if="results && results.data && results.data.length>0">
-<!--      <path-main />-->
+      <!--      <path-main />-->
       <div class="list">
-        <ListTable :edit="true" @open="open" :actions="actions" :data="results.data"/>
+        <ListTable :edit="true" @open="open" :actions="actions" :data="results.data" @sort="sortResults"/>
         <div class="list-bottom">
           <pagination :page-number="results.total_pages" class="table-pagination" @changePage="changePage"/>
           <div class="all-items-count">
@@ -31,17 +31,16 @@
         </div>
       </template>
     </modal-window>
-</div>
+  </div>
 </template>
 
 <script>
-import pathMain from "../../../../../components/pathMain";
 import ListTable from "../../../../../components/core/ListTable";
 import Pagination from "../../../../../components/core/Pagination";
 import ModalWindow from "../../../../../components/core/ModalWindow";
 export default {
   name: "index",
-  components: {ListTable, pathMain, Pagination, ModalWindow},
+  components: {ListTable, Pagination, ModalWindow},
   data(){
     return{
       testId: this.$route.params.id,
@@ -54,6 +53,10 @@ export default {
       actions: [
         { title: 'Открыть доступ  ' },
       ],
+      currentOrder: {
+        orderName: null,
+        orderType: null,
+      },
     }
   },
   created() {
@@ -69,16 +72,20 @@ export default {
     },
     async getResultList() {
       try {
-        const data = (await this.$axios.get(`/super-admin/ent-result/${this.testId}/?page=${this.currentPage}&page_size=${this.pageSize}`)).data
+        const data = (await this.$axios.get(`/super-admin/ent-result/${this.testId}/?page=${this.currentPage}&page_size=${this.pageSize}
+        &order_name=${this.currentOrder.orderName}&order_type=${this.currentOrder.orderType}`)).data
         this.results = data
       } catch (er) {
         console.log(er.response)
       }
     },
+    sortResults(name, type){
+      this.currentOrder.orderName = name
+      this.currentOrder.orderType = type
+      this.getResultList()
+    },
     open(tableRow, actionsIndex){
       this.openModal = true
-      console.log(tableRow)
-      console.log(actionsIndex)
     },
     save(){
       this.openModal = false
