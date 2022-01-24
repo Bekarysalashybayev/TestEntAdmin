@@ -23,7 +23,7 @@
           >
         </div>
         <div class="row-group">
-          <input type="text"
+          <input type="password"
                  class="row-input"
                  placeholder="Пароль"
                  v-model="form.password"
