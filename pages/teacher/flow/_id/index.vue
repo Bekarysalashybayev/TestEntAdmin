@@ -104,8 +104,8 @@
                           <span>{{$moment(test.end_time).format('DD.MM.YYYY')}}</span>
                         </div>
                         <div class="body-item">
-                          <div>Поток:</div>
-                          <span v-if="test.flow">{{test.flow.name}}.</span>
+                          <div>Тип:</div>
+                          <span v-if="test.flow">{{test.test_type.name}}.</span>
                         </div>
                       </div>
                     </div>
