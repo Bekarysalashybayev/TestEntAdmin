@@ -12,7 +12,14 @@
   display: flex;
   align-items: center;
 }
-.logo img{
+.header .logo{
+  width: 100px;
+  height: 35px;
+}
+.header .logo img{
+  width: 101px;
+  height: 35px;
+  object-fit: none;
 }
 .burger{
   margin-right: 3rem;
