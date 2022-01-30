@@ -21,7 +21,7 @@
           <div class="body">
             <div class="body-item">
               <img src="../../../assets/img/test-number.svg" alt="">
-              <span class="time">Тест №{{test.number}}.</span>
+              <span class="time">{{test.name}}.</span>
             </div>
             <div class="body-item">
               <img src="../../../assets/img/test-time.svg" alt="">
@@ -44,10 +44,6 @@
             </div>
           </div>
           <div class="body">
-            <div class="body-item">
-              <div>Поток:</div>
-              <span v-if="test.flow">{{test.flow.name}}.</span>
-            </div>
             <div class="body-item" v-if="test.is_active">
               <div>Прошли::</div>
               <span>0</span>
