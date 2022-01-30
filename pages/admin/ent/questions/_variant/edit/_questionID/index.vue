@@ -19,7 +19,7 @@
             <div class="question-text">
               <div class="form-title-common">Вопрос <span>*</span></div>
               <client-only placeholder="loading...">
-                <ckeditor-nuxt v-model="question.text" :config="editorConfig"  class="answer-input"/>
+                <ckeditor-nuxt v-model="question.text" :config="editorConfig" class="answer-input"/>
               </client-only>
             </div>
           </div>
@@ -110,9 +110,15 @@ export default {
   data(){
     return{
       editorConfig: {
+        simpleUpload: {
+          uploadUrl: process.env.BASE_URL + '/quizzes/question-image/',
+        },
         removePlugins: ['Title'],
       },
       editorConfigText: {
+        simpleUpload: {
+          uploadUrl: process.env.BASE_URL + '/quizzes/question-image/',
+        },
         removePlugins: ['Title'],
       },
       commonQuestions: [],

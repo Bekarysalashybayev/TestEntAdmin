@@ -5,7 +5,7 @@
       <nuxt-link class="add-button question-add" v-if="isCompleted" :to="{path: '/admin/ent/questions/'+variantID+'/add'}">
         Добавить вопрос
       </nuxt-link>
-      <div class="questions">
+      <div class="questions" v-if="questions.length>0">
         <div class="question-item" v-for="(question, i) in questions" :key="question.id">
           <div class="question-item-text">
             <span class="question-item-number">{{i+1}}.</span>
@@ -28,6 +28,9 @@
             <button class="delete" @click="deleteQuestionModal(question.id)">Удалить</button>
           </div>
         </div>
+      </div>
+      <div class="questions" v-else>
+        Вопросы еще не добавлены
       </div>
     </div>
     <modal-window v-if="questionDeleteModal">

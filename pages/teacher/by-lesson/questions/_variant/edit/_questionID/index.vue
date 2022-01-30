@@ -110,9 +110,15 @@ export default {
   data(){
     return{
       editorConfig: {
+        simpleUpload: {
+          uploadUrl: process.env.BASE_URL + '/quizzes/question-image/',
+        },
         removePlugins: ['Title'],
       },
       editorConfigText: {
+        simpleUpload: {
+          uploadUrl: process.env.BASE_URL + '/quizzes/question-image/',
+        },
         removePlugins: ['Title'],
       },
       commonQuestions: [],
