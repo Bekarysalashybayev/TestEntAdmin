@@ -143,7 +143,6 @@
                       </div>
                       <div class="dots" :class="{active: modalDeleteTeacherId == teacher.id}"
                            @click="openModalDeleteUserId(teacher.id, 'teacher')"
-                           v-click-outside="closeModalDeleteTeacherId"
                       >
                         <img src="@/assets/img/dots.svg" alt="">
                         <div class="actions">
@@ -169,7 +168,6 @@
                       </div>
                       <div class="dots" :class="{active: modalDeleteUserId == student.id}"
                            @click="openModalDeleteUserId(student.id, 'student')"
-                           v-click-outside="closeModalDeleteUserId"
                       >
                         <img src="@/assets/img/dots.svg" alt="">
                         <div class="actions">
