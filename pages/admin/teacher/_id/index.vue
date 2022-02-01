@@ -28,6 +28,7 @@
               <label for="">Почта <span>*</span></label>
               <input type="text"
                      class="row-group-control"
+                     disabled
                      v-model="form.email"
                      :class="{error: (this.$v.form.email.$dirty && !this.$v.form.email.required) || (this.$v.form.email.$dirty && !this.$v.form.email.email)}"
               >
@@ -49,8 +50,10 @@
               </span>
             </div>
           </div>
-          <MultiSelect :data="flows" :selected="adviserFlows" :flow="true" @deleteItem="deleteItem"  @addItem="addItem"></MultiSelect>
-
+          <div class="row-group">
+            <label for="">Потоки</label>
+            <MultiSelect :data="flows" :selected="adviserFlows" :flow="true" @deleteItem="deleteItem"  @addItem="addItem"></MultiSelect>
+          </div>
         </form>
       </div>
       <button class="add-form-button" @click="checkForm">

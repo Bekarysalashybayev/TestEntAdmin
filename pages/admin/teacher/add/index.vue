@@ -49,8 +49,10 @@
               </span>
             </div>
           </div>
-          <MultiSelect :data="flows" :selected="adviserFlows" :flow="true" @deleteItem="deleteItem"  @addItem="addItem"></MultiSelect>
-
+          <div class="row-group">
+            <label for="">Потоки</label>
+            <MultiSelect :data="flows" :selected="adviserFlows" :flow="true" @deleteItem="deleteItem"  @addItem="addItem"></MultiSelect>
+          </div>
         </form>
       </div>
       <button class="add-form-button" @click="checkForm">

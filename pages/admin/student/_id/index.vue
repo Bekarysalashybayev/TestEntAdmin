@@ -1,10 +1,10 @@
 <template>
   <div class="page">
     <div class="page-body">
-<!--      <path-main />-->
+      <!--      <path-main />-->
       <div class="add-form" @submit.prevent="checkForm">
         <div class="form-header">
-          Изменить данные куратора
+          Изменение профиля пользователя
         </div>
         <form>
           <div class="row-group-multi">
@@ -33,31 +33,11 @@
                      :class="{error: (this.$v.form.email.$dirty && !this.$v.form.email.required) || (this.$v.form.email.$dirty && !this.$v.form.email.email)}"
               >
             </div>
-            <div class="form-group">
-              <label for="">Номер телефона <span>*</span></label>
-              <input type="text" class="row-group-control"
-                     v-model="form.phone"
-                     :class="
-                     {
-                       error: (this.$v.form.phone.$dirty && !this.$v.form.phone.required) ||
-                       (this.$v.form.phone.$dirty && !this.$v.form.phone.minLength) ||
-                       (this.$v.form.phone.$dirty && !this.$v.form.phone.maxLength)
-                     }"
-              >
-              <span class="error-label" v-if="(this.$v.form.phone.$dirty && !this.$v.form.phone.minLength) ||
-                       (this.$v.form.phone.$dirty && !this.$v.form.phone.maxLength)">
-                Должен быть 11 цифр
-              </span>
-            </div>
-          </div>
-          <div class="row-group">
-            <label for="">Учителей <span>*</span></label>
-            <MultiSelect :data="teachers" :selected="adviserTeachers" @deleteItem="deleteItem" @addItem="addItem"></MultiSelect>
           </div>
         </form>
       </div>
       <button class="add-form-button" @click="checkForm">
-        Сохранить
+        Изменить преподавателя
       </button>
     </div>
   </div>
@@ -76,13 +56,13 @@ export default {
   mixins: [validationMixin],
   data(){
     return{
-      teachers: [],
-      adviserTeachers: [],
+      lessons: [],
+      adviserFlows: [],
+      flows: [],
       form: {
         first_name: '',
         last_name: '',
         email: '',
-        phone: '',
       },
       errorForm: false,
     }
@@ -92,27 +72,22 @@ export default {
       email: { required, email },
       first_name: {required},
       last_name: {required},
-      phone: {required, minLength: minLength(11), maxLength: maxLength(11)},
     },
+  },
+  created() {
+    this.getTeacher()
   },
   computed:{
     id(){
       return this.$route.params.id
     },
   },
-  created() {
-    this.getTeachers()
-    this.getAdviser()
-  },
   methods:{
-    deleteItem(index){
-      this.adviserTeachers.splice(index, 1);
-    },
     addItem(id){
-      this.adviserTeachers.push(id)
+      this.adviserFlows.push(id)
     },
-    getName(item){
-      return item.first_name + ' ' + item.last_name
+    deleteItem(index){
+      this.adviserFlows.splice(index, 1);
     },
     checkForm(){
       this.$v.form.$touch()
@@ -123,45 +98,25 @@ export default {
       }
     },
     async add(){
-      await this.$axios.put(`/super-admin/adviser-update-delete/${this.id}/`, {
-        teachers: this.adviserTeachers,
-        adviser: this.form
-      })
+      await this.$axios.put(`/super-admin/student-get-update-destroy/${this.id}/`, this.form)
         .then(async (response) => {
           await this.$toast.success('Успешно!')
           this.$v.form.$reset();
-          this.adviserTeachers = []
           this.form = {
             first_name: '',
             last_name: '',
             email: '',
-            phone: '',
           }
-          this.$router.push({name: 'admin-adviser'})
+          await this.$router.push({name: 'admin-student'})
         })
         .catch( async (error) => {
-          await this.$toast.error('Ошибка!')
+          await this.$toast.success('Ошибка!')
         });
     },
-    // check(){
-    //   for (let prop in this.form) {
-    //     console.log(prop + " = " + this.form[prop]);
-    //   }
-    //   this.errorForm = false
-    // },
-    async getTeachers() {
+    async getTeacher() {
       try {
-        const data =  (await this.$axios.get('/super-admin/teacher-list/')).data
-        this.teachers = data
-      }catch (er) {
-        console.log(er.response)
-      }
-    },
-    async getAdviser() {
-      try {
-        const data =  (await this.$axios.get(`/super-admin/adviser/${this.id}/`)).data
-        this.form = data.adviser
-        this.adviserTeachers = data.teachers
+        const data =  (await this.$axios.get(`/super-admin/student-get-update-destroy/${this.id}/`)).data
+        this.form = data
       }catch (er) {
         console.log(er.response)
       }
