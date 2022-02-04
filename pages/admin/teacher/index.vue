@@ -27,7 +27,12 @@
                   </th>
                   <th >
                     <div class="th">
-                      <span>Потоки</span>
+                      <span>actions</span>
+                    </div>
+                  </th>
+                  <th>
+                    <div class="th">
+                      <span>#</span>
                     </div>
                   </th>
                 </tr>
@@ -39,6 +44,9 @@
                     <button @click="edit(teacher.id)" class="edit">Изменить</button>
                     <button @click="deleteUser(teacher)" class="delete">Удалить</button>
                   </td>
+                  <td>
+                    <button @click="changePassword(teacher, i)" class="edit">Изменить пароль</button>
+                  </td>
                 </tr>
                 </tbody>
               </table>
@@ -47,6 +55,28 @@
         </div>
       </div>
     </div>
+    <modal-window v-if="isChangePassword">
+      <template #content>
+        <div class="modal-delete-text">
+          <div class="modal-text">
+            <span v-if="currentChangeUserPassword">
+              Ваш пароль: <b>{{currentChangeUserPassword}}</b>
+            </span>
+            <span v-else>
+              Вы точно хотите <br>обновить пароль этого пользователя?
+            </span>
+
+          </div>
+          <div class="common-buttons" v-if="!currentChangeUserPassword">
+            <button @click="changeCurrentUser">Обновить</button>
+            <button @click="cancelChangeCurrentUser">Отмена</button>
+          </div>
+          <div class="common-buttons" v-else>
+            <button  @click="cancelChangeCurrentUser">Закрыть</button>
+          </div>
+        </div>
+      </template>
+    </modal-window>
     <modal-window v-if="isDelete">
       <template #content>
         <div class="modal-delete-text">
@@ -75,12 +105,40 @@ export default {
       isDelete: false,
       currentDeleteUser: null,
       teachers: [],
+      currentChangeUser: null,
+      currentChangeUserIndex: null,
+      isChangePassword: false,
+      currentChangeUserPassword: null,
     }
   },
   created() {
     this.getTeachers()
   },
   methods: {
+    changePassword(user, index){
+      this.currentChangeUser = user
+      this.currentChangeUserIndex = index
+      this.isChangePassword = true
+    },
+    cancelChangeCurrentUser(){
+      this.currentChangeUserPassword = null
+      this.currentChangeUser = null
+      this.currentChangeUserIndex = null
+      this.isChangePassword = false
+    },
+    async changeCurrentUser() {
+      await this.$axios.post('/user/generate-password/', {email: this.currentChangeUser.email})
+        .then(async (response) => {
+          console.log(response.data['пароль: ']);
+          this.$toast.success('Пользователь удален успешно!')
+          this.currentChangeUserPassword = response.data['пароль: ']
+          this.currentChangeUser = null
+          this.currentChangeUserIndex = null
+        })
+        .catch(  (error) => {
+          this.$toast.error('Ошибка!')
+        });
+    },
     deleteUser(user){
       this.currentDeleteUser = user
       this.isDelete = true
