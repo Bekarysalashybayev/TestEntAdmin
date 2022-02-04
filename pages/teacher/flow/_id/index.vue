@@ -67,6 +67,14 @@
                     {{flow.lesson.name}}
                   </div>
                 </div>
+                <div class="started">
+                  <div class="description-title">
+                    Количество студентов:
+                  </div>
+                  <div class="description-desc">
+                    {{flow.sum_of_students}} студентов
+                  </div>
+                </div>
               </div>
               <div class="tasks">
                 <div class="description-title">
@@ -130,7 +138,7 @@
             <div v-if="currentFlowUser=='users'">
               <div class="flow-user-content">
                 <div class="flow-user-title">
-                  Преподаватели
+                  Преподаватели ({{teachers.length}})
                 </div>
                 <div class="flow-user-list">
                   <div class="single-user">
@@ -151,7 +159,7 @@
               </div>
               <div class="flow-user-content">
                 <div class="flow-user-title">
-                  Ученики
+                  Ученики ({{students.length}})
                 </div>
                 <div class="flow-user-list">
                   <div class="single-user">
