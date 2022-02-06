@@ -46,11 +46,11 @@
             </div>
             <div class="body-item">
               <div>Начало:</div>
-              <span>{{$moment(test.start_time).format('DD.MM.YYYY')}}</span>
+              <span>{{$moment(test.start_time).format('DD.MM.YYYY, HH-MM-SS')}}</span>
             </div>
             <div class="body-item">
               <div>Окончание:</div>
-              <span>{{$moment(test.end_time).format('DD.MM.YYYY')}}</span>
+              <span>{{$moment(test.end_time).format('DD.MM.YYYY, HH-MM-SS')}}</span>
             </div>
           </div>
           <div class="body">
