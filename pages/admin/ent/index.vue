@@ -43,11 +43,11 @@
             </div>
             <div class="body-item">
               <div>Начало:</div>
-              <span>{{$moment(test.start_time).format('DD.MM.YYYY, hh-mm-ss')}}</span>
+              <span>{{$moment(test.start_time).format('DD.MM.YYYY, HH-mm-ss')}}</span>
             </div>
             <div class="body-item">
               <div>Окончание:</div>
-              <span>{{$moment(test.end_time).format('DD.MM.YYYY, hh-mm-ss')}}</span>
+              <span>{{$moment(test.end_time).format('DD.MM.YYYY, HH-mm-ss')}}</span>
             </div>
           </div>
           <div class="body">
@@ -251,10 +251,12 @@ export default {
     addTest(){
       this.$router.push({name: 'admin-ent-add'})
     },
-    variantSingleBodyOpen(id){
+    async variantSingleBodyOpen(id){
       if (this.variantSingle!=id){
         this.variantSingle = id
-        this.getVariantLessons()
+        await this.setLoader(true)
+        await this.getVariantLessons()
+        await this.setLoader(false)
       }else{
         this.variantSingle = null
       }
