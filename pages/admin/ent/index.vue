@@ -191,7 +191,6 @@ export default {
     }
   },
   created() {
-    this.getFlows()
     this.getTestList('')
   },
   methods:{
@@ -288,14 +287,6 @@ export default {
         console.log(er.response)
       }
       await this.setLoader(false)
-    },
-    async getFlows() {
-      try {
-        const data =  (await this.$axios.get('/quizzes/flow-list/')).data
-        this.flows = data
-      }catch (er) {
-        console.log(er.response)
-      }
     },
   },
 }
