@@ -24,7 +24,7 @@
         <tr v-for="(user, i) in data" :key="user.id">
           <td v-if="edit" class="actions">
           </td>
-          <td>{{i+1}}</td>
+          <td>{{ (currentPage-1)*pageSize + i+1}}</td>
           <td>{{user.student.first_name}} {{user.student.last_name}}</td>
           <td>{{user.mat_quantity}}</td>
           <td>{{user.gramot_quantity}}</td>
@@ -45,7 +45,7 @@
 <script>
 export default {
   name: "ListTable",
-  props: ['edit', 'actions', 'data'],
+  props: ['edit', 'actions', 'data', 'currentPage', 'pageSize'],
   data(){
     return{
       closeOnClick: true,

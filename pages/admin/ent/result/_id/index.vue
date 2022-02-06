@@ -3,8 +3,9 @@
     <div class="page-body" v-if="results && results.data && results.data.length>0">
       <!--      <path-main />-->
       <div class="list">
-        <ListTable :edit="true" @open="open" :actions="actions" :data="results.data" @sort="sortResults"/>
+        <ListTable :edit="true" @open="open" :actions="actions" :data="results.data" @sort="sortResults" :pageSize="pageSize" :currentPage="currentPage"/>
         <div class="list-bottom">
+          <div></div>
           <pagination :page-number="results.total_pages" class="table-pagination" @changePage="changePage"/>
           <div class="all-items-count">
             <span>
@@ -38,6 +39,7 @@
 import ListTable from "../../../../../components/core/ListTable";
 import Pagination from "../../../../../components/core/Pagination";
 import ModalWindow from "../../../../../components/core/ModalWindow";
+import {mapMutations} from "vuex";
 export default {
   name: "index",
   components: {ListTable, Pagination, ModalWindow},
@@ -63,6 +65,9 @@ export default {
     this.getResultList()
   },
   methods:{
+    ...mapMutations({
+      setLoader: 'test/SET_LOADER'
+    }),
     changePage(page){
       this.currentPage = page
       this.getResultList()
@@ -71,6 +76,7 @@ export default {
       this.getResultList()
     },
     async getResultList() {
+      await this.setLoader(true)
       try {
         const data = (await this.$axios.get(`/super-admin/ent-result/${this.testId}/?page=${this.currentPage}&page_size=${this.pageSize}
         &order_name=${this.currentOrder.orderName}&order_type=${this.currentOrder.orderType}`)).data
@@ -78,6 +84,7 @@ export default {
       } catch (er) {
         console.log(er.response)
       }
+      await this.setLoader(false)
     },
     sortResults(name, type){
       this.currentOrder.orderName = name
