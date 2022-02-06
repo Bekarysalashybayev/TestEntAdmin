@@ -226,6 +226,8 @@ export default {
       }
     },
     async publishCurrentTest() {
+      await this.setLoader(true)
+
       this.isPublish = false
       try {
         await this.$axios.post(`/super-admin/publish/${this.currentPublishTest.id}/`)
@@ -241,6 +243,7 @@ export default {
           this.isPublishErrorText = 'Ошибка сервера'
         }
       }
+      await this.setLoader(false)
     },
     resultTest(id){
       this.$router.push({name: 'admin-ent-result-id', params:{id: id}})
