@@ -43,11 +43,11 @@
             </div>
             <div class="body-item">
               <div>Начало:</div>
-              <span>{{$moment(test.start_time).format('DD.MM.YYYY')}}</span>
+              <span>{{$moment(test.start_time).format('DD.MM.YYYY, HH-MM-SS')}}</span>
             </div>
             <div class="body-item">
               <div>Окончание:</div>
-              <span>{{$moment(test.end_time).format('DD.MM.YYYY')}}</span>
+              <span>{{$moment(test.end_time).format('DD.MM.YYYY, HH-MM-SS')}}</span>
             </div>
           </div>
           <div class="body">
@@ -155,6 +155,8 @@
 <script>
 import MultiSelect from "../../../components/core/MultiSelect";
 import ModalWindow from "~/components/core/ModalWindow";
+import { mapMutations } from 'vuex'
+
 export default {
   name: "index",
   components: { MultiSelect, ModalWindow},
@@ -193,6 +195,9 @@ export default {
     this.getTestList('')
   },
   methods:{
+    ...mapMutations({
+      setLoader: 'test/SET_LOADER'
+    }),
     publishTest(test){
       this.currentPublishTest = test
       this.isPublish = true
@@ -275,12 +280,14 @@ export default {
       }
     },
     async getTestList() {
+      await this.setLoader(true)
       try {
         const data =  (await this.$axios.get('/super-admin/test-list/ent/', {params: this.filter})).data
         this.testList = data
       }catch (er) {
         console.log(er.response)
       }
+      await this.setLoader(false)
     },
     async getFlows() {
       try {

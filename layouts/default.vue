@@ -3,14 +3,16 @@
     <header-block @toggleSideBar="toggleSideBar"/>
     <side-bar :isOpen="isOpen"/>
     <Nuxt class="content" :class="{close: !isOpen}"/>
+    <loader :start="getGlobalLoader"/>
   </div>
 </template>
 <script>
 import SideBar from "../components/header/SideBar";
 import HeaderBlock from "../components/header/HeaderBlock";
+import Loader from "../components/core/Loader";
 export default {
   name: 'Default',
-  components: {SideBar, HeaderBlock},
+  components: {SideBar, HeaderBlock, Loader},
   data(){
     return{
       isOpen: true
@@ -18,6 +20,11 @@ export default {
   },
   created() {
     // console.log(this.$auth.user)
+  },
+  computed:{
+    getGlobalLoader(){
+      return this.$store.state.test.loader
+    },
   },
   methods:{
     toggleSideBar(){
