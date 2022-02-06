@@ -235,6 +235,7 @@ export default {
         this.currentPublishTest = null
         await this.getTestList()
       } catch (er) {
+        await this.setLoader(false)
         console.log(er.response.data)
         this.isPublishError = true
         if (er.response){
