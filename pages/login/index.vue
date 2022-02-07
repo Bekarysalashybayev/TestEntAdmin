@@ -85,7 +85,10 @@ export default {
     },
     async login() {
       let response = await this.$auth.loginWith('local', {
-        data: this.form
+        data: {
+          username: this.form.username.toLowerCase(),
+          password: this.form.password,
+        }
       }).then(()=>{
         this.$toast.success('Successfully authenticated')
       }).catch((er)=>{
