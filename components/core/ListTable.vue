@@ -104,7 +104,6 @@ export default {
     },
     editAccessUser(){
       this.$emit("editAccessUser", this.actionUser)
-      this.actionUser = null
     },
     cancelEditUser(){
       this.actionUser = null
