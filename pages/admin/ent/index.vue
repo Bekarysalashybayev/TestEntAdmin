@@ -51,7 +51,7 @@
             </div>
           </div>
           <div class="body">
-            <div class="body-item" v-if="test.is_active">
+            <div class="body-item">
               <div>Прошли::</div>
               <span>0</span>
             </div>
@@ -104,7 +104,7 @@
             </div>
           </div>
         </div>
-        <div class="result-test" v-if="test.is_active">
+        <div class="result-test">
           <span @click="resultTest(test.id)">Результаты теста</span>
         </div>
       </div>
