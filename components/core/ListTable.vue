@@ -19,7 +19,7 @@
               </div>
             </div>
           </th>
-          <th v-if="edit"></th>
+          <th v-if="actions.length>0" class="th-action"></th>
         </tr>
         <tr v-for="(user, i) in data" :key="user.id">
           <td v-if="edit" class="actions">
@@ -32,7 +32,15 @@
           <td>{{user.lesson_pair.lesson_1.name}}, {{user.prof_1_quantity}}</td>
           <td>{{user.lesson_pair.lesson_2.name}}, {{user.prof_2_quantity}}</td>
           <td>{{user.total}}</td>
-          <td v-if="edit" class="actions">
+          <td v-if="actions.length>0" class="actions" v-click-outside="cancelEditUser">
+            <button @click="actionUser = user.student">
+              <img src="../../assets/img/dots.svg" alt="">
+            </button>
+            <div class="action-list" v-if="actionUser == user.student">
+              <div class="button" v-for="action in actions" @click="editAccessUser">
+                {{action.title}}
+              </div>
+            </div>
           </td>
         </tr>
         </tbody>
@@ -48,6 +56,7 @@ export default {
   props: ['edit', 'actions', 'data', 'currentPage', 'pageSize'],
   data(){
     return{
+      actionUser: null,
       closeOnClick: true,
       offset: true,
       rows: [
@@ -92,6 +101,13 @@ export default {
   methods:{
     open(tableRow, actionsIndex){
       this.$emit("open", tableRow, actionsIndex)
+    },
+    editAccessUser(){
+      this.$emit("editAccessUser", this.actionUser)
+      this.actionUser = null
+    },
+    cancelEditUser(){
+      this.actionUser = null
     },
     ascending(type){
       for (let i=0; i<this.rows.length; i++){
@@ -167,15 +183,34 @@ export default {
 .v-list-item__title{
   color: black;
 }
+.th-action{
+  min-width: 10px;
+  width: 10px;
+}
 .actions{
-  min-width: auto;
+  min-width: 40px;
+  width: 40px;
+  position: relative;
+  cursor: pointer;
+}
+.action-list{
+  position: absolute;
+  right: 100%;
+  top: 50%;
+  background: #FFFFFF;
+  box-shadow: 0px 1px 10px rgba(0, 0, 0, 0.25);
+  border-radius: 5px;
+  padding: 10px;
+  transform: translate(0, -50%);
+  min-width: 135px;
 }
 .button{
-  width: 35px;
+  margin-top: 8px;
+  cursor: pointer;
+}
+.button:first-child{
+  margin-top: 0;
 }
 .button:focus, .button:hover{
-  border-radius: 50%;
-  background-color: #FFFFFF!important;
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.25) !important;
 }
 </style>

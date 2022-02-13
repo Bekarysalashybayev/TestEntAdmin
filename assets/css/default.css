@@ -290,6 +290,9 @@ body{
   height: 50px;
   object-fit: none;
 }
+.error{
+  border: 1px solid #ee1a1a!important;
+}
 @media (max-width: 767px) {
   html{
   }

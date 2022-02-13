@@ -1,9 +1,14 @@
 <template>
   <div class="page">
     <div class="page-body">
-      <button class="add-button" @click="addTeacher">
-        Добавить поток
-      </button>
+      <div class="two-add">
+        <button class="add-button" @click="addTeacher">
+          Добавить код
+        </button>
+        <button class="add-button" @click="addTeacher">
+          Добавить поток
+        </button>
+      </div>
       <div class="filter">
         <div class="select">
           <select name="" id="1" v-model="filter.lesson" @change="filterFlows">
@@ -112,4 +117,8 @@ export default {
 
 <style scoped>
 @import "../../../assets/css/flow.css";
+.two-add{
+  display: flex;
+  align-items: center;
+}
 </style>

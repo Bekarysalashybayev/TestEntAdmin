@@ -20,7 +20,7 @@
             {{$moment(test.end_time).format('DD.MM.YYYY')}}
           </div>
           <div>
-            <button class="publish" v-if="!test.is_active" @click="publishTest(test)">Опубликовать</button>
+            <button class="publish" @click="publishTest(test)">Опубликовать</button>
             <button class="publish delete" v-if="!test.is_active" @click="deleteTest(test)">Удалить</button>
           </div>
         </div>
@@ -90,7 +90,7 @@
                     <div class="lesson-name">{{lesson.lesson.name}} </div>
                     <div class="lesson-points">
                       <div class="all">{{lesson.sum_of_question}}</div>
-                      <div class="have"> / {{lesson.number_of_questions}}</div>
+                      <userdiv class="have"> / {{lesson.number_of_questions}}</userdiv>
                     </div>
                     <div class="lesson-add-question" v-if="!test.is_active" @click="addQuestion(lesson.id)">
                       <svg width="13" height="13" viewBox="0 0 13 13" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -118,7 +118,7 @@
         </div>
         <div class="common-buttons">
           <button @click="publishCurrentTest">Опубликовать</button>
-          <button @click="cancelPublishCurrentTest">Отмена</button>
+          <button @click="cancelPublishCurrentTestAfter">Отмена</button>
         </div>
       </div>
     </template>
@@ -148,7 +148,51 @@
       </div>
     </template>
   </modal-window>
-
+  <modal-window v-if="isPublishModalCode">
+    <template #content>
+      <div class="modal-publish-code">
+        <div class="modal-text-publish" v-for="(code, i) in codeList">
+          <div class="checked">
+            <input type="checkbox" v-model="code.checked">
+          </div>
+          <div class="code-test-flow">
+            <div>
+              Код потока:
+            </div>
+            <div>
+              {{code.code.code}},
+            </div>
+          </div>
+          <div class="times">
+            <div class="start">
+              <label for="">Дата начало:</label>
+              <input type="datetime-local"
+                     v-model="code.start_time"
+                     :class="{error: code.checked && publishError && !code.start_time}"
+                     :disabled="!code.checked"
+              >
+            </div>
+            <div class="start">
+              <label for="">Дата окончание:</label>
+              <input type="datetime-local"
+                     v-model="code.end_time"
+                     :class="{error: code.checked && publishError && !code.end_time}"
+                     :disabled="!code.checked"
+              >
+            </div>
+          </div>
+        </div>
+        <div class="bottom-actions">
+          <div class="btn cancel" @click="cancelPublishCurrentTest">
+            Отмена
+          </div>
+          <div class="btn publish-save" @click="publishTestsByCode">
+            Опубликовать
+          </div>
+        </div>
+      </div>
+    </template>
+  </modal-window>
 </div>
 </template>
 
@@ -163,6 +207,8 @@ export default {
   middleware: ['admin'],
   data(){
     return{
+      codeList: [],
+      isPublishModalCode: false,
       isPublish: false,
       isDelete: false,
       isPublishError: false,
@@ -180,6 +226,7 @@ export default {
         },
       ],
       flows: [],
+      flowCodes: [],
       testList: [],
       variantBody: null,
       variantSingle: null,
@@ -188,10 +235,12 @@ export default {
       filter: {
         is_active: '',
       },
+      publishError: false,
     }
   },
   created() {
     this.getTestList('')
+    this.getFlowCodes()
   },
   methods:{
     ...mapMutations({
@@ -199,7 +248,36 @@ export default {
     }),
     publishTest(test){
       this.currentPublishTest = test
-      this.isPublish = true
+      this.isPublishModalCode = true
+    },
+    publishTestsByCode(){
+      if(this.checkTestTimes()){
+        this.publishError = false
+        this.isPublishModalCode = false
+        this.isPublish = true
+      }
+      else{
+        this.publishError = true
+      }
+    },
+    checkTestTimes(){
+      let ans = true
+      let checkedCount = 0
+      for(let i=0; i<this.codeList.length; i++){
+        if (this.codeList[i].checked){
+          checkedCount++
+          if (!this.codeList[i].start_time || !this.codeList[i].end_time){
+            ans = false
+            this.$toast.error("Выберите все поля!")
+            break
+          }
+        }
+      }
+      if (checkedCount==0){
+        this.$toast.error("Выберите хотя бы один код!")
+        ans = false
+      }
+      return ans
     },
     deleteTest(test){
       this.currentDeleteTest = test
@@ -209,9 +287,13 @@ export default {
       this.currentDeleteTest = null
       this.isDelete = false
     },
-    cancelPublishCurrentTest(){
+    cancelPublishCurrentTestAfter(){
       this.currentPublishTest = null
       this.isPublish = false
+    },
+    cancelPublishCurrentTest(){
+      this.currentPublishTest = null
+      this.isPublishModalCode = false
     },
     async deleteCurrentTest() {
       this.isDelete = false
@@ -227,10 +309,17 @@ export default {
     },
     async publishCurrentTest() {
       await this.setLoader(true)
-
+      let toSendCodes = []
+      for(let i=0; i<this.codeList.length; i++){
+        if(this.codeList[i].checked){
+          toSendCodes.push(this.codeList[i])
+        }
+      }
       this.isPublish = false
       try {
-        await this.$axios.post(`/super-admin/publish/${this.currentPublishTest.id}/`)
+        await this.$axios.post(`/super-admin/publish-ent/${this.currentPublishTest.id}/`, {
+          data: toSendCodes
+        })
         this.$toast.success('Тест опубликован успешно!')
         this.currentPublishTest = null
         await this.getTestList()
@@ -284,6 +373,25 @@ export default {
         console.log(er.response)
       }
     },
+    async getFlowCodes() {
+      try {
+        const data =  (await this.$axios.get(`/quizzes/flow-code/`)).data
+        this.flowCodes = data
+        console.log(this.flowCodes.length)
+        for (let i=0; i<this.flowCodes.length; i++){
+          this.codeList.push(
+            {
+              checked: false,
+              code: this.flowCodes[i],
+              start_time: null,
+              end_time: null,
+            },
+          )
+        }
+      }catch (er) {
+        console.log(er.response)
+      }
+    },
     async getTestList() {
       await this.setLoader(true)
       try {
@@ -318,5 +426,74 @@ select{
   border-radius: 5px;
   padding: 8px 15px;
   font-size: 16px;
+}
+.modal-text-publish select{
+  width: 100px;
+  padding: 7px;
+}
+.modal-text-publish{
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+.modal-text-publish .times{
+  display: flex;
+  align-items: center;
+}
+.modal-text-publish .times .start{
+  margin-left: 15px;
+}
+.code-test-flow{
+  width: 150px;
+  display: flex;
+  align-items: center;
+}
+.checked{
+  margin-right: 10px;
+}
+.code-test-flow div:first-child{
+  margin-right: 10px;
+}
+.code-test-flow div:last-child{
+  font-weight: bold;
+}
+.add-code{
+  margin: 25px 0;
+  cursor: pointer;
+}
+.add-code:hover{
+  color: #167DD6;
+}
+.del-code{
+  margin-left: 15px;
+  cursor: pointer;
+}
+.del-code:hover{
+  color: #ee1a1a;
+}
+.bottom-actions{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 50px;
+}
+.btn{
+  border: 1px solid #029AAD;
+  box-sizing: border-box;
+  border-radius: 50px;
+  font-size: 15px;
+  line-height: 18px;
+  padding: 7px 15px;
+  cursor: pointer;
+}
+.publish-save{
+  background: #029AAD;
+  font-weight: 600;
+  color: #FFFFFF;
+}
+.cancel{
+  margin-right: 30px;
+  color: #029AAD;
+  background-color: #FFFFFF;
 }
 </style>

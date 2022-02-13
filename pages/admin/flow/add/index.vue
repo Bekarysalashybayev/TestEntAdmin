@@ -31,20 +31,35 @@
                      :class="{error: this.$v.form.name.$dirty && !this.$v.form.name.required}"
               >
             </div>
-
-            <div class="row-group">
-              <label for="">Предметы <span>*</span></label>
-              <select name="" id="" class="row-group-control"
-                      v-model="form.lesson"
-                      :class="{error: this.$v.form.lesson.$dirty && !this.$v.form.lesson.required}"
-              >
-                <option :value="lesson.id"
-                        v-for="lesson in lessons"
-                        :key="lesson.id">
-                  {{lesson.name}}
-                </option>
-              </select>
+            <div class="row-group-multi">
+              <div class="form-group">
+                <label for="">Предметы <span>*</span></label>
+                <select name="" id="" class="row-group-control"
+                        v-model="form.lesson"
+                        :class="{error: this.$v.form.lesson.$dirty && !this.$v.form.lesson.required}"
+                >
+                  <option :value="lesson.id"
+                          v-for="lesson in lessons"
+                          :key="lesson.id">
+                    {{lesson.name}}
+                  </option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="">Код <span>*</span></label>
+                <select name="" id="5" class="row-group-control"
+                        v-model="form.code"
+                        :class="{error: this.$v.form.code.$dirty && !this.$v.form.code.required}"
+                >
+                  <option :value="code.id"
+                          v-for="code in flowCodes"
+                          :key="code.id">
+                    {{code.code}}
+                  </option>
+                </select>
+              </div>
             </div>
+
           </div>
         </form>
       </div>
@@ -72,8 +87,10 @@ export default {
         start_time: '',
         end_time: '',
         name: '',
-        lesson: ''
+        lesson: '',
+        code: ''
       },
+      flowCodes: [],
       errorForm: false,
     }
   },
@@ -82,13 +99,23 @@ export default {
       start_time: {required},
       end_time: {required},
       name: {required},
-      lesson: {required}
+      lesson: {required},
+      code: {required},
     },
   },
   created() {
     this.getLessons()
+    this.getFlowCodes()
   },
   methods:{
+    async getFlowCodes() {
+      try {
+        const data =  (await this.$axios.get(`/quizzes/flow-code/`)).data
+        this.flowCodes = data
+      }catch (er) {
+        console.log(er.response)
+      }
+    },
     checkForm(){
       this.$v.form.$touch()
       if (!this.$v.form.$error) {

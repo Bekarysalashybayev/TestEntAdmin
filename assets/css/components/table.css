@@ -89,6 +89,3 @@ th{
 .triangle .asc:hover, .triangle .desc:hover{
   border-left: 6px solid #029AAD;
 }
-.actions{
-  cursor: pointer;
-}
