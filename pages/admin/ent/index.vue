@@ -50,11 +50,11 @@
               <span>{{$moment(test.end_time).format('DD.MM.YYYY, HH-mm-ss')}}</span>
             </div>
           </div>
-          <div class="body">
-            <div class="body-item">
-              <div>Прошли::</div>
-              <span>0</span>
-            </div>
+<!--          <div class="body">-->
+<!--            <div class="body-item">-->
+<!--              <div>Прошли:</div>-->
+<!--              <span>0</span>-->
+<!--            </div>-->
 <!--            <div class="body-item" v-if="test.is_active">-->
 <!--              <div>Средний балл::</div>-->
 <!--              <div class="test-points">-->
@@ -62,7 +62,7 @@
 <!--                <span class="have">/ 140</span>-->
 <!--              </div>-->
 <!--            </div>-->
-          </div>
+<!--          </div>-->
         </div>
         <div class="test-variant" :class="{active: variantBody == i}" v-if="!test.is_active">
           <div class="test-variant-title">
@@ -90,7 +90,7 @@
                     <div class="lesson-name">{{lesson.lesson.name}} </div>
                     <div class="lesson-points">
                       <div class="all">{{lesson.sum_of_question}}</div>
-                      <userdiv class="have"> / {{lesson.number_of_questions}}</userdiv>
+                      <div class="have"> / {{lesson.number_of_questions}}</div>
                     </div>
                     <div class="lesson-add-question" v-if="!test.is_active" @click="addQuestion(lesson.id)">
                       <svg width="13" height="13" viewBox="0 0 13 13" fill="none" xmlns="http://www.w3.org/2000/svg">
