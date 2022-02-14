@@ -64,6 +64,9 @@
 <!--            </div>-->
 <!--          </div>-->
         </div>
+        <div class="result-test" @click.stop="resultTest(test.id)">
+          <span>Посмотреть результаты теста</span>
+        </div>
         <div class="test-variant" :class="{active: variantBody == i}" v-if="!test.is_active">
           <div class="test-variant-title">
             <span>Варианты</span>
@@ -106,9 +109,6 @@
               </div>
             </div>
           </div>
-        </div>
-        <div class="result-test">
-          <span @click="resultTest(test.id)">Результаты теста</span>
         </div>
       </div>
     </div>
