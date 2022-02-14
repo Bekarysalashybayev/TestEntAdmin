@@ -64,8 +64,8 @@
 <!--            </div>-->
 <!--          </div>-->
         </div>
-        <div class="result-test" @click.stop="resultTest(test.id)">
-          <span>Посмотреть результаты теста</span>
+        <div class="result-test">
+          <span @click.stop="resultTest(test.id)">Посмотреть результаты теста</span>
         </div>
         <div class="test-variant" :class="{active: variantBody == i}">
           <div class="test-variant-title">
