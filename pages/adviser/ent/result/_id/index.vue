@@ -3,7 +3,7 @@
     <div class="page-body" v-if="results && results.data && results.data.length>0">
       <!--      <path-main />-->
       <div class="list">
-        <ListTable :edit="true" @open="open" :actions="actions" :data="results.data" @sort="sortResults" :pageSize="pageSize" :currentPage="currentPage"/>
+        <ListTable :edit="true" @open="open" @searchStudent="searchStudent" :actions="actions" :data="results.data" @sort="sortResults" :pageSize="pageSize" :currentPage="currentPage"/>
         <div class="list-bottom">
           <div></div>
           <pagination :page-number="results.total_pages" class="table-pagination" @changePage="changePage"/>
@@ -48,6 +48,7 @@ export default {
       testId: this.$route.params.id,
       results: {},
       currentPage: 1,
+      q: '',
       pageSize: 10,
       pageSizes: [10, 15, 20],
       loading: false,
@@ -75,10 +76,14 @@ export default {
     changePageSize(){
       this.getResultList()
     },
+    searchStudent(q){
+      this.q = q
+      this.getResultList()
+    },
     async getResultList() {
       await this.setLoader(true)
       try {
-        const data = (await this.$axios.get(`/super-admin/ent-result/${this.testId}/?page=${this.currentPage}&page_size=${this.pageSize}
+        const data = (await this.$axios.get(`/super-admin/ent-result/${this.testId}/?q=${this.q}&page=${this.currentPage}&page_size=${this.pageSize}
         &order_name=${this.currentOrder.orderName}&order_type=${this.currentOrder.orderType}`)).data
         this.results = data
       } catch (er) {

@@ -1,6 +1,6 @@
 <template>
   <div class="page">
-    <div class="page-body" v-if="results && results.data && results.data.length>0">
+    <div class="page-body">
       <!--      <path-main />-->
       <div class="list">
         <ListTable :edit="true" @open="open"
@@ -10,6 +10,7 @@
                    :pageSize="pageSize"
                    :currentPage="currentPage"
                    @editAccessUser="editAccessUser"
+                   @searchStudent="searchStudent"
         />
         <div class="list-bottom">
           <div></div>
@@ -26,9 +27,6 @@
           </div>
         </div>
       </div>
-    </div>
-    <div class="page-body" v-else>
-      Пока что никто не сдавал
     </div>
     <modal-window v-if="openModal">
       <template #content>
@@ -107,6 +105,7 @@ export default {
         end_time: null,
       },
       singleTestTimeError: false,
+      q: '',
     }
   },
   created() {
@@ -149,10 +148,14 @@ export default {
     changePageSize(){
       this.getResultList()
     },
+    searchStudent(q){
+      this.q = q
+      this.getResultList()
+    },
     async getResultList() {
       await this.setLoader(true)
       try {
-        const data = (await this.$axios.get(`/super-admin/ent-result/${this.testId}/?page=${this.currentPage}&page_size=${this.pageSize}
+        const data = (await this.$axios.get(`/super-admin/ent-result/${this.testId}/?q=${this.q}&page=${this.currentPage}&page_size=${this.pageSize}
         &order_name=${this.currentOrder.orderName}&order_type=${this.currentOrder.orderType}`)).data
         this.results = data
       } catch (er) {

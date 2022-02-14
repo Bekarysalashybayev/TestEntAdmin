@@ -3,6 +3,10 @@
   <div class="table-name">
     Список учеников
   </div>
+  <div class="search">
+    <input type="text" placeholder="Введите ФИО или Email ..." v-model="q">
+    <button @click="searchStudent">Найти</button>
+  </div>
   <div class="table-outer">
     <div class="table-outer-scroll">
       <table>
@@ -60,6 +64,7 @@ export default {
       actionTest: null,
       closeOnClick: true,
       offset: true,
+      q: '',
       rows: [
         {
           type: 'name',
@@ -106,6 +111,9 @@ export default {
         name: test,
         id: id
       }
+    },
+    searchStudent(){
+      this.$emit('searchStudent', this.q)
     },
     getActionsUser(user){
       if (user === this.actionUser){
@@ -230,5 +238,30 @@ export default {
   margin-top: 0;
 }
 .button:focus, .button:hover{
+}
+.search{
+  display: flex;
+  align-items: center;
+  width: 100%;
+  background: #FFFFFF;
+  border: 1px solid #F8F8F8;
+  margin-bottom: 20px;
+}
+.search button{
+  background: #2196F3;
+  color: #FFFFFF;
+  height: 35px;
+  border-radius: 0 10px 10px 0;
+  padding: 0 20px;
+}
+.search input{
+  width: 100%;
+  border-radius: 10px 0 0 10px;
+  border: 1px solid #029AAD!important;
+  padding: 0 8px;
+  height: 35px;
+}
+.search input:focus{
+  outline: none;
 }
 </style>
