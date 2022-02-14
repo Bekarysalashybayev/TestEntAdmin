@@ -248,8 +248,9 @@ export default {
   margin-bottom: 20px;
 }
 .search button{
-  background: #2196F3;
+  background: #029aad;
   color: #FFFFFF;
+  font-weight: bold;
   height: 35px;
   border-radius: 0 10px 10px 0;
   padding: 0 20px;
