@@ -33,10 +33,10 @@
           <td>{{user.lesson_pair.lesson_2.name}}, {{user.prof_2_quantity}}</td>
           <td>{{user.total}}</td>
           <td v-if="actions.length>0" class="actions" v-click-outside="cancelEditUser">
-            <button @click="actionUser = user.student">
+            <button @click.stop="setUser(user.student)">
               <img src="../../assets/img/dots.svg" alt="">
             </button>
-            <div class="action-list" v-if="actionUser == user.student">
+            <div class="action-list" v-show="getActionsUser(user.student)">
               <div class="button" v-for="action in actions" @click="editAccessUser">
                 {{action.title}}
               </div>
@@ -99,6 +99,16 @@ export default {
     }
   },
   methods:{
+    setUser(user){
+      this.actionUser = user
+      console.log(this.actionUser)
+    },
+    getActionsUser(user){
+      if (user === this.actionUser){
+        return true
+      }
+      return false
+    },
     open(tableRow, actionsIndex){
       this.$emit("open", tableRow, actionsIndex)
     },
@@ -106,7 +116,9 @@ export default {
       this.$emit("editAccessUser", this.actionUser)
     },
     cancelEditUser(){
-      this.actionUser = null
+      this.actionUser = {
+        id: 0,
+      }
     },
     ascending(type){
       for (let i=0; i<this.rows.length; i++){
@@ -202,6 +214,9 @@ export default {
   padding: 10px;
   transform: translate(0, -50%);
   min-width: 135px;
+}
+.action-list.active{
+  display: block;
 }
 .button{
   margin-top: 8px;

@@ -92,11 +92,14 @@
                       <div class="all">{{lesson.sum_of_question}}</div>
                       <div class="have"> / {{lesson.number_of_questions}}</div>
                     </div>
-                    <div class="lesson-add-question" v-if="!test.is_active" @click="addQuestion(lesson.id)">
+                    <div class="lesson-add-question" v-if="lesson.sum_of_question != lesson.number_of_questions" @click="addQuestion(lesson.id)">
                       <svg width="13" height="13" viewBox="0 0 13 13" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M6.27461 0.043067C6.21367 0.065918 6.11465 0.131934 6.05625 0.190332C5.85313 0.390919 5.86582 0.210645 5.86582 3.2042V5.86514H3.20488C0.211328 5.86514 0.391602 5.85498 0.191016 6.05557C-0.0578125 6.30439 -0.0578125 6.69541 0.191016 6.94424C0.391602 7.14482 0.211328 7.13467 3.20488 7.13467H5.86582V9.79561C5.86582 12.7892 5.85566 12.6089 6.05625 12.8095C6.30508 13.0583 6.69609 13.0583 6.94492 12.8095C7.14551 12.6089 7.13535 12.7892 7.13535 9.79561V7.13467H9.79629C12.7898 7.13467 12.6096 7.14482 12.8102 6.94424C13.059 6.69541 13.059 6.30439 12.8102 6.05557C12.6096 5.85498 12.7898 5.86514 9.79629 5.86514H7.13535V3.2042C7.13535 0.210645 7.14551 0.390919 6.94492 0.190332C6.76973 0.012598 6.51582 -0.0407219 6.27461 0.043067Z" fill="#029AAD"/>
                       </svg>
                       <span>Добавить вопросы</span>
+                    </div>
+                    <div class="lesson-add-question" v-else @click="addQuestion(lesson.id)">
+                      <span>Посмотреть вопросы</span>
                     </div>
                   </div>
                 </div>
