@@ -49,7 +49,7 @@
               Название теста:
             </div>
             <div class="name-desc">
-              имя теста
+              {{ currentEditTestName.name }}
             </div>
           </div>
           <div class="times">
@@ -87,6 +87,7 @@ export default {
   data(){
     return{
       currentEditUser: null,
+      currentEditTestName: null,
       testId: this.$route.params.id,
       results: {},
       currentPage: 1,
@@ -115,22 +116,30 @@ export default {
     ...mapMutations({
       setLoader: 'test/SET_LOADER'
     }),
-    publishTestSingle(){
-      if (this.currentEditUser){
-        if(this.singleTestTime.start_time != null && this.singleTestTime.end_time !=null){
-          console.log(this.singleTestTime)
-          console.log(this.currentEditUser)
-        }else{
+    async publishTestSingle() {
+      if (this.currentEditUser) {
+        if (this.singleTestTime.start_time != null && this.singleTestTime.end_time != null) {
+          try {
+            await this.$axios.put(`/super-admin/student-test-time/${this.currentEditTestName.id}/`, this.singleTestTime)
+            this.$toast.success('Тест опубликован успешно для этого пользователя!', {duration: 2000})
+            this.cancelEdit()
+          } catch (er) {
+            console.log(er.response)
+            this.$toast.error('Ошибка сервера!')
+          }
+        } else {
           this.singleTestTimeError = true
         }
       }
     },
-    editAccessUser(user){
+    editAccessUser(user, test){
       this.currentEditUser = user
+      this.currentEditTestName = test
       this.openModal = true
     },
     cancelEdit(){
       this.currentEditUser = null
+      this.currentEditTestName = null
       this.openModal = false
     },
     changePage(page){
@@ -227,6 +236,7 @@ select:focus{
 }
 .modal-content .times .start label{
   margin-right: 10px;
+  width: 150px;
 }
 .bottom-actions{
   display: flex;

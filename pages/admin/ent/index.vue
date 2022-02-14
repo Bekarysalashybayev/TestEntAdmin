@@ -154,6 +154,30 @@
   <modal-window v-if="isPublishModalCode">
     <template #content>
       <div class="modal-publish-code">
+        <div class="modal-text-publish"  v-for="(code, i) in activeFlowCodes">
+          <input type="checkbox" checked disabled>
+          <div class="code-test-flow">
+            <div>
+              Код потока:
+            </div>
+            <div>
+              {{code.code}},
+            </div>
+          </div>
+          <div class="times">
+            <div class="start">
+              <label for="">Дата начало:</label>
+              <div class="ml-15">{{$moment(code.start_time).format("DD-MMMM-YYYY, HH:mm:ss")}};</div>
+            </div>
+            <div class="start">
+              <label for="">Дата окончание:</label>
+              <div class="ml-15">{{$moment(code.end_time).format("DD-MMMM-YYYY, HH:mm:ss")}};</div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-text-publish green" v-if="codeList.length==0">
+          Тест для всего потока уже было опубликовано!
+        </div>
         <div class="modal-text-publish" v-for="(code, i) in codeList">
           <div class="checked">
             <input type="checkbox" v-model="code.checked">
@@ -187,9 +211,9 @@
         </div>
         <div class="bottom-actions">
           <div class="btn cancel" @click="cancelPublishCurrentTest">
-            Отмена
+            Закрыть
           </div>
-          <div class="btn publish-save" @click="publishTestsByCode">
+          <div class="btn publish-save" @click="publishTestsByCode" v-if="codeList.length!=0">
             Опубликовать
           </div>
         </div>
@@ -230,6 +254,7 @@ export default {
       ],
       flows: [],
       flowCodes: [],
+      activeFlowCodes: [],
       testList: [],
       variantBody: null,
       variantSingle: null,
@@ -243,7 +268,6 @@ export default {
   },
   created() {
     this.getTestList('')
-    this.getFlowCodes()
   },
   methods:{
     ...mapMutations({
@@ -252,6 +276,8 @@ export default {
     publishTest(test){
       this.currentPublishTest = test
       this.isPublishModalCode = true
+      this.getFlowCodes()
+      this.getActiveFlowCodes()
     },
     publishTestsByCode(){
       if(this.checkTestTimes()){
@@ -376,11 +402,19 @@ export default {
         console.log(er.response)
       }
     },
-    async getFlowCodes() {
+    async getActiveFlowCodes() {
       try {
-        const data =  (await this.$axios.get(`/quizzes/flow-code/`)).data
+        const data =  (await this.$axios.get(`/quizzes/test-flow-code/${this.currentPublishTest.id}/`)).data
+        this.activeFlowCodes = data
+      }catch (er) {
+        console.log(er.response)
+      }
+    },
+    async getFlowCodes() {
+      this.codeList = []
+      try {
+        const data =  (await this.$axios.get(`/quizzes/flow-code/${this.currentPublishTest.id}/`)).data
         this.flowCodes = data
-        console.log(this.flowCodes.length)
         for (let i=0; i<this.flowCodes.length; i++){
           this.codeList.push(
             {
@@ -439,12 +473,22 @@ select{
   align-items: center;
   margin-bottom: 20px;
 }
+.green{
+  color: #099717;
+  font-weight: bold;
+}
 .modal-text-publish .times{
   display: flex;
   align-items: center;
 }
 .modal-text-publish .times .start{
   margin-left: 15px;
+  display: flex;
+  align-items: center;
+}
+.ml-15{
+  margin-left: 15px;
+  font-weight: bold;
 }
 .code-test-flow{
   width: 150px;

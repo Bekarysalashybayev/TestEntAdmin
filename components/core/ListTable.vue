@@ -33,7 +33,7 @@
           <td>{{user.lesson_pair.lesson_2.name}}, {{user.prof_2_quantity}}</td>
           <td>{{user.total}}</td>
           <td v-if="actions.length>0" class="actions" v-click-outside="cancelEditUser">
-            <button @click.stop="setUser(user.student)">
+            <button @click.stop="setUser(user.student, user.name, user.student_test)">
               <img src="../../assets/img/dots.svg" alt="">
             </button>
             <div class="action-list" v-show="getActionsUser(user.student)">
@@ -57,6 +57,7 @@ export default {
   data(){
     return{
       actionUser: null,
+      actionTest: null,
       closeOnClick: true,
       offset: true,
       rows: [
@@ -99,9 +100,12 @@ export default {
     }
   },
   methods:{
-    setUser(user){
+    setUser(user, test, id){
       this.actionUser = user
-      console.log(this.actionUser)
+      this.actionTest = {
+        name: test,
+        id: id
+      }
     },
     getActionsUser(user){
       if (user === this.actionUser){
@@ -113,7 +117,7 @@ export default {
       this.$emit("open", tableRow, actionsIndex)
     },
     editAccessUser(){
-      this.$emit("editAccessUser", this.actionUser)
+      this.$emit("editAccessUser", this.actionUser, this.actionTest)
     },
     cancelEditUser(){
       this.actionUser = {
