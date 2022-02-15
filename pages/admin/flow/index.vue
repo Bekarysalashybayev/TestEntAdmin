@@ -2,7 +2,7 @@
   <div class="page">
     <div class="page-body">
       <div class="two-add">
-        <button class="add-button" @click="addTeacher">
+        <button class="add-button" @click="addCode">
           Добавить код
         </button>
         <button class="add-button" @click="addTeacher">
@@ -89,6 +89,9 @@ export default {
     addTeacher(){
       this.$router.push({name: 'admin-flow-add'})
     },
+    addCode(){
+      this.$router.push({name: 'admin-flow-addcode'})
+    },
     openFlow(id){
       this.$router.push({name: 'admin-flow-id', params: {id: id}})
     },
@@ -120,5 +123,10 @@ export default {
 .two-add{
   display: flex;
   align-items: center;
+  justify-content: flex-end;
+  margin-left: auto;
+}
+.add-button{
+  margin-left: 50px;
 }
 </style>
