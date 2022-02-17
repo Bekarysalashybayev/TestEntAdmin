@@ -145,6 +145,7 @@ export default {
       this.currentChangeUser = null
       this.currentChangeUserIndex = null
       this.isChangePassword = false
+      this.changePasswordValue = null
     },
     async changeCurrentUser() {
       console.log(this.changePasswordValue)
