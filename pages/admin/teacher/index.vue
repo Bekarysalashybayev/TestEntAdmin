@@ -59,20 +59,12 @@
       <template #content>
         <div class="modal-delete-text">
           <div class="modal-text">
-            <span v-if="currentChangeUserPassword">
-              Ваш пароль: <b>{{currentChangeUserPassword}}</b>
-            </span>
-            <span v-else>
-              Вы точно хотите <br>обновить пароль этого пользователя?
-            </span>
-
+            <input type="text" placeholder="Напишите пароль"
+                   v-model="changePasswordValue" class="edit-pass-input" :class="{error: !changePasswordValue}">
           </div>
-          <div class="common-buttons" v-if="!currentChangeUserPassword">
+          <div class="common-buttons">
             <button @click="changeCurrentUser">Обновить</button>
             <button @click="cancelChangeCurrentUser">Отмена</button>
-          </div>
-          <div class="common-buttons" v-else>
-            <button  @click="cancelChangeCurrentUser">Закрыть</button>
           </div>
         </div>
       </template>
@@ -109,6 +101,7 @@ export default {
       currentChangeUserIndex: null,
       isChangePassword: false,
       currentChangeUserPassword: null,
+      changePasswordValue: null,
     }
   },
   created() {
@@ -125,19 +118,27 @@ export default {
       this.currentChangeUser = null
       this.currentChangeUserIndex = null
       this.isChangePassword = false
+      this.changePasswordValue = null
     },
     async changeCurrentUser() {
-      await this.$axios.post('/user/generate-password/', {email: this.currentChangeUser.email})
-        .then(async (response) => {
-          console.log(response.data['пароль: ']);
-          this.$toast.success('Пользователь удален успешно!')
-          this.currentChangeUserPassword = response.data['пароль: ']
-          this.currentChangeUser = null
-          this.currentChangeUserIndex = null
-        })
-        .catch(  (error) => {
-          this.$toast.error('Ошибка!')
-        });
+      console.log(this.changePasswordValue)
+      if (this.changePasswordValue != null && this.changePasswordValue != ''){
+        if(this.changePasswordValue.length != undefined && this.changePasswordValue.length >= 8){
+          await this.$axios.post('/user/generate-password/', {email: this.currentChangeUser.email, password: this.changePasswordValue})
+            .then((response) => {
+              this.$toast.success('Пароль изменен успешно!')
+              this.cancelChangeCurrentUser()
+              this.getTeachers()
+            })
+            .catch(  (error) => {
+              this.$toast.error('Ошибка!')
+            });
+        }else{
+          this.$toast.error('Пароль должен быть не менее 8 символов', {duration: 2000})
+        }
+      }else{
+        this.$toast.error('Пароль не должен быть пустым', {duration: 2000})
+      }
     },
     deleteUser(user){
       this.currentDeleteUser = user
@@ -153,7 +154,6 @@ export default {
         await this.$axios.delete(`/super-admin/teacher-update-delete/${this.currentDeleteUser.id}/`)
         this.$toast.success('Тест удален успешно!')
         this.currentDeleteUser = null
-        await this.getTeachers()
       } catch (er) {
         this.$toast.error('Ошибка!')
         console.log(er.response)
