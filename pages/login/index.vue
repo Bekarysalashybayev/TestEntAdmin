@@ -18,17 +18,19 @@
           <input type="text"
                  class="row-input"
                  placeholder="Почта"
-                 v-model="form.username"
+                 v-model.trim="form.username"
                  :class="{error: (this.$v.form.username.$dirty && !this.$v.form.username.required) || (this.$v.form.username.$dirty && !this.$v.form.username.email)}"
           >
         </div>
         <div class="row-group">
           <input type="password"
-                 class="row-input"
+                 class="row-input password"
                  placeholder="Пароль"
-                 v-model="form.password"
+                 v-model.trim="form.password"
                  :class="{error: this.$v.form.password.$dirty && !this.$v.form.password.required}"
+                 ref="password"
           >
+          <img src="@/assets/img/eyes.svg" alt="" class="eyes" @click="openPass()">
         </div>
         <div class="row-group-bottom">
           <div class="remember">
@@ -73,6 +75,13 @@ export default {
     },
   },
   methods:{
+    openPass(){
+      if (this.$refs.password.type == "text"){
+        this.$refs.password.type = "password"
+      }else{
+        this.$refs.password.type = "text"
+      }
+    },
     checkForm(){
       this.$v.form.$touch()
       if (!this.$v.form.$error) {

@@ -150,6 +150,7 @@ export default {
     },
     searchStudent(q){
       this.q = q
+      this.currentPage = 1
       this.getResultList()
     },
     async getResultList() {

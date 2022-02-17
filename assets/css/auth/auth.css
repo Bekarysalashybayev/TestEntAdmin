@@ -76,6 +76,17 @@
   margin-bottom: 2.5rem;
   position: relative;
 }
+.row-group .password{
+  padding-right: 45px;
+}
+.eyes{
+  position: absolute;
+  top: 50%;
+  right: 20px;
+  transform: translate(0, -50%);
+  cursor: pointer;
+}
+
 .row-group input{
   width: 100%;
   background: #FFFFFF;
