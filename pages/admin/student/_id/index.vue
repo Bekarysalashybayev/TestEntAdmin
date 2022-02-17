@@ -37,7 +37,7 @@
         </form>
       </div>
       <button class="add-form-button" @click="checkForm">
-        Изменить преподавателя
+        Изменить пользователя
       </button>
     </div>
   </div>
