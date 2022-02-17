@@ -30,6 +30,11 @@
                   </th>
                   <th >
                     <div class="th">
+                      <span>Пароль</span>
+                    </div>
+                  </th>
+                  <th >
+                    <div class="th">
                       <span>#</span>
                     </div>
                   </th>
@@ -43,6 +48,10 @@
                   <td>{{ (i+1) + (currentPage-1)*20}}</td>
                   <td>{{teacher.first_name}} {{teacher.last_name}}</td>
                   <td>{{teacher.email}}</td>
+                  <td>
+                    <span v-if="teacher.user_generates" class="bold">{{teacher.user_generates}}</span>
+                    <span v-else>Не изменил</span>
+                  </td>
                   <td>
                     <button @click="edit(teacher.id)" class="edit">Изменить</button>
                     <button @click="deleteUser(teacher)" class="delete">Удалить</button>
@@ -78,20 +87,12 @@
       <template #content>
         <div class="modal-delete-text">
           <div class="modal-text">
-            <span v-if="currentChangeUserPassword">
-              Ваш пароль: <b>{{currentChangeUserPassword}}</b>
-            </span>
-            <span v-else>
-              Вы точно хотите <br>обновить пароль этого пользователя?
-            </span>
-
+            <input type="text" placeholder="Напишите пароль"
+                   v-model="changePasswordValue" class="edit-pass-input" :class="{error: !changePasswordValue}">
           </div>
-          <div class="common-buttons" v-if="!currentChangeUserPassword">
+          <div class="common-buttons">
             <button @click="changeCurrentUser">Обновить</button>
             <button @click="cancelChangeCurrentUser">Отмена</button>
-          </div>
-          <div class="common-buttons" v-else>
-            <button  @click="cancelChangeCurrentUser">Закрыть</button>
           </div>
         </div>
       </template>
@@ -117,6 +118,7 @@ export default {
       currentChangeUserPassword: null,
       teachers: [],
       currentPage: 1,
+      changePasswordValue: null,
       totalPage: 1,
       q: ''
     }
@@ -145,17 +147,24 @@ export default {
       this.isChangePassword = false
     },
     async changeCurrentUser() {
-      await this.$axios.post('/user/generate-password/', {email: this.currentChangeUser.email})
-        .then(async (response) => {
-          console.log(response.data['пароль: ']);
-          this.$toast.success('Пользователь удален успешно!')
-          this.currentChangeUserPassword = response.data['пароль: ']
-          this.currentChangeUser = null
-          this.currentChangeUserIndex = null
-        })
-        .catch(  (error) => {
-          this.$toast.error('Ошибка!')
-        });
+      console.log(this.changePasswordValue)
+      if (this.changePasswordValue != null && this.changePasswordValue != ''){
+        if(this.changePasswordValue.length != undefined && this.changePasswordValue.length >= 8){
+          await this.$axios.post('/user/generate-password/', {email: this.currentChangeUser.email, password: this.changePasswordValue})
+                .then((response) => {
+                  this.$toast.success('Пароль изменен успешно!')
+                  this.cancelChangeCurrentUser()
+                  this.getTeachers()
+                })
+                .catch(  (error) => {
+                  this.$toast.error('Ошибка!')
+                });
+        }else{
+          this.$toast.error('Пароль должен быть не менее 8 символов', {duration: 2000})
+        }
+      }else{
+        this.$toast.error('Пароль не должен быть пустым', {duration: 2000})
+      }
     },
     async deleteCurrentUser() {
       this.isDelete = false

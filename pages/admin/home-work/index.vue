@@ -182,7 +182,6 @@ export default {
         await this.getTestList()
       } catch (er) {
         this.$toast.error('Ошибка!')
-        console.log(er.response.data)
       }
     },
     resultTest(id){

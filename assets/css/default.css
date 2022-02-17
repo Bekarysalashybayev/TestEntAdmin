@@ -279,6 +279,20 @@ body{
 .modal-text{
   text-align: center;
 }
+.modal-text .edit-pass-input{
+  background: #FFFFFF;
+  border: 1px solid #969696;
+  box-sizing: border-box;
+  border-radius: 50px;
+  padding: 10px 15px;
+  font-size: 20px!important;
+}
+.modal-text .edit-pass-input:focus{
+  outline: none;
+}
+.bold{
+  font-weight: bold!important;
+}
 .login-logo{
   width: 120px;
   height: 50px;

@@ -126,7 +126,6 @@ export default {
     },
     reRender() {
       if(window.MathJax) {
-        console.log('rendering mathjax');
         window.MathJax.Hub.Queue(["Typeset", window.MathJax.Hub], () => console.log('done'));
       }
     },
