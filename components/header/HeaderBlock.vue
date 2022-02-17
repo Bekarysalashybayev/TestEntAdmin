@@ -5,7 +5,7 @@
       <button><img src="../../assets/img/Burger.svg" alt=""></button>
     </div>
     <div class="logo">
-      <img src="../../assets/img/Logo-MOBILE.svg" alt="">
+      <img src="../../assets/img/Logo.svg" alt="">
     </div>
     <div class="whatsapp">
       <img src="../../assets/img/Whatsapp.svg" alt="">
