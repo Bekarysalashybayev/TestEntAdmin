@@ -101,7 +101,9 @@ export default {
       }).then(()=>{
         this.$toast.success('Successfully authenticated')
       }).catch((er)=>{
-        this.$toast.error("Ошибка!!!")
+        if (er.response && er.response.data && er.response.data.detail){
+          this.$toast.error(er.response.data.detail)
+        }
       })
     },
   },
