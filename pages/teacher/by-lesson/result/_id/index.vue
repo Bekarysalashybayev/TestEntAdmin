@@ -48,7 +48,7 @@ export default {
       results: {},
       currentPage: 1,
       pageSize: 10,
-      pageSizes: [10, 15, 20],
+      pageSizes: [10, 25, 100],
       loading: false,
       openModal: false,
       actions: [
