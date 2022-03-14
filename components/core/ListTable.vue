@@ -10,11 +10,11 @@
   <div class="table-outer">
     <div class="table-outer-scroll">
       <table>
-        <tbody>
+        <thead>
         <tr>
           <th v-if="edit"></th>
           <th>№</th>
-          <th v-for="row in rows" :key="row.type">
+          <th v-for="row in rows" :key="row.type" :class="{'td-name': row.type == 'name'}">
             <div class="th">
               <span>{{row.title}}</span>
               <div class="triangle">
@@ -25,11 +25,13 @@
           </th>
           <th v-if="actions.length>0" class="th-action"></th>
         </tr>
+        </thead>
+        <tbody>
         <tr v-for="(user, i) in data" :key="user.id">
           <td v-if="edit" class="actions">
           </td>
           <td>{{ (currentPage-1)*pageSize + i+1}}</td>
-          <td>{{user.student.first_name}} {{user.student.last_name}}</td>
+          <td class="td-name">{{user.student.first_name}} {{user.student.last_name}}</td>
           <td>{{user.mat_quantity}}</td>
           <td>{{user.gramot_quantity}}</td>
           <td>{{user.history_quantity}}</td>
@@ -265,4 +267,20 @@ export default {
 .search input:focus{
   outline: none;
 }
+.td-name{
+  position: sticky;
+  left: 0;
+  background-color: #FFFFFF!important;
+  z-index: 10;
+}
+th.td-name{
+  z-index: 15!important;
+}
+th{
+  position: sticky;
+  top: 0;
+  background-color: #FFFFFF!important;
+  z-index: 10;
+}
+
 </style>
