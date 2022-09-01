@@ -1,8 +1,8 @@
 export default {
-  // server: {
-  //   host: '0',
-  //   port: 3001
-  // },
+  server: {
+    host: '0',
+    port: 3001
+  },
   head: {
     title: 'admin',
     htmlAttrs: {
