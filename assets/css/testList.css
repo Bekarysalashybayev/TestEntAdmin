@@ -14,6 +14,7 @@
   margin-bottom: 40px;
   flex: 0 0 49%;
   align-self: baseline;
+  min-width: 560px;
 }
 .test:last-child{
   margin-bottom: 0;
