@@ -25,9 +25,18 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 2.3rem;
+  font-size: 2.5rem;
   line-height: 2.9rem;
-  position: relative;
+}
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
 }
 .form-header .title{
   width: 50%;
@@ -35,21 +44,10 @@
   text-align: center;
   font-weight: 600;
   cursor: pointer;
-  padding-bottom: 1.4rem;
+  padding-bottom: 23px;
 }
 .form-header .title.active .nuxt-link{
   color: #029AAD;
-}
-.form-header:after{
-  content: "";
-  position: absolute;
-  top: 100%;
-  left: 0;
-  width: 100%;
-  height: 3px;
-  background: #EFEFEF;
-  border-radius: 5px;
-  z-index: 1;
 }
 .form-header .title:after{
   content: "";
@@ -60,7 +58,6 @@
   height: 3px;
   background: #EFEFEF;
   border-radius: 5px;
-  z-index: 5;
 }
 .form-header .title.active:after{
   background: #029AAD!important;
@@ -69,12 +66,40 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 4rem;
+  margin-top: 7rem;
 }
 .row-group{
   width: 100%;
-  margin-bottom: 2.5rem;
+  margin-bottom: 4rem;
   position: relative;
+}
+.form-row-icon{
+  position: absolute;
+  top: 50%;
+  left: 21px;
+  transform: translate(0, -50%);
+}
+.form-phone{
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 96px;
+  height: 100%;
+  background: #DFECE9;
+  border-radius: 50px 0px 0px 50px;
+  border: 1px solid #969696;
+  border-right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+}
+.form-phone span{
+  font-weight: 600;
+  font-size: 17px;
+  line-height: 20px;
+  color: #000000;
+  margin-left: 10px;
 }
 .row-group .password{
   padding-right: 45px;
@@ -92,9 +117,12 @@
   background: #FFFFFF;
   border: 1px solid #969696;
   border-radius: 50px;
-  padding: .9rem 1.25rem!important;
-  font-size: 1rem;
-  line-height: 1.25rem;
+  padding: 1.5rem 3rem 1.5rem 47px;
+  font-size: 1.7rem;
+  line-height: 2rem;
+}
+.row-group-phone input{
+  padding: 1.5rem 3rem 1.5rem 111px;
 }
 .row-group-bottom {
   width: 100%;
@@ -102,11 +130,11 @@
   align-items: center;
   justify-content: space-between;
   flex-wrap: wrap;
-  margin-bottom: 2.5em;
+  margin-bottom: 4rem;
 }
 .remember{
-  font-size: 1rem;
-  line-height: 1.25rem;
+  font-size: 1.7rem;
+  line-height: 2rem;
   display: flex;
   align-items: center;
   width: max-content;
@@ -128,9 +156,9 @@
   background: #029AAD;
   border-radius: 50px;
   border: 0;
-  padding: .8rem 2.5rem;
-  font-size: 1.25rem;
-  line-height: 1.5rem;
+  padding: 16px 4rem;
+  font-size: 2rem;
+  line-height: 2.4rem;
   color: #FFFFFF;
   font-weight: bold;
 }
@@ -144,16 +172,17 @@
 .row-single-group{
   width: 47%;
   min-width: 150px;
-  margin-bottom: 2.5rem;
+  margin-bottom: 4rem;
+  position: relative;
 }
 .row-single-group input, .row-group select{
   width: 100%;
   background: #FFFFFF;
   border: 1px solid #969696;
   border-radius: 50px;
-  padding: .9rem 1.875em;
-  font-size: 1rem;
-  line-height: 1.25rem;
+  padding:  1.5rem 3rem 1.5rem 47px;
+  font-size: 1.7rem;
+  line-height: 2rem;
 }
 .row-group select{
   -webkit-appearance: none;
@@ -176,6 +205,69 @@
 }
 .img-mobile{
   display: none;
+}
+.verification-header{
+  font-weight: 600;
+  font-size: 2.5rem;
+  line-height: 1;
+  color: #029AAD;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  margin-bottom: 5rem;
+}
+.verification-header img{
+  margin-right: 2rem;
+  height: 1.9rem;
+}
+.verification-text{
+  font-weight: 400;
+  font-size: 17px;
+  line-height: 1.2;
+  text-align: center;
+  color: #000000;
+  margin-bottom: 5rem;
+}
+.verification-input{
+  position: relative;
+  margin-bottom: 5rem;
+}
+.verification-input img{
+  position: absolute;
+  left: 20px;
+  top: 50%;
+  transform: translate(0, -50%);
+}
+.verification-input input{
+  background: #FFFFFF;
+  border: 1px solid #969696;
+  border-radius: 50px;
+  width: 100%;
+  font-size: 17px;
+  line-height: 20px;
+  padding: 1rem 10px 1rem 47px;
+}
+.verification-input input::placeholder{
+  color: rgba(0, 0, 0, 0.3);
+}
+.verification-btn{
+  display: flex;
+  justify-content: center;
+}
+.verification-btn button{
+  background: #029AAD;
+  border-radius: 50px;
+  border: 0;
+  font-weight: 600;
+  font-size: 2rem;
+  line-height: 2.4rem;
+  color: #FFFFFF;
+  width: 183px;
+  padding: 10px 0;
+  text-align: center;
+}
+input:focus, select:focus{
+  outline: none;
 }
 @media (max-width: 1700px) {
   .img{

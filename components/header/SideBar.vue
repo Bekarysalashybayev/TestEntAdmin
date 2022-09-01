@@ -5,7 +5,6 @@
       <div class="links">
         <admin-side-bar v-if="role == 'super_admin'"/>
         <teacher-side-bar v-if="role=='teacher'"/>
-        <adviser-side-bar v-if="role=='adviser'"/>
         <default-side-bar />
       </div>
     </div>
@@ -33,16 +32,15 @@
 <script>
 import AdminSideBar from "./AdminSideBar";
 import TeacherSideBar from "./TeacherSideBar";
-import AdviserSideBar from "./AdviserSideBar";
 import DefaultSideBar from "./DefaultSideBar";
 
 export default {
   name: "SideBar",
   props: ['isOpen'],
-  components: {AdminSideBar, TeacherSideBar, AdviserSideBar, DefaultSideBar},
+  components: {AdminSideBar, TeacherSideBar , DefaultSideBar},
   data(){
     return{
-      username: 'Бекарыс Алашыбаев',
+      username: 'Default user',
     }
   },
   created() {
@@ -57,17 +55,10 @@ export default {
   },
   methods:{
     getSubstringUsername(){
-      // if (this.username.length > 16){
-      //   return this.username.substring(0,15)+"..."
-      // }
-      if (!this.currentUser.first_name){
-        return "by-lesson by-lesson"
-      }
       return this.currentUser.first_name + ' ' + this.currentUser.last_name
     },
     getFirstLetter(){
-      // return this.currentUser.first_name.charAt(0).toUpperCase() + this.currentUser.last_name.charAt(0).toUpperCase()
-      return "AA"
+      return this.currentUser?.first_name.charAt(0).toUpperCase() + this.currentUser?.last_name.charAt(0).toUpperCase()
     },
     async logOut() {
       await this.$auth.logout()

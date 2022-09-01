@@ -1,5 +1,8 @@
 .test-list{
   margin-top: 40px;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
 }
 .test{
   background: #FFFFFF;
@@ -9,6 +12,8 @@
   padding: 25px 20px;
   position: relative;
   margin-bottom: 40px;
+  flex: 0 0 49%;
+  align-self: baseline;
 }
 .test:last-child{
   margin-bottom: 0;
@@ -22,13 +27,10 @@
   height: 1px;
   background-color: rgba(0, 0, 0, 0.1);
 }
-.test:last-child:after{
-  display: none;
-}
 .test-header{
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+  display: block;
+  margin-left: auto;
+  width: max-content;
   margin-bottom: 24px;
 }
 .test .title{
@@ -46,11 +48,21 @@
   box-sizing: border-box;
   border-radius: 5px;
   padding: 5px 12px;
+  cursor: pointer;
 }
+
 .publish:hover{
   background-color: #029AAD;
   color: white;
   font-weight: bold;
+}
+.published{
+  cursor: auto;
+}
+.published:hover{
+  background-color: transparent;
+  color: #029AAD;
+  font-weight: normal;
 }
 .delete{
   color: red;
@@ -67,9 +79,11 @@
   display: flex;
   flex-wrap: wrap;
 }
+.test-body .body:first-child{
+  width: 120px;
+}
 .test-body .body{
-  width: 33%;
-  min-width: 250px;
+  flex-grow: 1;
 }
 .body-item{
   display: flex;
@@ -81,6 +95,9 @@
 }
 .body-item img{
   margin-right: 12px;
+}
+.item-name{
+  margin-right: 20px;
 }
 .test-points{
   display: flex;
@@ -171,7 +188,6 @@
   display: block;
 }
 .variantLessons{
-  padding: 15px 30px;
   font-size: 14px;
   line-height: 16px;
 }
@@ -184,7 +200,7 @@
   margin-bottom: 0;
 }
 .lesson-name{
-  width: 250px;
+  width: 190px;
   font-weight: bold;
 }
 .lesson-add-question{
@@ -222,6 +238,7 @@
   margin: 25px 0 0;
   display: block;
   cursor: pointer;
+  font-size: 16px;
 }
 .result-test span{
   margin-left: auto;
