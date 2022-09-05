@@ -1,7 +1,7 @@
 export default {
   server: {
     host: '0',
-    port: 3001
+    port: 3002
   },
   head: {
     title: 'admin',
@@ -14,7 +14,7 @@ export default {
       { hid: 'description', name: 'description', content: '' }
     ],
     link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
+      { rel: 'icon', type: 'image/x-icon', href: '/favicon.svg' }
     ],
     script: [
       // {

@@ -42,5 +42,6 @@ export default {
   overflow-y: scroll;
   padding: 2rem;
   position: relative;
+  font-size: 16px;
 }
 </style>

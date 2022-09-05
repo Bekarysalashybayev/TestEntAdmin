@@ -1,8 +1,5 @@
 .test-list{
   margin-top: 40px;
-  display: flex;
-  justify-content: space-between;
-  flex-wrap: wrap;
 }
 .test{
   background: #FFFFFF;
@@ -12,9 +9,6 @@
   padding: 25px 20px;
   position: relative;
   margin-bottom: 40px;
-  flex: 0 0 49%;
-  align-self: baseline;
-  min-width: 452px;
 }
 .test:last-child{
   margin-bottom: 0;
@@ -243,12 +237,121 @@
   font-size: 16px;
 }
 .result-test span{
-  margin-left: auto;
   color: #029AAD;
-  width: 34%;
-  min-width: 250px;
-  display: block;
 }
 .result-test span:hover{
   text-decoration: underline;
+}
+.d-title{
+  font-weight: 600;
+  font-size: 20px;
+  line-height: 24px;
+  color: #000000;
+}
+.d-body{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+.d-body-item{
+  flex: 0 0 calc(25% - 10px);
+}
+.d-label{
+  font-weight: 400;
+  font-size: 13px;
+  line-height: 16px;
+  color: rgba(0, 0, 0, 0.5);
+  margin-bottom: 10px;
+}
+.d-text{
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 19px;
+  color: #000000;
+}
+.d-btn{
+  width: 100%;
+  font-weight: 500;
+  font-size: 15px;
+  line-height: 18px;
+  color: #029AAD;
+  border: 1px solid #029AAD;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 5px;
+}
+.d-btn img{
+  margin-right: 10px;
+}
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 50px;
+  height: 20px;
+  margin-right: 15px;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 12px;
+  width: 12px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+input:checked + .slider {
+  background-color: #029AAD;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #029AAD;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+}
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+.d-footer{
+  margin-top: 21px;
+  font-size: 16px;
+  line-height: 16px;
+  color: #000000;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
 }
