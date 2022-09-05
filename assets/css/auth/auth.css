@@ -297,12 +297,39 @@ input:focus, select:focus{
     display: block;
   }
 
-  .row-group input {
-    padding: 10px 15px;
+  @media (max-width: 768px) {
+    .auth {
+      display: block;
+    }
+
+    .form-row-icon {
+      width: 10px;
+      left: 10px;
+    }
+
+    .row-group input {
+      font-size: 12px;
+      line-height: 12px;
+    }
+
+    .row-group input, .row-single-group input, .row-single-group select, .row-group select {
+      padding: 1.5rem 3rem 1.5rem 27px;
+    }
+    .form-phone{
+      width: 50px;
+    }
+    .form-phone span{
+      font-size: 12px;
+      margin-left: 5px;
+    }
+    .form-phone-icon{
+      width: 15px;
+    }
+    .row-group-phone input{
+      padding: 1.5rem 3rem 1.5rem 57px;
+    }
   }
-  .row-single-group input, .row-group select{
-    padding: 10px 15px;
-  }
+
 }
 @media (max-height: 750px) {
   .form{
