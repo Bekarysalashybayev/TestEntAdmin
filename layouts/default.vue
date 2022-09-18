@@ -18,9 +18,6 @@ export default {
       isOpen: true
     }
   },
-  created() {
-    // console.log(this.$auth.user)
-  },
   computed:{
     getGlobalLoader(){
       return this.$store.state.test.loader

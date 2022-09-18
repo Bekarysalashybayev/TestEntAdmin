@@ -38,10 +38,10 @@
               </div>
 
               <div class="d-body-item">
-                <button class="d-btn">
-                  <img src="../../../assets/img/d-edit.svg" alt="">
-                  Редактировать
-                </button>
+<!--                <button class="d-btn">-->
+<!--                  <img src="../../../assets/img/d-edit.svg" alt="">-->
+<!--                  Редактировать-->
+<!--                </button>-->
               </div>
               <div class="d-body-item">
                 <button class="d-btn" @click="deleteTest(test)">
@@ -262,6 +262,7 @@ export default {
         this.currentPublishTest = null
         await this.getTestList()
       } catch (er) {
+        this.currentPublishTest.is_active = false
         await this.setLoader(false)
         this.isPublishError = true
         if (er.response) {
@@ -301,7 +302,7 @@ export default {
         const data = (await this.$axios.get(`/super-admin/variant-lessons/${this.variantSingle}/`)).data
         this.variantLessons = data
       } catch (er) {
-        console.log(er.response)
+        console.log(er)
       }
     },
     async getTestList() {
@@ -310,7 +311,7 @@ export default {
         const res = (await this.$axios.get('/super-admin/variant-list/', {params: this.filter})).data
         this.testList = res.data
       } catch (er) {
-        console.log(er.response)
+        console.log(er)
       }
       await this.setLoader(false)
     },

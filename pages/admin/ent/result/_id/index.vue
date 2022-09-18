@@ -123,7 +123,6 @@ export default {
             this.$toast.success('Тест опубликован успешно для этого пользователя!', {duration: 2000})
             this.cancelEdit()
           } catch (er) {
-            console.log(er.response)
             this.$toast.error('Ошибка сервера!')
           }
         } else {
@@ -160,7 +159,7 @@ export default {
         &order_name=${this.currentOrder.orderName}&order_type=${this.currentOrder.orderType}`)).data
         this.results = data
       } catch (er) {
-        console.log(er.response)
+        console.log(er)
       }
       await this.setLoader(false)
     },

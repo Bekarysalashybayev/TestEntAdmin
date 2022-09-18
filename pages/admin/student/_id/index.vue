@@ -25,12 +25,11 @@
           </div>
           <div class="row-group-multi">
             <div class="form-group">
-              <label for="">Почта <span>*</span></label>
+              <label for="">Номер телефона <span>*</span></label>
               <input type="text"
                      class="row-group-control"
                      disabled
-                     v-model="form.email"
-                     :class="{error: (this.$v.form.email.$dirty && !this.$v.form.email.required) || (this.$v.form.email.$dirty && !this.$v.form.email.email)}"
+                     v-model="form.phone"
               >
             </div>
           </div>
@@ -46,7 +45,7 @@
 <script>
 // import pathMain from "../../../../components/pathMain";
 import { validationMixin } from 'vuelidate'
-import { required, email, minLength, maxLength} from 'vuelidate/lib/validators'
+import { required } from 'vuelidate/lib/validators'
 import MultiSelect from "../../../../components/core/MultiSelect";
 
 export default {
@@ -62,14 +61,13 @@ export default {
       form: {
         first_name: '',
         last_name: '',
-        email: '',
+        phone: '',
       },
       errorForm: false,
     }
   },
   validations: {
     form: {
-      email: { required, email },
       first_name: {required},
       last_name: {required},
     },
@@ -98,6 +96,7 @@ export default {
       }
     },
     async add(){
+      delete this.form.phone
       await this.$axios.put(`/super-admin/student-get-update-destroy/${this.id}/`, this.form)
         .then(async (response) => {
           await this.$toast.success('Успешно!')
@@ -105,7 +104,7 @@ export default {
           this.form = {
             first_name: '',
             last_name: '',
-            email: '',
+            phone: '',
           }
           await this.$router.push({name: 'admin-student'})
         })
@@ -118,7 +117,7 @@ export default {
         const data =  (await this.$axios.get(`/super-admin/student-get-update-destroy/${this.id}/`)).data
         this.form = data
       }catch (er) {
-        console.log(er.response)
+        console.log(er)
       }
     },
   },

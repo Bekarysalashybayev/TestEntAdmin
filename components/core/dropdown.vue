@@ -46,11 +46,6 @@ export default {
       if( this.hasParentWithMatchingSelector(event.target, '.dropdown__menu-body')){
         return false
       }
-
-      // console.log(body)
-      // console.log(event.target)
-      // When user clicks outside of the menu — close the menu
-      // (!this.hasParentWithMatchingSelector(event.target, 'dropdown__menu-body') && event.target.classList.contains(".link"))
       if( this.isOpen && dropdown != event.target){
         return true
       }

@@ -261,7 +261,7 @@ export default {
           await this.getStatus()
           await this.$router.push({name: 'admin-ent-questions-variant', params: {variant: this.variantID}})
         } catch (er) {
-          console.log(er.response)
+          console.log(er)
         }
       }
     },
@@ -274,7 +274,7 @@ export default {
           this.newCommonQuestion = data
           this.commonModal = true
         } catch (er) {
-          console.log(er.response)
+          console.log(er)
         }
       }
     },
@@ -305,7 +305,7 @@ export default {
             text: ''
           }
         } catch (er) {
-          console.log(er.response)
+          console.log(er)
         }
       }
     },
@@ -322,7 +322,7 @@ export default {
           this.commonQuestion = data.id
           this.commonModal = false
         } catch (er) {
-          console.log(er.response)
+          console.log(er)
         }
       }
     },
@@ -356,15 +356,6 @@ export default {
     removeAnswer(){
 
     },
-    // async getQuestions() {
-    //   try {
-    //     const data =  (await this.$axios.get(`/super-admin/question-list/${this.variantID}/`)).data
-    //     this.questions = data
-    //     this.reRender();
-    //   }catch (er) {
-    //     console.log(er.response)
-    //   }
-    // },
     async getStatus() {
       try {
         const data =  (await this.$axios.get(`/super-admin/check-variant/${this.variantID}/`)).data
@@ -373,7 +364,7 @@ export default {
           this.getRecourses()
         }
       }catch (er) {
-        console.log(er.response)
+        console.log(er)
       }
     },
 
@@ -383,7 +374,7 @@ export default {
         this.commonQuestions = data
         this.reRender();
       }catch (er) {
-        console.log(er.response)
+        console.log(er)
       }
     },
   },

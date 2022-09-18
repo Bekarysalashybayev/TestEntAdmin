@@ -4,7 +4,6 @@
     <div class="side-bar-inner scroll">
       <div class="links">
         <admin-side-bar v-if="role == 'super_admin'"/>
-        <teacher-side-bar v-if="role=='teacher'"/>
         <default-side-bar />
       </div>
     </div>

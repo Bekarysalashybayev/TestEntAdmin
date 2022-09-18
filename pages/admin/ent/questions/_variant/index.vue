@@ -112,7 +112,6 @@ export default {
         this.$toast.success('Вопрос удален!')
       } catch (er) {
         this.$toast.error('Ошибка')
-        console.log(er.response)
       }
       this.questionDeleteId = null
       this.questionDeleteModal = false
@@ -135,7 +134,7 @@ export default {
         this.questions = data
         this.reRender();
       }catch (er) {
-        console.log(er.response)
+        console.log(er)
       }
     },
     async getStatus() {
@@ -146,7 +145,7 @@ export default {
           this.getRecourses()
         }
       }catch (er) {
-        console.log(er.response)
+        console.log(er)
       }
     },
     reRender() {
