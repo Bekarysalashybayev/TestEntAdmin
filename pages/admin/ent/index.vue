@@ -256,7 +256,7 @@ export default {
       this.isPublish = false
       try {
         await this.$axios.patch(`/super-admin/variant-publish/${this.currentPublishTest.id}/`, {
-          isActive: true
+          is_active: true
         })
         this.$toast.success('Тест опубликован успешно!')
         this.currentPublishTest = null
