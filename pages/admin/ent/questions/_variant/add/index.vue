@@ -140,10 +140,6 @@ export default {
           correct: false,
           answer: '',
         },
-        {
-          correct: false,
-          answer: '',
-        },
       ],
       question: {
         text: '',
@@ -237,10 +233,6 @@ export default {
           this.commonQuestion = null
           this.question.text = ''
           this.answers = [
-            {
-              correct: false,
-              answer: '',
-            },
             {
               correct: false,
               answer: '',
