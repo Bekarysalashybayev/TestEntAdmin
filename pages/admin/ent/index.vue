@@ -5,14 +5,6 @@
       <button class="add-button" @click="addTest">
         Добавить тест
       </button>
-      <div class="filter">
-        <div class="select">
-          <select name="" id="1" v-model="filter.is_active" @change="filterTestList">
-            <option value="">Статаус (все)</option>
-            <option :value="status.status" v-for="status in statusFilter" :key="status.id">{{ status.name }}</option>
-          </select>
-        </div>
-      </div>
       <div class="test-list" v-if="testList.length>0">
         <div class="test" v-for="(test, i) in testList" :key="i">
           <div class="d-test">
@@ -57,9 +49,6 @@
               </label>
               {{ test.is_active ? "Активировано" : "Активировать" }}
             </div>
-          </div>
-          <div class="result-test">
-            <span @click.stop="resultTest(test.id)">Посмотреть результаты теста</span>
           </div>
           <div class="test-variant" :class="{active: variantBody == i}">
             <div class="test-variant-title">

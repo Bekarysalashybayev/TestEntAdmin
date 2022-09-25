@@ -1,7 +1,9 @@
 <template>
   <div class="page">
     <div class="page-body">
-      <!--      <path-main />-->
+      <button class="add-button download-link" @click="getUrl">
+        Скачать результаты
+      </button>
       <div class="list">
         <ListTable :edit="true" @open="open"
                    :actions="actions"
@@ -39,7 +41,7 @@
               ФИО:
             </div>
             <div class="name-desc">
-              {{currentEditUser.first_name}} {{currentEditUser.last_name}}
+              {{ currentEditUser.first_name }} {{ currentEditUser.last_name }}
             </div>
           </div>
           <div class="description">
@@ -53,37 +55,40 @@
           <div class="times">
             <div class="start">
               <label for="">Время начало</label>
-              <input type="datetime-local" v-model="singleTestTime.start_time" :class="{error: !singleTestTime.start_time && singleTestTimeError}">
+              <input type="datetime-local" v-model="singleTestTime.start_time"
+                     :class="{error: !singleTestTime.start_time && singleTestTimeError}">
             </div>
             <div class="start">
               <label for="">Время окончание</label>
-              <input type="datetime-local" v-model="singleTestTime.end_time" :class="{error: !singleTestTime.end_time && singleTestTimeError}">
+              <input type="datetime-local" v-model="singleTestTime.end_time"
+                     :class="{error: !singleTestTime.end_time && singleTestTimeError}">
             </div>
           </div>
-         <div class="bottom-actions">
-           <div class="btn cancel" @click="cancelEdit">
-             Отмена
-           </div>
-           <div class="btn publish-save" @click="publishTestSingle()">
-             Опубликовать
-           </div>
-         </div>
+          <div class="bottom-actions">
+            <div class="btn cancel" @click="cancelEdit">
+              Отмена
+            </div>
+            <div class="btn publish-save" @click="publishTestSingle()">
+              Опубликовать
+            </div>
+          </div>
         </div>
       </template>
     </modal-window>
-</div>
+  </div>
 </template>
 
 <script>
-import ListTable from "../../../../../components/core/ListTable";
-import Pagination from "../../../../../components/core/Pagination";
-import ModalWindow from "../../../../../components/core/ModalWindow";
+import ListTable from "~/components/core/ListTable";
+import Pagination from "~/components/core/Pagination";
+import ModalWindow from "~/components/core/ModalWindow";
 import {mapMutations} from "vuex";
+
 export default {
   name: "index",
   components: {ListTable, Pagination, ModalWindow},
-  data(){
-    return{
+  data() {
+    return {
       currentEditUser: null,
       currentEditTestName: null,
       testId: this.$route.params.id,
@@ -94,7 +99,7 @@ export default {
       loading: false,
       openModal: false,
       actions: [
-        { title: 'Открыть доступ  ' },
+        {title: 'Открыть доступ  '},
       ],
       currentOrder: {
         orderName: null,
@@ -111,10 +116,13 @@ export default {
   created() {
     this.getResultList()
   },
-  methods:{
+  methods: {
     ...mapMutations({
       setLoader: 'test/SET_LOADER'
     }),
+    getUrl(){
+      window.location.href = `${process.env.BASE_URL}/quizzes/to_excel/${this.testId}`
+    },
     async publishTestSingle() {
       if (this.currentEditUser) {
         if (this.singleTestTime.start_time != null && this.singleTestTime.end_time != null) {
@@ -130,24 +138,24 @@ export default {
         }
       }
     },
-    editAccessUser(user, test){
+    editAccessUser(user, test) {
       this.currentEditUser = user
       this.currentEditTestName = test
       this.openModal = true
     },
-    cancelEdit(){
+    cancelEdit() {
       this.currentEditUser = null
       this.currentEditTestName = null
       this.openModal = false
     },
-    changePage(page){
+    changePage(page) {
       this.currentPage = page
       this.getResultList()
     },
-    changePageSize(){
+    changePageSize() {
       this.getResultList()
     },
-    searchStudent(q){
+    searchStudent(q) {
       this.q = q
       this.currentPage = 1
       this.getResultList()
@@ -163,15 +171,15 @@ export default {
       }
       await this.setLoader(false)
     },
-    sortResults(name, type){
+    sortResults(name, type) {
       this.currentOrder.orderName = name
       this.currentOrder.orderType = type
       this.getResultList()
     },
-    open(tableRow, actionsIndex){
+    open(tableRow, actionsIndex) {
       this.openModal = true
     },
-    save(){
+    save() {
       this.openModal = false
     },
   },
@@ -179,75 +187,100 @@ export default {
 </script>
 
 <style scoped>
-.error{
-  border: 1px solid #ee1a1a!important;
+.download-link {
+  width: max-content;
+  margin-left: auto;
+  display: block;
 }
-.table-pagination{
+
+.download-link:before {
+  background-image: url("~/assets/img/download.svg");
+}
+
+.error {
+  border: 1px solid #ee1a1a !important;
+}
+
+.table-pagination {
   min-width: 500px;
 }
-.list-bottom{
+
+.list-bottom {
   margin-top: 50px;
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
-.all-items-count{
+
+.all-items-count {
   display: flex;
   align-items: center;
   font-size: 15px;
   line-height: 15px;
 }
-.all-items-count span{
+
+.all-items-count span {
   margin-right: 2rem;
 }
-.page-items-count select{
+
+.page-items-count select {
   background: #FFFFFF;
   border: 1px solid #DEDEDE;
   border-radius: 5px;
   padding: 5px;
-  -webkit-appearance: auto;
 }
-select:focus{
+
+select:focus {
   outline: none;
 }
+
 .v-progress-circular {
   margin: 1rem;
 }
-.list{
+
+.list {
   position: relative;
 }
-.modal-content .title{
+
+.modal-content .title {
   font-weight: bold;
   margin-bottom: 15px;
 }
-.modal-content .description{
+
+.modal-content .description {
   display: flex;
   align-items: center;
   margin-bottom: 15px;
 }
-.modal-content .description .name{
+
+.modal-content .description .name {
   margin-right: 20px;
   width: 150px;
 }
-.modal-content .times{
+
+.modal-content .times {
 
 }
-.modal-content .times .start{
+
+.modal-content .times .start {
   margin-bottom: 15px;
   display: flex;
   align-items: center;
 }
-.modal-content .times .start label{
+
+.modal-content .times .start label {
   margin-right: 10px;
   width: 150px;
 }
-.bottom-actions{
+
+.bottom-actions {
   display: flex;
   align-items: center;
   justify-content: center;
   margin-top: 50px;
 }
-.btn{
+
+.btn {
   border: 1px solid #029AAD;
   box-sizing: border-box;
   border-radius: 50px;
@@ -256,18 +289,21 @@ select:focus{
   padding: 7px 15px;
   cursor: pointer;
 }
-.publish-save{
+
+.publish-save {
   background: #029AAD;
   font-weight: 600;
   color: #FFFFFF;
 }
-.cancel{
+
+.cancel {
   margin-right: 30px;
   color: #029AAD;
   background-color: #FFFFFF;
 }
+
 @media (max-width: 500px) {
-  .all-items-count{
+  .all-items-count {
     margin-top: 30px;
   }
 }

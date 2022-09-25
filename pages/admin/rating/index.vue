@@ -1,143 +1,130 @@
 <template>
   <div class="page">
-    <div class="page-body" v-if="results && results.data && results.data.length>0">
-      <!--      <path-main />-->
-      <div class="list">
-        <ListTable :edit="false" @open="open" :actions="actions" :data="results.data" @sort="sortResults" :currentPage="currentPage" :pageSize="pageSize"/>
-        <div class="list-bottom">
-          <div></div>
-          <pagination :page-number="results.total_pages" class="table-pagination" @changePage="changePage"/>
-          <div class="all-items-count">
-            <span>
-              Всего: {{ results.count }}
-            </span>
-            <div class="page-items-count">
-              <select name="" id="" @change="changePageSize()" v-model="pageSize">
-                <option :value="size" v-for="size in pageSizes">{{ size }} студентов</option>
-              </select>
-            </div>
-          </div>
+    <div class="page-body">
+      <div class="test-info">
+        <div class="test" v-for="(test, i) in testList" :key="test.id">
+          <span>№{{ i+1 }} Дата сдачи:</span>
+          <span class="ans">{{ $moment(test["start_time"]).format('DD.MM.YYYY') }} - {{ $moment(test["end_time"]).format('DD.MM.YYYY') }}</span>
+          <nuxt-link :to="`rating/${test.id}`" class="r-link">Результаты теста</nuxt-link>
         </div>
       </div>
-    </div>
-    <div class="page-body" v-else>
-      Пока что никто не сдавал
     </div>
   </div>
 </template>
 
 <script>
-import ListTable from "~/components/core/ListTable";
-import Pagination from "~/components/core/Pagination";
-import ModalWindow from "~/components/core/ModalWindow";
 import {mapMutations} from "vuex";
+
 export default {
   name: "index",
-  components: {ListTable, Pagination, ModalWindow},
-  data(){
-    return{
-      testId: this.$route.params.id,
-      results: {},
-      currentPage: 1,
-      pageSize: 10,
-      pageSizes: [10, 15, 20],
-      loading: false,
-      openModal: false,
-      actions: [
-        { title: 'Открыть доступ  ' },
-      ],
-      currentOrder: {
-        orderName: null,
-        orderType: null,
+  data() {
+    return {
+      userInfo: {
+        count: 0,
+        total_sum: 0,
       },
+      testList: []
     }
   },
   created() {
-    this.getResultList()
+    this.getTestList()
   },
-  methods:{
+  methods: {
     ...mapMutations({
       setLoader: 'test/SET_LOADER'
     }),
-    changePage(page){
-      this.currentPage = page
-      this.getResultList()
-    },
-    changePageSize(){
-      this.getResultList()
-    },
-    async getResultList() {
-      await this.setLoader(true)
+    async getTestList() {
+      this.setLoader(true)
       try {
-        const data = (await this.$axios.get(`quizzes/ent-result/?page=${this.currentPage}&page_size=${this.pageSize}
-        &order_name=${this.currentOrder.orderName}&order_type=${this.currentOrder.orderType}`)).data
-        this.results = data
+        const response = await this.$axios.get(`quizzes/test-event/`)
+        if (response){
+          this.testList = response.data
+        }
       } catch (er) {
-        console.log(er)
+        alert(er)
+      }finally {
+        this.setLoader(false)
       }
-      await this.setLoader(false)
-    },
-    sortResults(name, type){
-      this.currentOrder.orderName = name
-      this.currentOrder.orderType = type
-      this.getResultList()
-    },
-    open(tableRow, actionsIndex){
-      this.openModal = true
-    },
-    save(){
-      this.openModal = false
     },
   },
 }
 </script>
 
 <style scoped>
-.table-pagination{
-  width: 100%;
-  max-width: 500px;
-}
-.list-bottom{
-  margin-top: 50px;
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: space-between;
-}
-.all-items-count{
-  display: flex;
-  align-items: center;
-  font-size: 15px;
-  line-height: 15px;
-}
-.all-items-count span{
-  margin-right: 2rem;
-}
-.page-items-count select{
+.test-info{
+  margin-top: 40px;
+  padding: 20px;
   background: #FFFFFF;
   border: 1px solid #DEDEDE;
-  border-radius: 5px;
-  padding: 5px;
-  -webkit-appearance: auto;
+  border-radius: 10px;
 }
-select:focus{
-  outline: none;
+.r-link{
+  font-weight: 400;
+  font-size: 15px;
+  line-height: 18px;
+  text-decoration: underline!important;
+  color: #029AAD;
 }
-.v-progress-circular {
-  margin: 1rem;
+.test{
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 17px;
+  border-bottom: 1px solid rgba(143, 138, 138, 0.47);
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 15px;
 }
-.list{
-  position: relative;
+.test:first-child{
+  margin-top: 0;
 }
-@media (max-width: 500px) {
-  .all-items-count{
-    margin-top: 30px;
-  }
-  .list-bottom{
-    justify-content: center;
-  }
-  .table-pagination{
-    width: auto;
-  }
+.test span{
+  margin-right: 15px;
+  margin-bottom: 15px;
+}
+.test span.ans{
+  font-weight: bold;
+}
+.result-test{
+  display: flex;
+  align-items: center;
+  margin-top: 26px;
+}
+.result{
+  margin-right: 30px;
+}
+.r-top{
+  display: flex;
+  align-items: center;
+  font-weight: 600;
+  font-size: 30px;
+  line-height: 37px;
+  color: #029AAD;
+}
+.r-top img{
+  margin-right: 10px;
+}
+.result span{
+  font-weight: 400;
+  font-size: 13px;
+  line-height: 16px;
+  margin-top: 10px;
+  color: #808080;
+}
+.user-info{
+  background: #FFFFFF;
+  border: 1px solid #DEDEDE;
+  border-radius: 10px;
+  padding: 20px;
+}
+.rate{
+  font-weight: 500;
+  font-size: 17px;
+  line-height: 21px;
+}
+.fio{
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 24px;
+  margin-top: 16px;
 }
 </style>
