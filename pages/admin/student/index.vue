@@ -15,54 +15,54 @@
                 <tbody>
                 <tr>
                   <th>№</th>
-                  <th >
+                  <th>
                     <div class="th">
                       <span>ФИО пользователя</span>
                     </div>
                   </th>
-                  <th >
+                  <th>
                     <div class="th">
                       <span>Номер телефона</span>
                     </div>
                   </th>
-                  <th >
+                  <th>
                     <div class="th">
                       <span>ИИН</span>
                     </div>
                   </th>
-                  <th >
+                  <th>
                     <div class="th">
                       <span>Профильные предметы</span>
                     </div>
                   </th>
-                  <th >
-                    <div class="th">
-                      <span>Пароль</span>
-                    </div>
-                  </th>
-                  <th >
+                  <th>
                     <div class="th">
                       <span>Город</span>
                     </div>
                   </th>
-                  <th >
+                  <th>
+                    <div class="th">
+                      <span>Пароль</span>
+                    </div>
+                  </th>
+                  <th>
                     <div class="th">
                       <span>#</span>
                     </div>
                   </th>
-                  <th >
+                  <th>
                     <div class="th">
                       <span>#</span>
                     </div>
                   </th>
                 </tr>
                 <tr v-for="(teacher, i) in teachers" :key="teacher.id" v-if="i<20">
-                  <td>{{ (i+1) + (currentPage-1)*20}}</td>
-                  <td>{{teacher.first_name}} {{teacher.last_name}}</td>
-                  <td>{{teacher.phone}}</td>
-                  <td>{{teacher.iin}}</td>
-                  <td>{{teacher.lesson_pair.lesson_1.name}} / {{teacher.lesson_pair.lesson_2.name}}</td>
-                  <td>{{teacher.city.name}}</td>
+                  <td>{{ (i + 1) + (currentPage - 1) * 20 }}</td>
+                  <td>{{ teacher.first_name }} {{ teacher.last_name }}</td>
+                  <td>{{ teacher.phone }}</td>
+                  <td>{{ teacher.iin }}</td>
+                  <td>{{ teacher.lesson_pair.lesson_1.name }} / {{ teacher.lesson_pair.lesson_2.name }}</td>
+                  <td>{{ teacher.city.name }}</td>
                   <td>
                     {{ teacher.user_generates }}
                   </td>
@@ -122,8 +122,8 @@ export default {
   name: "index",
   components: {Pagination, ModalWindow},
   middleware: ['admin'],
-  data(){
-    return{
+  data() {
+    return {
       isDelete: false,
       isChangePassword: false,
       currentDeleteUser: null,
@@ -141,20 +141,20 @@ export default {
     this.getTeachers()
   },
   methods: {
-    changePassword(user, index){
+    changePassword(user, index) {
       this.currentChangeUser = user
       this.currentChangeUserIndex = index
       this.isChangePassword = true
     },
-    deleteUser(user){
+    deleteUser(user) {
       this.currentDeleteUser = user
       this.isDelete = true
     },
-    cancelDeleteCurrentUser(){
+    cancelDeleteCurrentUser() {
       this.currentDeleteUser = null
       this.isDelete = false
     },
-    cancelChangeCurrentUser(){
+    cancelChangeCurrentUser() {
       this.currentChangeUserPassword = null
       this.currentChangeUser = null
       this.currentChangeUserIndex = null
@@ -162,21 +162,24 @@ export default {
       this.changePasswordValue = null
     },
     async changeCurrentUser() {
-      if (this.changePasswordValue != null && this.changePasswordValue != ''){
-        if(this.changePasswordValue.length != undefined && this.changePasswordValue.length >= 8){
-          await this.$axios.post('/user/generate-password/', {phone: this.currentChangeUser.phone, password: this.changePasswordValue})
-                .then((response) => {
-                  this.$toast.success('Пароль изменен успешно!')
-                  this.cancelChangeCurrentUser()
-                  this.getTeachers()
-                })
-                .catch(  (error) => {
-                  this.$toast.error('Ошибка!')
-                });
-        }else{
+      if (this.changePasswordValue != null && this.changePasswordValue != '') {
+        if (this.changePasswordValue.length != undefined && this.changePasswordValue.length >= 8) {
+          await this.$axios.post('/user/generate-password/', {
+            phone: this.currentChangeUser.phone,
+            password: this.changePasswordValue
+          })
+            .then((response) => {
+              this.$toast.success('Пароль изменен успешно!')
+              this.cancelChangeCurrentUser()
+              this.getTeachers()
+            })
+            .catch((error) => {
+              this.$toast.error('Ошибка!')
+            });
+        } else {
           this.$toast.error('Пароль должен быть не менее 8 символов', {duration: 2000})
         }
-      }else{
+      } else {
         this.$toast.error('Пароль не должен быть пустым', {duration: 2000})
       }
     },
@@ -192,14 +195,14 @@ export default {
         console.log(er)
       }
     },
-    addTeacher(){
+    addTeacher() {
       this.$router.push({name: 'admin-teacher-add'})
     },
-    changePage(page){
+    changePage(page) {
       this.currentPage = page
       this.getTeachers()
     },
-    searchStudent(){
+    searchStudent() {
       this.currentPage = 1
       this.getTeachers()
     },
@@ -212,11 +215,11 @@ export default {
         console.log(er)
       }
     },
-    edit(id){
-      this.$router.push({name: 'admin-student-id', params:{id: id}})
+    edit(id) {
+      this.$router.push({name: 'admin-student-id', params: {id: id}})
     },
-    getLessons(lessons){
-      return lessons.map(function(elem){
+    getLessons(lessons) {
+      return lessons.map(function (elem) {
         return elem.name;
       }).join(", ")
     },
@@ -226,40 +229,49 @@ export default {
 
 <style scoped>
 @import "assets/css/components/table.css";
-td{
-  text-align: left!important;
+
+td {
+  text-align: left !important;
 }
-button.edit{
+
+button.edit {
   color: darkgreen;
   font-size: 15px;
 }
-button.delete{
+
+button.delete {
   color: red;
   font-size: 15px;
 }
-button.edit:hover, button.delete:hover{
+
+button.edit:hover, button.delete:hover {
   text-decoration: underline;
 }
-.list-pagination{
+
+.list-pagination {
   margin: 20px 0;
   display: flex;
   justify-content: center;
 }
-.search{
+
+.search {
   width: 100%;
   margin: 10px 0;
   font-size: 14px;
 }
-.search input{
+
+.search input {
   width: 100%;
   border-radius: 10px;
-  border: 1px solid #029AAD!important;
+  border: 1px solid #029AAD !important;
   padding: 8px;
 }
-.search input:focus{
+
+.search input:focus {
   outline: none;
 }
-.page-body{
+
+.page-body {
   width: 100%;
   max-width: 100%;
 }
