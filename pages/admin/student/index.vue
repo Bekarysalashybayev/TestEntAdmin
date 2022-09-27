@@ -37,7 +37,17 @@
                   </th>
                   <th >
                     <div class="th">
+                      <span>Пароль</span>
+                    </div>
+                  </th>
+                  <th >
+                    <div class="th">
                       <span>Город</span>
+                    </div>
+                  </th>
+                  <th >
+                    <div class="th">
+                      <span>#</span>
                     </div>
                   </th>
                   <th >
@@ -53,6 +63,12 @@
                   <td>{{teacher.iin}}</td>
                   <td>{{teacher.lesson_pair.lesson_1.name}} / {{teacher.lesson_pair.lesson_2.name}}</td>
                   <td>{{teacher.city.name}}</td>
+                  <td>
+                    {{ teacher.user_generates }}
+                  </td>
+                  <td>
+                    <button @click="changePassword(teacher, i)" class="edit">Изменить пароль</button>
+                  </td>
                   <td>
                     <button @click="edit(teacher.id)" class="edit">Изменить</button>
                     <button @click="deleteUser(teacher)" class="delete">Удалить</button>
@@ -148,7 +164,7 @@ export default {
     async changeCurrentUser() {
       if (this.changePasswordValue != null && this.changePasswordValue != ''){
         if(this.changePasswordValue.length != undefined && this.changePasswordValue.length >= 8){
-          await this.$axios.post('/user/generate-password/', {email: this.currentChangeUser.email, password: this.changePasswordValue})
+          await this.$axios.post('/user/generate-password/', {phone: this.currentChangeUser.phone, password: this.changePasswordValue})
                 .then((response) => {
                   this.$toast.success('Пароль изменен успешно!')
                   this.cancelChangeCurrentUser()

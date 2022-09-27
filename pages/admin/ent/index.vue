@@ -9,7 +9,7 @@
         <div class="test" v-for="(test, i) in testList" :key="i">
           <div class="d-test">
             <div class="d-title">
-              Варианты №{{ test.variant }}
+              Нұсқа №{{ test.variant }}
             </div>
             <div class="d-body">
               <div class="d-body-item">
@@ -30,13 +30,7 @@
               </div>
 
               <div class="d-body-item">
-<!--                <button class="d-btn">-->
-<!--                  <img src="../../../assets/img/d-edit.svg" alt="">-->
-<!--                  Редактировать-->
-<!--                </button>-->
-              </div>
-              <div class="d-body-item">
-                <button class="d-btn" @click="deleteTest(test)">
+                <button class="d-btn" @click="deleteTest(test)" v-if="!test.is_active">
                   <img src="../../../assets/img/d-delete.svg" alt="">
                   Удалить
                 </button>
