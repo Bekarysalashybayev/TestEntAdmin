@@ -4,7 +4,11 @@
 </template>
 
 <script>
-export default {}
+export default {
+  mounted() {
+    this.$router.push('admin/ent')
+  },
+}
 </script>
 
 <style>

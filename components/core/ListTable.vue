@@ -4,7 +4,7 @@
     Список учеников
   </div>
   <div class="search">
-    <input type="text" placeholder="Введите ФИО или Email ..." v-model="q">
+    <input type="text" placeholder="Введите ФИО ..." v-model="q">
     <button @click="searchStudent">Найти</button>
   </div>
   <div class="table-outer">
@@ -38,16 +38,6 @@
           <td>{{user.lesson_pair.lesson_1.name}}, {{user.prof_1_quantity}}</td>
           <td>{{user.lesson_pair.lesson_2.name}}, {{user.prof_2_quantity}}</td>
           <td>{{user.total}}</td>
-          <td v-if="actions.length>0" class="actions" v-click-outside="cancelEditUser">
-            <button @click.stop="setUser(user.student, user.name, user.student_test)">
-              <img src="../../assets/img/dots.svg" alt="">
-            </button>
-            <div class="action-list" v-show="getActionsUser(user.student)">
-              <div class="button" v-for="action in actions" @click="editAccessUser">
-                {{action.title}}
-              </div>
-            </div>
-          </td>
         </tr>
         </tbody>
       </table>
@@ -248,6 +238,7 @@ export default {
   background: #FFFFFF;
   border: 1px solid #F8F8F8;
   margin-bottom: 20px;
+  font-size: 14px;
 }
 .search button{
   background: #029aad;

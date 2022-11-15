@@ -260,7 +260,7 @@ export default {
           ]
           await this.$router.push({name: 'admin-ent-questions-variant', params: {variant: this.variantID}})
         } catch (er) {
-          console.log(er.response)
+          console.log(er)
         }
       }
     },
@@ -273,7 +273,7 @@ export default {
           this.newCommonQuestion = data
           this.commonModal = true
         } catch (er) {
-          console.log(er.response)
+          console.log(er)
         }
       }
     },
@@ -304,7 +304,7 @@ export default {
             text: ''
           }
         } catch (er) {
-          console.log(er.response)
+          console.log(er)
         }
       }
     },
@@ -321,7 +321,7 @@ export default {
           this.commonQuestion = data.id
           this.commonModal = false
         } catch (er) {
-          console.log(er.response)
+          console.log(er)
         }
       }
     },
@@ -362,7 +362,7 @@ export default {
         this.commonQuestion = data.common_question
         this.answers = data.answers
       }catch (er) {
-        console.log(er.response)
+        console.log(er)
       }
     },
     async getCommonQuestions() {
@@ -371,7 +371,7 @@ export default {
         this.commonQuestions = data
         this.reRender();
       }catch (er) {
-        console.log(er.response)
+        console.log(er)
       }
     },
   },
