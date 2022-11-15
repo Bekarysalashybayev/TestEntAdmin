@@ -1,7 +1,7 @@
 export default {
   server: {
     // host: '0',
-    port: 3002
+    port: 3000
   },
   head: {
     title: 'admin',
