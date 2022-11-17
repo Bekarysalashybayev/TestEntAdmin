@@ -1,7 +1,7 @@
 module.exports = {
   apps: [
     {
-      name: 'TESTADMIN',
+      name: 'TESTENTADMIN',
       exec_mode: 'cluster',
       instances: 'max',
       script: './node_modules/nuxt/bin/nuxt.js',
