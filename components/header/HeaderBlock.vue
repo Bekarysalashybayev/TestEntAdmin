@@ -5,11 +5,11 @@
       <button><img src="../../assets/img/Burger.svg" alt=""></button>
     </div>
     <div class="logo">
-      <img src="../../assets/img/Logo.svg" alt="">
+      <img src="../../assets/img/Logo.png" alt="">
     </div>
     <div class="whatsapp">
       <img src="../../assets/img/Whatsapp.svg" alt="">
-      <a href="">+7(777) 777 85 75</a>
+      <a href="">+7(777) 021 28 08</a>
     </div>
   </div>
 </div>

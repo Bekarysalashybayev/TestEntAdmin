@@ -1,11 +1,5 @@
 <template>
   <div class="auth">
-    <div class="img">
-      <img src="../../assets/img/login-bg.svg" alt="">
-    </div>
-    <div class="img-mobile">
-      <img src="../../assets/img/Picture.svg" alt="">
-    </div>
     <div class="form-row">
       <div class="form">
         <div class="form-header">
