@@ -79,7 +79,7 @@ export default {
       try {
         let response = await this.$auth.loginWith('local', {
           data: {
-            phone: this.form.phone,
+            iin: this.form.iin,
             password: this.form.password,
           }
         }).then(()=>{

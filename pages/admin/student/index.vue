@@ -32,11 +32,6 @@
                   </th>
                   <th>
                     <div class="th">
-                      <span>Профильные предметы</span>
-                    </div>
-                  </th>
-                  <th>
-                    <div class="th">
                       <span>Город</span>
                     </div>
                   </th>
@@ -61,7 +56,6 @@
                   <td>{{ teacher.first_name }} {{ teacher.last_name }}</td>
                   <td>{{ teacher.phone }}</td>
                   <td>{{ teacher.iin }}</td>
-                  <td>{{ teacher.lesson_pair.lesson_1.name }} / {{ teacher.lesson_pair.lesson_2.name }}</td>
                   <td>{{ teacher.city.name }}</td>
                   <td>
                     {{ teacher.user_generates }}
