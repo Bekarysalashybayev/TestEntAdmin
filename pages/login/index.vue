@@ -15,13 +15,7 @@
         </div>
         <form @submit.prevent="checkForm" class="form-inner">
           <div class="row-group">
-            <div class="row-group row-group-phone">
-              <div class="form-phone">
-                <img src="../../assets/img/l-phone.svg" alt="phone" class="form-phone-icon">
-                <span>+7</span>
-              </div>
-              <input type="number" class="row-input" placeholder="Номер телефона" v-model.trim="form.phone" :class="{error: error && !form.phone}">
-            </div>
+            <input type="number" class="row-input" placeholder="ИИН" v-model.trim="form.iin" :class="{error: error && !form.iin}">
           </div>
           <div class="row-group">
             <img src="../../assets/img/l-pass.svg" alt="iin" class="form-row-icon">
@@ -58,7 +52,7 @@ export default {
   data(){
     return{
       form:{
-        phone: null,
+        iin: null,
         password: null,
       },
       error: false,
