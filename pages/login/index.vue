@@ -68,7 +68,7 @@ export default {
     },
     checkForm(){
       this.error = true
-      if (this.form.phone && this.form.password){
+      if (this.form.iin && this.form.password){
         this.error = false
         this.login()
       }else{
