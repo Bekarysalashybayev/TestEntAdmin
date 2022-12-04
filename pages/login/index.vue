@@ -1,5 +1,11 @@
 <template>
   <div class="auth">
+    <div class="img">
+      <img src="../../assets/img/login-bg.svg" alt="">
+    </div>
+    <div class="img-mobile">
+      <img src="../../assets/img/Picture.svg" alt="">
+    </div>
     <div class="form-row">
       <div class="form">
         <div class="form-header">
@@ -48,7 +54,7 @@ export default {
   data(){
     return{
       form:{
-        phone: null,
+        iin: null,
         password: null,
       },
       error: false,
@@ -64,7 +70,7 @@ export default {
     },
     checkForm(){
       this.error = true
-      if (this.form.phone && this.form.password){
+      if (this.form.iin && this.form.password){
         this.error = false
         this.login()
       }else{
@@ -75,7 +81,7 @@ export default {
       try {
         let response = await this.$auth.loginWith('local', {
           data: {
-            phone: this.form.phone,
+            iin: this.form.iin,
             password: this.form.password,
           }
         }).then(()=>{

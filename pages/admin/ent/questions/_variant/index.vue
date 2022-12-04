@@ -2,9 +2,14 @@
   <div class="page">
     <div class="page-body">
 <!--      <path-main />-->
-      <nuxt-link class="add-button question-add" v-if="isCompleted" :to="{path: '/admin/ent/questions/'+variantID+'/add'}">
-        Добавить вопрос
-      </nuxt-link>
+     <div style="display: flex; align-items: center;">
+       <nuxt-link class="add-button question-add"  style="margin-right: 20px;" v-if="isCompleted" :to="{path: '/admin/ent/questions/'+variantID+'/import'}">
+         Импорт
+       </nuxt-link>
+       <nuxt-link class="add-button question-add" v-if="isCompleted" :to="{path: '/admin/ent/questions/'+variantID+'/add'}">
+         Добавить вопрос
+       </nuxt-link>
+     </div>
       <div class="questions" v-if="questions.length>0">
         <div class="question-item" v-for="(question, i) in questions" :key="question.id">
           <div class="question-item-text">
