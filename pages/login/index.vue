@@ -1,11 +1,5 @@
 <template>
   <div class="auth">
-    <div class="img">
-      <img src="../../assets/img/login-bg.svg" alt="">
-    </div>
-    <div class="img-mobile">
-      <img src="../../assets/img/Picture.svg" alt="">
-    </div>
     <div class="form-row">
       <div class="form">
         <div class="form-header">
@@ -15,12 +9,8 @@
         </div>
         <form @submit.prevent="checkForm" class="form-inner">
           <div class="row-group">
-            <div class="row-group row-group-phone">
-              <div class="form-phone">
-                <img src="../../assets/img/l-phone.svg" alt="phone" class="form-phone-icon">
-                <span>+7</span>
-              </div>
-              <input type="number" class="row-input" placeholder="Номер телефона" v-model.trim="form.phone" :class="{error: error && !form.phone}">
+            <div class="row-group">
+              <input type="number" class="row-input" placeholder="ИИН" v-model.trim="form.phone" :class="{error: error && !form.phone}">
             </div>
           </div>
           <div class="row-group">
