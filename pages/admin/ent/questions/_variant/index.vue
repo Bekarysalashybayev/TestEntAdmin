@@ -14,8 +14,14 @@
         <div class="question-item" v-for="(question, i) in questions" :key="question.id">
           <div class="question-item-text">
             <span class="question-item-number">{{i+1}}.</span>
+<div>	 
+   <div v-if="question.common_question">
+              <div v-html="question.common_question.text"></div>
+            </div>
+            <br>
             <div v-html="question.question"></div>
-          </div>
+         </div>
+ </div>
           <div class="question-item-answers">
             <div class="question-item-answer"
                  v-for="(answer, i) in question.answers"
