@@ -14,6 +14,10 @@
         <div class="question-item" v-for="(question, i) in questions" :key="question.id">
           <div class="question-item-text">
             <span class="question-item-number">{{i+1}}.</span>
+            <div v-if="question.common_question">
+              <div v-html="question.common_question.text"></div>
+            </div>
+            <br>
             <div v-html="question.question"></div>
           </div>
           <div class="question-item-answers">
@@ -31,6 +35,10 @@
           <div class="question-item-actions">
             <nuxt-link :to="{path: '/admin/ent/questions/'+variantID+'/edit/' + question.id}" class="edit">Изменить</nuxt-link>
             <button class="delete" @click="deleteQuestionModal(question.id)">Удалить</button>
+          </div>
+          <div class="order">
+            <input type="number" v-model="question.number">
+            <button @click="sendNumber(question.number, question.id)">OK</button>
           </div>
         </div>
       </div>
@@ -122,6 +130,16 @@ export default {
       this.questionDeleteModal = false
       await this.getQuestions()
     },
+    async sendNumber(number, id) {
+      try {
+        await this.$axios.patch(`/super-admin/question/${id}/`, {
+          "number": number
+        })
+        this.$toast.success('Обновление успешно завершено!')
+      } catch (er) {
+        this.$toast.error('Ошибка')
+      }
+    },
     cancelDelete(){
       this.questionDeleteId = null
       this.questionDeleteModal = false
@@ -171,4 +189,21 @@ export default {
 <!--</script>-->
 <style scoped>
 @import "../../../../../assets/css/questions.css";
+.order{
+  margin-top: 20px;
+  display: flex;
+  align-items: center;
+}
+.order input{
+  font-size: 16px;
+  line-height: 1.2;
+}
+.order button{
+  margin-left: 10px;
+  background-color: #167DD6;
+  color: #FFFFFF;
+  font-size: 16px;
+  line-height: 1.2;
+  padding: 5px 15px;
+}
 </style>
